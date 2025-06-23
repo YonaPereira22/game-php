@@ -73,7 +73,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
         <section class="filters">
             <form method="GET" class="filter-form">
                 <div class="filter-group">
-                    <input type="text" name="search" placeholder="Buscar juegos..." value="<?= htmlspecialchars($search) ?>">
+                    <input type="text" name="search" placeholder="Buscar juegos...." value="<?= htmlspecialchars($search) ?>">
                     
                     <select name="category">
                         <option value="">Todas las categorías</option>
