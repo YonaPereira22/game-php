@@ -4,7 +4,7 @@ Este proyecto es una plataforma escrita en PHP que permite subir, catalogar y ju
 
 ## Requisitos
 
-- PHP 7.4 o superior con extensiones **PDO** y **ZipArchive** habilitadas.
+- PHP 7.4 o superior con extensiones **PDO** y  **ZipArchive** habilitadas.
 - Servidor web (por ejemplo Apache o Nginx).
 - MySQL o MariaDB.
 
