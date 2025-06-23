@@ -10,11 +10,11 @@ Este proyecto es una plataforma escrita en PHP que permite subir, catalogar y ju
 
 ## Configuración
 
-1. Crea una base de datos vacía llamada `u952965051_game` y un usuario con los siguientes datos:
-   - Usuario: `u952965051_game`
-   - Contraseña: `main1001_Game`
+1. Crea una base de datos vacía llamada `game` y un usuario con los siguientes datos:
+   - Usuario: 
+   - Contraseña: 
 
-   Puedes utilizar otros datos si lo prefieres; simplemente actualiza `config/database.php` con tus credenciales.
+   Datos crearlos a cada ejemplo; simplemente actualiza `config/database.php` con tus credenciales.
 
 2. Clona el repositorio y coloca los archivos en el directorio público de tu servidor web.
 
