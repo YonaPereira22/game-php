@@ -20,7 +20,7 @@ Este proyecto es una plataforma escrita en PHP que permite subir, catalogar y ju
 
 3. Asegúrate de que el servidor tenga permisos de escritura en las carpetas `uploads/` y `games/`. Estas carpetas se crean automáticamente cuando subes un juego.
 
-4. Accede a la aplicación desde tu navegador. En la primera carga se crearán las tablas necesarias en la base de datos.
+4. Accede a la aplicación desde tu navegador. En la primera carga se crearán las tablas necesarias en la base de datos y se generará un usuario administrador por defecto (usuario `domingo`, contraseña `main1001_Domingo`).
 
 ### Juego de ejemplo
 
@@ -41,6 +41,7 @@ lista principal.
 - **Subir Juego** (`upload.php`): permite a los usuarios subir un archivo ZIP que contenga el juego (debe incluir un `index.html`).
 - **Administración** (`admin.php`): desde aquí puedes aprobar o eliminar los juegos cargados.
 - **Jugar** (`game.php?id=ID`): muestra un iframe con el juego y permite votar con estrellas.
+- **Inicio de Sesión** (`login.php`): permite ingresar con perfiles de estudiante o administrador.
 
 ## Licencia
 

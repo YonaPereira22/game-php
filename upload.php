@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
@@ -77,6 +78,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="container">
             <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
             <h2>Subir Nuevo Juego</h2>
+            <nav>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="logout.php">Cerrar Sesión</a>
+                <?php else: ?>
+                    <a href="login.php">Iniciar Sesión</a>
+                <?php endif; ?>
+            </nav>
         </div>
     </header>
 
