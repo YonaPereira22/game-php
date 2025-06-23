@@ -36,7 +36,19 @@ CREATE TABLE IF NOT EXISTS votes (
     FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE,
     UNIQUE KEY unique_vote (game_id, user_ip)
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin','student') DEFAULT 'student'
+);
 ";
 
 $pdo->exec($createTables);
+
+// Crear usuario administrador por defecto
+$adminHash = password_hash('main1001_Domingo', PASSWORD_BCRYPT);
+$stmt = $pdo->prepare("INSERT IGNORE INTO users (username, password, role) VALUES ('domingo', ?, 'admin')");
+$stmt->execute([$adminHash]);
 ?>

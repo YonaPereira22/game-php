@@ -1,6 +1,12 @@
 <?php
+session_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php?redirect=admin.php');
+    exit;
+}
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 $gameId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -49,6 +55,9 @@ $games = $stmt->fetchAll();
         <div class="container">
             <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
             <h2>Panel de Administración</h2>
+            <nav>
+                <a href="logout.php">Cerrar Sesión</a>
+            </nav>
         </div>
     </header>
 

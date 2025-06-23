@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
@@ -54,6 +55,14 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
             <nav>
                 <a href="index.php">Inicio</a>
                 <a href="upload.php">Subir Juego</a>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="admin.php">Admin</a>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="logout.php">Cerrar Sesión</a>
+                <?php else: ?>
+                    <a href="login.php">Iniciar Sesión</a>
+                <?php endif; ?>
             </nav>
         </div>
     </header>
