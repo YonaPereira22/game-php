@@ -22,6 +22,19 @@ Este proyecto es una plataforma escrita en PHP que permite subir, catalogar y ju
 
 4. Accede a la aplicación desde tu navegador. En la primera carga se crearán las tablas necesarias en la base de datos.
 
+### Juego de ejemplo
+
+El repositorio incluye un juego sencillo llamado **Adivina el Número** en la
+carpeta `games/adivina-numero`. Si deseas registrar este juego manualmente en la
+base de datos puedes ejecutar el script SQL:
+
+```sql
+source db/insert_sample_game.sql;
+```
+
+Esto insertará un registro aprobado en la tabla `games` para que aparezca en la
+lista principal.
+
 ## Uso
 
 - **Inicio** (`index.php`): lista los juegos aprobados. Puedes filtrar por categoría, edad o realizar búsquedas.
