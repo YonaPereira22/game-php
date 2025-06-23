@@ -3,6 +3,11 @@ session_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['creator', 'admin'])) {
+    header('Location: login.php?redirect=upload.php');
+    exit;
+}
+
 $message = '';
 $messageType = '';
 

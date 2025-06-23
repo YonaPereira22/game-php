@@ -38,10 +38,16 @@ lista principal.
 ## Uso
 
 - **Inicio** (`index.php`): lista los juegos aprobados. Puedes filtrar por categoría, edad o realizar búsquedas.
-- **Subir Juego** (`upload.php`): permite a los usuarios subir un archivo ZIP que contenga el juego (debe incluir un `index.html`).
-- **Administración** (`admin.php`): desde aquí puedes aprobar o eliminar los juegos cargados.
+- **Subir Juego** (`upload.php`): disponible solo para usuarios con rol *creador* (o administradores). Permite subir un ZIP que contenga el juego (debe incluir un `index.html`).
+- **Administración** (`admin.php`): desde aquí se aprueban o eliminan juegos y se gestionan usuarios.
 - **Jugar** (`game.php?id=ID`): muestra un iframe con el juego y permite votar con estrellas.
-- **Inicio de Sesión** (`login.php`): permite ingresar con perfiles de estudiante o administrador.
+- **Inicio de Sesión** (`login.php`): permite ingresar con perfiles de estudiante, creador o administrador.
+
+## Roles de Usuario
+
+* **estudiante**: puede navegar por los juegos y calificarlos.
+* **creador**: además de las funciones del estudiante, puede subir nuevos juegos.
+* **admin**: gestiona juegos y usuarios. Puede crear cuentas, aprobar usuarios y cambiar roles entre estudiante y creador.
 
 ## Licencia
 

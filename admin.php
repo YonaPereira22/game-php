@@ -8,8 +8,11 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
-$action = isset($_GET['action']) ? $_GET['action'] : '';
+$tab = $_GET['tab'] ?? 'games';
+$action = $_GET['action'] ?? '';
 $gameId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$userAction = $_GET['user_action'] ?? '';
+$userId = isset($_GET['user_id']) ? (int)$_GET['user_id'] : 0;
 
 if ($action === 'approve' && $gameId) {
     $stmt = $pdo->prepare("UPDATE games SET approved = 1 WHERE id = ?");
@@ -37,8 +40,45 @@ if ($action === 'delete' && $gameId) {
     exit;
 }
 
+// User actions
+if ($userAction === 'approve' && $userId) {
+    $stmt = $pdo->prepare("UPDATE users SET approved = 1 WHERE id = ?");
+    $stmt->execute([$userId]);
+    header('Location: admin.php?tab=users&msg=user_approved');
+    exit;
+}
+
+if ($userAction === 'toggle_role' && $userId) {
+    $stmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
+    $stmt->execute([$userId]);
+    $currentRole = $stmt->fetchColumn();
+    if ($currentRole && $currentRole !== 'admin') {
+        $newRole = $currentRole === 'student' ? 'creator' : 'student';
+        $update = $pdo->prepare("UPDATE users SET role = ? WHERE id = ?");
+        $update->execute([$newRole, $userId]);
+    }
+    header('Location: admin.php?tab=users&msg=role_changed');
+    exit;
+}
+
+if ($userAction === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = sanitizeInput($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $role = in_array($_POST['role'] ?? '', ['student','creator']) ? $_POST['role'] : 'student';
+    if ($username && $password) {
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+        $stmt = $pdo->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
+        $stmt->execute([$username, $hash, $role]);
+    }
+    header('Location: admin.php?tab=users&msg=user_created');
+    exit;
+}
+
 $stmt = $pdo->query("SELECT * FROM games ORDER BY created_at DESC");
 $games = $stmt->fetchAll();
+
+$usersStmt = $pdo->query("SELECT id, username, role, approved FROM users ORDER BY username");
+$users = $usersStmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +96,8 @@ $games = $stmt->fetchAll();
             <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
             <h2>Panel de Administración</h2>
             <nav>
+                <a href="admin.php?tab=games" class="<?= $tab === 'games' ? 'active' : '' ?>">Juegos</a>
+                <a href="admin.php?tab=users" class="<?= $tab === 'users' ? 'active' : '' ?>">Usuarios</a>
                 <a href="logout.php">Cerrar Sesión</a>
             </nav>
         </div>
@@ -68,9 +110,17 @@ $games = $stmt->fetchAll();
                     Juego aprobado exitosamente.
                 <?php elseif ($_GET['msg'] === 'deleted'): ?>
                     Juego eliminado exitosamente.
+                <?php elseif ($_GET['msg'] === 'user_approved'): ?>
+                    Usuario aprobado exitosamente.
+                <?php elseif ($_GET['msg'] === 'role_changed'): ?>
+                    Rol actualizado.
+                <?php elseif ($_GET['msg'] === 'user_created'): ?>
+                    Usuario creado.
                 <?php endif; ?>
             </div>
         <?php endif; ?>
+
+    <?php if ($tab === 'games'): ?>
 
         <div class="admin-stats">
             <div class="stat-card">
@@ -147,6 +197,69 @@ $games = $stmt->fetchAll();
                 </tbody>
             </table>
         </div>
+
+    <?php else: ?>
+        <div class="admin-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $user): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($user['username']) ?></td>
+                            <td><?= htmlspecialchars($user['role']) ?></td>
+                            <td>
+                                <span class="status <?= $user['approved'] ? 'approved' : 'pending' ?>">
+                                    <?= $user['approved'] ? 'Aprobado' : 'Pendiente' ?>
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <?php if (!$user['approved']): ?>
+                                    <a href="?tab=users&user_action=approve&user_id=<?= $user['id'] ?>" class="btn-approve" onclick="return confirm('¿Aprobar este usuario?')">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                <?php endif; ?>
+                                <?php if ($user['role'] !== 'admin'): ?>
+                                    <a href="?tab=users&user_action=toggle_role&user_id=<?= $user['id'] ?>" class="btn-edit">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Crear Nuevo Usuario</h3>
+        <form method="POST" action="admin.php?tab=users&user_action=create" class="upload-form">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Rol</label>
+                <select id="role" name="role">
+                    <option value="student">Estudiante</option>
+                    <option value="creator">Creador</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Crear</button>
+            </div>
+        </form>
+
+    <?php endif; ?>
     </main>
 </body>
 </html>

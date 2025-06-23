@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role ENUM('admin','student') DEFAULT 'student'
+    role ENUM('admin','creator','student') DEFAULT 'student',
+    approved BOOLEAN DEFAULT FALSE
 );
 ";
 
@@ -49,6 +50,6 @@ $pdo->exec($createTables);
 
 // Crear usuario administrador por defecto
 $adminHash = password_hash('main1001_Domingo', PASSWORD_BCRYPT);
-$stmt = $pdo->prepare("INSERT IGNORE INTO users (username, password, role) VALUES ('domingo', ?, 'admin')");
+$stmt = $pdo->prepare("INSERT IGNORE INTO users (username, password, role, approved) VALUES ('domingo', ?, 'admin', 1)");
 $stmt->execute([$adminHash]);
 ?>
