@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina el Número</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
+        input[type=number] { padding: 5px; width: 80px; }
+        button { padding: 5px 10px; }
+        #resultado { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Adivina el Número</h1>
+    <p>Intenta adivinar un número del 1 al 10.</p>
+    <input type="number" id="guess" min="1" max="10">
+    <button onclick="adivinar()">Adivinar</button>
+    <p id="resultado"></p>
+
+<script>
+const numeroSecreto = Math.floor(Math.random() * 10) + 1;
+function adivinar() {
+    const intento = parseInt(document.getElementById('guess').value);
+    const resultado = document.getElementById('resultado');
+    if (intento === numeroSecreto) {
+        resultado.textContent = '¡Correcto!';
+    } else if (intento > numeroSecreto) {
+        resultado.textContent = 'Demasiado alto';
+    } else {
+        resultado.textContent = 'Demasiado bajo';
+    }
+}
+</script>
+</body>
+</html>
