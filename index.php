@@ -54,7 +54,9 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
             <h1><i class="fas fa-gamepad"></i> Juegos Educativos</h1>
             <nav>
                 <a href="index.php">Inicio</a>
-                <a href="upload.php">Subir Juego</a>
+                <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['creator', 'admin'])): ?>
+                    <a href="upload.php">Subir Juego</a>
+                <?php endif; ?>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                     <a href="admin.php">Admin</a>
                 <?php endif; ?>
