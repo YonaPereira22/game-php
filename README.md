@@ -1,55 +1,48 @@
 # Plataforma de Juegos Educativos
 
-Este proyecto es una plataforma escrita en PHP que permite subir, catalogar y jugar juegos educativos basados en HTML5. Incluye un sencillo sistema de administración y votaciones por estrellas.
+Este repositorio alberga una plataforma escrita en PHP para subir, catalogar y jugar producciones educativas basadas en HTML5. El sistema incluye un panel de administración sencillo y permite a los usuarios valorar cada juego.
 
-## Requisitos
+## Parte técnica
 
-- PHP 7.4 o superior con extensiones **PDO**  y  **ZipArchive** habilitadas.
-- Servidor web (por ejemplo Apache o Nginx).
-- MySQL o MariaDB.
+### Requisitos
 
-## Configuración
+- PHP 7.4 o superior con las extensiones **PDO** y **ZipArchive** habilitadas.
+- Servidor web (Apache, Nginx u otro compatible).
+- MySQL o MariaDB como base de datos.
 
-1. Crea una base de datos vacía llamada `game` y un usuario con los siguientes datos:
-   - Usuario: 
-   - Contraseña: 
+### Configuración
 
-   Datos crearlos a cada ejemplo; simplemente actualiza `config/database.php` con tus credenciales.
-
-2. Clona el repositorio y coloca los archivos en el directorio público de tu servidor web.
-
-3. Asegúrate de que el servidor tenga permisos de escritura en las carpetas `uploads/` y `games/`. Estas carpetas se crean automáticamente cuando subes un juego.
-
-4. Accede a la aplicación desde tu navegador. En la primera carga se crearán las tablas necesarias en la base de datos y se generará un usuario administrador por defecto (usuario `domingo`, contraseña `main1001_Domingo`).
+1. Crea una base de datos llamada `game` y actualiza `config/database.php` con tus credenciales.
+2. Clona este repositorio y coloca los archivos en el directorio público de tu servidor.
+3. Asegúrate de que el servidor tenga permisos de escritura sobre las carpetas `uploads/` y `games/`.
+4. Al ingresar por primera vez se crearán automáticamente las tablas necesarias y se generará un usuario administrador predeterminado.
 
 ### Juego de ejemplo
 
-El repositorio incluye un juego sencillo llamado **Adivina el Número** en la
-carpeta `games/adivina-numero`. Si deseas registrar este juego manualmente en la
-base de datos puedes ejecutar el script SQL:
+El proyecto incluye un juego básico llamado **Adivina el Número** en la carpeta `games/adivina-numero`. Si deseas registrarlo manualmente puedes ejecutar el script `db/insert_sample_game.sql`.
 
-```sql
-source db/insert_sample_game.sql;
-```
+### Uso
 
-Esto insertará un registro aprobado en la tabla `games` para que aparezca en la
-lista principal.
+- **Inicio** (`index.php`): muestra los juegos aprobados con filtros por categoría o edad.
+- **Subir Juego** (`upload.php`): opción disponible para usuarios con rol creador o administrador. Permite subir un paquete ZIP que contenga un `index.html`.
+- **Administración** (`admin.php`): desde aquí se gestionan juegos y usuarios.
+- **Jugar** (`game.php?id=ID`): abre el juego en un *iframe* y permite votar con estrellas.
+- **Inicio de Sesión** (`login.php`): diferentes perfiles de estudiante, creador y administrador.
 
-## Uso
+### Roles de Usuario
 
-- **Inicio** (`index.php`): lista los juegos aprobados. Puedes filtrar por categoría, edad o realizar búsquedas.
-- **Subir Juego** (`upload.php`): disponible solo para usuarios con rol *creador* (o administradores). Permite subir un ZIP que contenga el juego (debe incluir un `index.html`).
-- **Administración** (`admin.php`): desde aquí se aprueban o eliminan juegos y se gestionan usuarios.
-- **Jugar** (`game.php?id=ID`): muestra un iframe con el juego y permite votar con estrellas.
-- **Inicio de Sesión** (`login.php`): permite ingresar con perfiles de estudiante, creador o administrador.
+- **estudiante**: navega y califica juegos.
+- **creador**: puede subir nuevos juegos.
+- **admin**: aprueba y elimina juegos, además de gestionar cuentas.
 
-## Roles de Usuario
-
-* **estudiante**: puede navegar por los juegos y calificarlos.
-* **creador**: además de las funciones del estudiante, puede subir nuevos juegos.
-* **admin**: gestiona juegos y usuarios. Puede crear cuentas, aprobar usuarios y cambiar roles entre estudiante y creador.
-
-## Licencia
+### Licencia
 
 Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
+## Parte didáctica
+
+Esta web se diseñó como apoyo a las asignaturas de programación del profesorado de Informática del CFE, CERP del Suroeste. Los juegos fueron desarrollados en 2025 por estudiantes en los cursos coordinados por el docente Domingo Pérez. El objetivo es brindar un espacio donde compartir prácticas y ejemplos de código junto a materiales lúdicos creados en clase.
+
+Para enriquecer la experiencia se utilizaron distintas herramientas de inteligencia artificial. Entre ellas se experimentó con motores de razonamiento como **Minimax**, asistentes de texto como **Claude** y **OpenAI**, y generadores de imágenes como **Leonardo AI**, **DALL·E** y otras soluciones libres. Estas tecnologías ayudaron tanto a ilustrar los juegos como a analizar estrategias en actividades de programación.
+
+La plataforma sigue abierta a mejoras y a nuevas contribuciones que promuevan la enseñanza de la informática mediante el juego y la experimentación.
