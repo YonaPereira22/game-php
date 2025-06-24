@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Rosco</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-layout">
+        <!-- Header arriba -->
+        <div class="header">
+            <h1>🎯 JUEGO DEL ROSCO 🎯</h1>
+        </div>
+
+        <!-- Selector de tema: aparece solo al inicio -->
+        <div class="theme-selector" id="themeSelector">
+            <h2>Selecciona un tema para comenzar:</h2>
+            <div class="theme-buttons" id="themeButtons"></div>
+        </div>
+
+        <!-- Contenedor principal para stats y área de juego -->
+        <div class="juego-area hidden" id="juegoArea">
+            <!-- Stats ocupa arriba -->
+            <div class="stats hidden" id="gameStats">
+                <div class="stat-card">
+                    <div class="stat-number" id="correctCount">0</div>
+                    <div>Correctas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="incorrectCount">0</div>
+                    <div>Incorrectas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="remainingCount">27</div>
+                    <div>Restantes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="timeLeft">30</div>
+                    <div>Tiempo</div>
+                </div>
+            </div>
+
+            <!-- Doble columna: rosco izquierda, pregunta derecha -->
+            <div class="juego-columns">
+                <!-- Rosco -->
+                <div class="rosco-container" id="roscoContainer">
+                    <div class="rosco-circle" id="roscoCircle"></div>
+                </div>
+                <!-- Pregunta -->
+                <div class="question-panel" id="questionPanel">
+                    <h3 id="currentLetter"></h3>
+                    <div class="question-text" id="questionText"></div>
+                    <div class="input-container">
+                        <input type="text" class="answer-input" id="answerInput" placeholder="Escribe tu respuesta...">
+                        <button class="game-btn submit-btn" id="submitBtn">Responder</button>
+                        <button class="game-btn pass-btn" id="passBtn">Pasar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Estadísticas finales -->
+        <div class="final-stats" id="finalStats">
+            <h2>🎉 ¡Juego Completado! 🎉</h2>
+            <div id="finalStatsContent"></div>
+            <button class="game-btn restart-btn" id="restartBtn">Jugar de Nuevo</button>
+        </div>
+    </div>
+    <script src="rosco.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "codigo-perdido": {
+    "nombre": "Código Perdido",
+    "descripcion": "Juego narrativo que combina una historia de recuperación de memoria con desafíos para aprender Python.",
+    "instrucciones": [
+      "Leé atentamente la narrativa de cada etapa.",
+      "Resolvé los desafíos para avanzar en la historia.",
+      "Al completar cada desafío correctamente, obtendrás una letra para descubrir la palabra clave.",
+      "Al final, juntá todas las letras para revelar la palabra secreta y completar el juego."
+    ],
+    "temas": [
+      "Python",
+      "Lógica de programación",
+      "Narrativa interactiva",
+      "Desafíos de código"
+    ],
+    "autor": "Sofia Rodriguez"
+   
+  }
+}

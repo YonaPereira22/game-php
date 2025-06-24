@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐍 Snake Programador</title>
+    <link rel="stylesheet" href="snake.css">
+</head>
+<body>
+    <div class="start-screen" id="startScreen">
+        <h1>🐍 Snake Programador</h1>
+        <p>¡Controla la serpiente y come tokens de programación para construir código!</p>
+        <p>Cada nivel requiere completar una función específica en el orden correcto.</p>
+        <button id="startButton">Iniciar Juego</button>
+        <div class="controls-info">
+            <p>Controles: Flechas para mover</p>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <canvas id="gameBoard" class="game-board" width="400" height="400"></canvas>
+        
+        <div class="side-panel">
+            <div class="level-info" id="levelInfo">
+                Nivel 1: Variables
+            </div>
+            
+            <div class="score-container">
+                <div>Puntos: <span id="score">0</span></div>
+                <div>Nivel: <span id="level">1</span></div>
+            </div>
+            
+            <div class="code-editor" id="codeEditor">
+                // Tu código aparecerá aquí
+            </div>
+            
+            <div class="token-info" id="tokenInfo">
+                Información del token aquí...
+            </div>
+            
+            <button id="resetButton">Reiniciar Juego</button>
+        </div>
+    </div>
+
+    <div class="game-over" id="gameOver">
+        <h2>Game Over</h2>
+        <div class="error-message" id="errorMessage">¡Error de Compilación!</div>
+        <div id="finalScore">Puntuación final: 0</div>
+        <button id="restartButton">Reintentar</button>
+    </div>
+
+    <script src="snake.js"></script>
+</body>
+</html>

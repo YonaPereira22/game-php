@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Memoria ASCII</title>
+    <link rel="stylesheet" href="ascii-memory.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Juego de Memoria ASCII</h1>
+        
+        <!-- Pantalla de inicio -->
+        <div class="start-screen" id="startScreen">
+            <div class="player-inputs">
+                <h2>Nombres de jugadores:</h2>
+                <div class="player-grid">
+                    <div class="input-group">
+                        <label for="player1Name">Jugador 1</label>
+                        <input type="text" id="player1Name" placeholder="Jugador 1" value="Jugador 1">
+                    </div>
+                    <div class="input-group">
+                        <label for="player2Name">Jugador 2</label>
+                        <input type="text" id="player2Name" placeholder="Jugador 2" value="Jugador 2">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="difficulty-selection">
+                <h2>Selecciona una dificultad:</h2>
+                <div class="button-group">
+                    <button class="btn btn-easy" data-difficulty="easy">Fácil (6 pares)</button>
+                    <button class="btn btn-normal" data-difficulty="normal">Normal (8 pares)</button>
+                    <button class="btn btn-hard" data-difficulty="hard">Difícil (10 pares)</button>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3>Instrucciones:</h3>
+                <ul>
+                    <li>Encuentra los pares que coincidan entre el código ASCII y su carácter.</li>
+                    <li>Voltea dos cartas en cada turno.</li>
+                    <li>Si coinciden (mismo número con su carácter), las cartas quedarán del color de tu equipo y sigues jugando.</li>
+                    <li>Si no coinciden, se voltean y pasa el turno al otro jugador.</li>
+                    <li>Gana el jugador que consiga más pares al final del juego.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Pantalla de juego -->
+        <div class="game-screen" id="gameScreen">
+            <div class="scoreboard">
+                <div class="player-score player1" id="player1Score">
+                    <div class="player-name" id="player1NameDisplay">Jugador 1</div>
+                    <div>Pares: <span class="score-value" id="player1ScoreValue">0</span></div>
+                </div>
+                
+                <div class="turn-indicator">
+                    <div class="turn-label">Turno</div>
+                    <div class="current-player player1-turn" id="currentPlayerDisplay">Jugador 1</div>
+                </div>
+                
+                <div class="player-score player2" id="player2Score">
+                    <div class="player-name" id="player2NameDisplay">Jugador 2</div>
+                    <div>Pares: <span class="score-value" id="player2ScoreValue">0</span></div>
+                </div>
+            </div>
+            
+            <div class="game-board" id="gameBoard">
+                <!-- Las cartas se generarán dinámicamente con JavaScript -->
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-gray" id="backToMenuBtn">Volver al menú</button>
+            </div>
+            
+            <!-- Pantalla de fin de juego -->
+            <div class="game-complete" id="gameComplete">
+                <h2>¡Juego Terminado!</h2>
+                
+                <div class="final-scores">
+                    <div class="final-score final-score-player1">
+                        <div class="final-score-name" id="finalPlayer1Name">Jugador 1</div>
+                        <div class="final-score-value" id="finalPlayer1Score">0</div>
+                        <div class="final-score-label">pares</div>
+                    </div>
+                    
+                    <div class="final-score final-score-player2">
+                        <div class="final-score-name" id="finalPlayer2Name">Jugador 2</div>
+                        <div class="final-score-value" id="finalPlayer2Score">0</div>
+                        <div class="final-score-label">pares</div>
+                    </div>
+                </div>
+                
+                <div class="winner-text" id="winnerText"></div>
+                <div class="moves-text" id="movesText">Total de movimientos: 0</div>
+                <button class="btn btn-normal" id="playAgainBtn">Jugar de nuevo</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="ascii-memory.js"></script>
+</body>
+</html>

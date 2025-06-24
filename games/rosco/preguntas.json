@@ -1,0 +1,578 @@
+{
+  "base de datos": [
+    {
+      "palabra": "atributo",
+      "descripcion": "Propiedad o característica de una entidad en un modelo de base de datos.",
+      "tipo": "comienza",
+      "letra": "A",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "backup",
+      "descripcion": "Copia de seguridad de los datos almacenados para evitar pérdidas.",
+      "tipo": "comienza",
+      "letra": "B",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "consulta",
+      "descripcion": "Petición de información a una base de datos mediante SQL.",
+      "tipo": "comienza",
+      "letra": "C",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "datos",
+      "descripcion": "Información que se almacena, procesa y gestiona en una base de datos.",
+      "tipo": "comienza",
+      "letra": "D",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "entidad",
+      "descripcion": "Objeto del mundo real representado en una base de datos.",
+      "tipo": "comienza",
+      "letra": "E",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "fila",
+      "descripcion": "Registro individual en una tabla de base de datos relacional.",
+      "tipo": "comienza",
+      "letra": "F",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "grupo",
+      "descripcion": "Conjunto de usuarios a los que se pueden asignar permisos en el sistema.",
+      "tipo": "comienza",
+      "letra": "G",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "historial",
+      "descripcion": "Registro de los cambios o transacciones realizados en los datos.",
+      "tipo": "comienza",
+      "letra": "H",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "índice",
+      "descripcion": "Estructura que acelera las búsquedas en una tabla.",
+      "tipo": "comienza",
+      "letra": "I",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "join",
+      "descripcion": "Operación de SQL para combinar filas de dos o más tablas.",
+      "tipo": "comienza",
+      "letra": "J",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "key",
+      "descripcion": "Palabra en inglés para clave, usada en claves primarias y foráneas.",
+      "tipo": "comienza",
+      "letra": "K",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "lenguaje",
+      "descripcion": "Conjunto de comandos y sintaxis para manipular y consultar datos (por ejemplo, SQL).",
+      "tipo": "comienza",
+      "letra": "L",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "modelo",
+      "descripcion": "Representación abstracta de la estructura y relaciones de una base de datos.",
+      "tipo": "comienza",
+      "letra": "M",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "normalización",
+      "descripcion": "Proceso para eliminar redundancias y mejorar la eficiencia de las tablas.",
+      "tipo": "comienza",
+      "letra": "N",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "ñandu",
+      "descripcion": "Nombre que a veces se usa para ilustrar caracteres especiales y acentuados en datos.",
+      "tipo": "comienza",
+      "letra": "Ñ",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "oracle",
+      "descripcion": "Uno de los sistemas gestores de bases de datos más conocidos y utilizados.",
+      "tipo": "comienza",
+      "letra": "O",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "primarykey",
+      "descripcion": "Clave principal que identifica de forma única un registro en una tabla.",
+      "tipo": "comienza",
+      "letra": "P",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "query",
+      "descripcion": "Instrucción para consultar, modificar o borrar datos en una base de datos.",
+      "tipo": "comienza",
+      "letra": "Q",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "relación",
+      "descripcion": "Asociación lógica entre tablas en una base de datos relacional.",
+      "tipo": "comienza",
+      "letra": "R",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "sql",
+      "descripcion": "Lenguaje estándar para gestionar y consultar bases de datos relacionales.",
+      "tipo": "comienza",
+      "letra": "S",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "transacción",
+      "descripcion": "Conjunto de operaciones que se ejecutan como una sola unidad lógica de trabajo.",
+      "tipo": "comienza",
+      "letra": "T",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "usuario",
+      "descripcion": "Persona o entidad que accede o administra la base de datos.",
+      "tipo": "comienza",
+      "letra": "U",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "vista",
+      "descripcion": "Consulta almacenada que presenta datos de una o más tablas como si fuera una tabla.",
+      "tipo": "comienza",
+      "letra": "V",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "where",
+      "descripcion": "Cláusula de SQL que especifica la condición para seleccionar datos.",
+      "tipo": "comienza",
+      "letra": "W",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "xml",
+      "descripcion": "Lenguaje de marcado utilizado para almacenar e intercambiar datos, a veces en bases de datos.",
+      "tipo": "comienza",
+      "letra": "X",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "yaml",
+      "descripcion": "Formato de datos usado en configuración y migraciones de bases de datos modernas.",
+      "tipo": "comienza",
+      "letra": "Y",
+      "tema": "base_de_datos"
+    },
+    {
+      "palabra": "zabbix",
+      "descripcion": "Herramienta de monitorización que puede almacenar métricas en bases de datos.",
+      "tipo": "comienza",
+      "letra": "Z",
+      "tema": "base_de_datos"
+    }
+  ],
+
+  "python_1": [
+  {
+    "palabra": "algoritmo",
+    "descripcion": "Secuencia finita de pasos que resuelven un problema. Es la base de cualquier programa.",
+    "tipo": "comienza",
+    "letra": "A",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "booleano",
+    "descripcion": "Tipo de dato que solo puede tener dos valores: True o False.",
+    "tipo": "comienza",
+    "letra": "B",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "condicional",
+    "descripcion": "Estructura que ejecuta acciones dependiendo del valor de una condición lógica.",
+    "tipo": "comienza",
+    "letra": "C",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "dato",
+    "descripcion": "Unidad mínima de información que puede ser manipulada por un programa.",
+    "tipo": "comienza",
+    "letra": "D",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "entrada",
+    "descripcion": "Información que el usuario proporciona al programa para ser procesada.",
+    "tipo": "comienza",
+    "letra": "E",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "función",
+    "descripcion": "Bloque de código que encapsula una tarea reutilizable y puede recibir y devolver valores.",
+    "tipo": "comienza",
+    "letra": "F",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "gráfico",
+    "descripcion": "Representación visual de datos. En algunos ejemplos se muestra cómo representar salidas.",
+    "tipo": "comienza",
+    "letra": "G",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "histograma",
+    "descripcion": "Forma de visualizar la frecuencia de ciertos valores, mencionada en ejercicios de salida.",
+    "tipo": "comienza",
+    "letra": "H",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "input",
+    "descripcion": "Función que permite recibir datos del usuario desde el teclado.",
+    "tipo": "comienza",
+    "letra": "I",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "join",
+    "descripcion": "Método que permite unir elementos de una lista en una cadena de texto.",
+    "tipo": "comienza",
+    "letra": "J",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "kilo",
+    "descripcion": "Ejemplo usado para operaciones aritméticas con valores numéricos.",
+    "tipo": "comienza",
+    "letra": "K",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "lista",
+    "descripcion": "Estructura de datos que almacena múltiples valores en un solo objeto.",
+    "tipo": "comienza",
+    "letra": "L",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "módulo",
+    "descripcion": "Archivo que contiene funciones o código que puede ser reutilizado en otros programas.",
+    "tipo": "comienza",
+    "letra": "M",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "número",
+    "descripcion": "Tipo de dato que representa cantidades. Puede ser entero o decimal.",
+    "tipo": "comienza",
+    "letra": "N",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "ñandú",
+    "descripcion": "Ejemplo usado para ilustrar caracteres especiales en entrada y salida de datos.",
+    "tipo": "comienza",
+    "letra": "Ñ",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "operador",
+    "descripcion": "Símbolo que indica una operación matemática o lógica entre valores.",
+    "tipo": "comienza",
+    "letra": "O",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "print",
+    "descripcion": "Función que muestra información en pantalla como salida del programa.",
+    "tipo": "comienza",
+    "letra": "P",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "quita",
+    "descripcion": "Acción aplicada para remover elementos de una lista, como en `remove()`.",
+    "tipo": "comienza",
+    "letra": "Q",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "rango",
+    "descripcion": "Función que genera una secuencia numérica, útil en bucles for.",
+    "tipo": "comienza",
+    "letra": "R",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "salida",
+    "descripcion": "Información que el programa devuelve al usuario, como texto en pantalla.",
+    "tipo": "comienza",
+    "letra": "S",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "tipo",
+    "descripcion": "Clasificación de un dato: entero, flotante, cadena, booleano, etc.",
+    "tipo": "comienza",
+    "letra": "T",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "usuario",
+    "descripcion": "Persona que interactúa con el programa, introduciendo o recibiendo datos.",
+    "tipo": "comienza",
+    "letra": "U",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "variable",
+    "descripcion": "Nombre asociado a un valor que puede cambiar durante la ejecución del programa.",
+    "tipo": "comienza",
+    "letra": "V",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "while",
+    "descripcion": "Bucle que repite instrucciones mientras se cumpla una condición.",
+    "tipo": "comienza",
+    "letra": "W",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "x",
+    "descripcion": "Nombre común de variable utilizado en ejemplos de matemáticas o ciclos.",
+    "tipo": "comienza",
+    "letra": "X",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "yield",
+    "descripcion": "Palabra clave que devuelve un valor desde una función generadora.",
+    "tipo": "comienza",
+    "letra": "Y",
+    "tema": "programacion"
+  },
+  {
+    "palabra": "zip",
+    "descripcion": "Función que agrupa elementos de múltiples listas en tuplas.",
+    "tipo": "comienza",
+    "letra": "Z",
+    "tema": "programacion"
+  }
+],
+
+
+  "programacion": [
+    {
+      "palabra": "array",
+      "descripcion": "Estructura de datos que almacena elementos del mismo tipo en posiciones contiguas de memoria.",
+      "tipo": "comienza",
+      "letra": "A",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "bug",
+      "descripcion": "Error o fallo que provoca un comportamiento no deseado en un programa.",
+      "tipo": "comienza",
+      "letra": "B",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "compilador",
+      "descripcion": "Programa que traduce el código fuente a lenguaje máquina o intermedio.",
+      "tipo": "comienza",
+      "letra": "C",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "debugger",
+      "descripcion": "Herramienta que permite analizar y corregir errores en tiempo de ejecución.",
+      "tipo": "comienza",
+      "letra": "D",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "encapsulamiento",
+      "descripcion": "Principio de la programación orientada a objetos que restringe el acceso directo a los datos.",
+      "tipo": "comienza",
+      "letra": "E",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "for",
+      "descripcion": "Palabra reservada usada para crear bucles que se repiten un número determinado de veces.",
+      "tipo": "comienza",
+      "letra": "F",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "git",
+      "descripcion": "Sistema de control de versiones distribuido utilizado para gestionar código fuente.",
+      "tipo": "comienza",
+      "letra": "G",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "html",
+      "descripcion": "Lenguaje de marcado para la creación de páginas web.",
+      "tipo": "comienza",
+      "letra": "H",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "if",
+      "descripcion": "Condicional utilizada para ejecutar instrucciones si se cumple una condición.",
+      "tipo": "comienza",
+      "letra": "I",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "javascript",
+      "descripcion": "Lenguaje de programación popular para la web y el desarrollo front-end.",
+      "tipo": "comienza",
+      "letra": "J",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "kotlin",
+      "descripcion": "Lenguaje moderno que es oficialmente soportado para el desarrollo de aplicaciones Android.",
+      "tipo": "comienza",
+      "letra": "K",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "linux",
+      "descripcion": "Sistema operativo de código abierto muy usado por desarrolladores y servidores.",
+      "tipo": "comienza",
+      "letra": "L",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "main",
+      "descripcion": "Función principal por donde inicia la ejecución en muchos lenguajes de programación.",
+      "tipo": "comienza",
+      "letra": "M",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "nodo",
+      "descripcion": "Elemento de una estructura como una lista enlazada, árbol o grafo.",
+      "tipo": "comienza",
+      "letra": "N",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "ñandú",
+      "descripcion": "Palabra que, aunque no es técnica, se utiliza en ejemplos clásicos de variables en español.",
+      "tipo": "comienza",
+      "letra": "Ñ",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "operador",
+      "descripcion": "Símbolo que indica una operación matemática, lógica o de asignación.",
+      "tipo": "comienza",
+      "letra": "O",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "python",
+      "descripcion": "Lenguaje de programación conocido por su simplicidad y legibilidad.",
+      "tipo": "comienza",
+      "letra": "P",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "query",
+      "descripcion": "Consulta que se realiza a una base de datos para obtener información.",
+      "tipo": "comienza",
+      "letra": "Q",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "recursividad",
+      "descripcion": "Técnica en la que una función se llama a sí misma para resolver problemas.",
+      "tipo": "comienza",
+      "letra": "R",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "switch",
+      "descripcion": "Estructura de control utilizada para seleccionar entre múltiples opciones según un valor.",
+      "tipo": "comienza",
+      "letra": "S",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "token",
+      "descripcion": "Unidad léxica significativa en el análisis sintáctico de código.",
+      "tipo": "comienza",
+      "letra": "T",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "usuario",
+      "descripcion": "Entidad para la cual se diseñan sistemas de software y suele tener permisos o roles.",
+      "tipo": "comienza",
+      "letra": "U",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "variable",
+      "descripcion": "Espacio nombrado en memoria que puede almacenar datos que pueden cambiar durante la ejecución.",
+      "tipo": "comienza",
+      "letra": "V",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "while",
+      "descripcion": "Bucle que repite instrucciones mientras se cumpla una condición.",
+      "tipo": "comienza",
+      "letra": "W",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "xml",
+      "descripcion": "Lenguaje de marcado extensible utilizado para almacenar y transportar datos.",
+      "tipo": "comienza",
+      "letra": "X",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "yaml",
+      "descripcion": "Formato de serialización de datos legible para humanos, usado en configuración.",
+      "tipo": "comienza",
+      "letra": "Y",
+      "tema": "programacion"
+    },
+    {
+      "palabra": "zip",
+      "descripcion": "Formato de compresión de archivos, útil para distribuir código o recursos.",
+      "tipo": "comienza",
+      "letra": "Z",
+      "tema": "programacion"
+    }
+  ]
+}

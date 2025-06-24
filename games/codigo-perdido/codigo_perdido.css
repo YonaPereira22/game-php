@@ -1,0 +1,220 @@
+body {
+  font-family: 'Courier New', monospace;
+  background-color: #1a1a2e;
+  color: #e6e6ff;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+.contenedor {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.pantalla {
+  text-align: center;
+  background-color: #16213e;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 128, 255, 0.5);
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pantalla::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #4361ee, #3f37c9, #4cc9f0);
+  animation: scanline 2s linear infinite;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(800px);
+  }
+}
+
+.oculto {
+  display: none;
+}
+
+h1, h2 {
+  color: #4cc9f0;
+  text-shadow: 0 0 5px rgba(76, 201, 240, 0.7);
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #0f3460;
+  color: white;
+  border: 2px solid #4361ee;
+  padding: 12px 24px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background-color: #e94560;
+  box-shadow: 0 0 10px rgba(233, 69, 96, 0.8);
+  transform: translateY(-2px);
+}
+
+.imagen {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+}
+
+.texto-narrativa {
+  font-size: 1.1em;
+  line-height: 1.8;
+  margin: 20px 0;
+  text-align: left;
+  padding: 10px 20px;
+  background-color: rgba(15, 52, 96, 0.5);
+  border-left: 3px solid #4cc9f0;
+  border-radius: 0 5px 5px 0;
+}
+
+.desafio {
+  margin: 30px auto;
+  padding: 20px;
+  background-color: rgba(15, 52, 96, 0.7);
+  border-radius: 8px;
+  max-width: 600px;
+}
+
+.desafio p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.opcion {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 10px auto;
+  padding: 12px 20px;
+}
+
+.resultado {
+  margin: 20px 0;
+  font-weight: bold;
+  min-height: 30px;
+  color: #4cc9f0;
+}
+
+#letraGanada {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #e94560;
+  border-radius: 5px;
+  color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.zona-letras {
+  min-height: 60px;
+  border: 2px dashed #4cc9f0;
+  padding: 15px;
+  margin: 20px auto;
+  border-radius: 5px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  background-color: rgba(15, 52, 96, 0.3);
+}
+
+#letrasDisponibles {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.letra {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 12px 18px;
+  background-color: #0f3460;
+  border: 2px solid #4361ee;
+  cursor: move;
+}
+
+.letra:hover {
+  transform: translateY(-3px);
+}
+
+input[type="text"] {
+  padding: 12px;
+  margin: 10px;
+  border-radius: 5px;
+  border: 2px solid #4361ee;
+  background-color: rgba(15, 52, 96, 0.5);
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 1.1em;
+  width: 80%;
+  max-width: 300px;
+}
+
+input[type="text"]::placeholder {
+  color: rgba(230, 230, 255, 0.5);
+}
+
+#palabraFinal {
+  font-size: 2em;
+  letter-spacing: 3px;
+  color: #e94560;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(233, 69, 96, 0.8);
+  display: inline-block;
+  padding: 10px 20px;
+  border: 2px solid #e94560;
+  border-radius: 5px;
+  background-color: rgba(15, 52, 96, 0.5);
+}
+
+#mensajeFinal {
+  font-size: 1.2em;
+  line-height: 1.8;
+  margin-top: 30px;
+}

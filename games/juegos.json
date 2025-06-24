@@ -1,0 +1,262 @@
+{
+  "ahorcado": {
+    "tipo": "App",
+    "nombre": "Ahorcado",
+    "descripcion": "En este juego, competirás contra otro para lograr encontrar una palabra de Sistemas operativos",
+    "instrucciones": [
+      "Selecciona un nombre escribiendo en los espacios de judaro 1 y jugador 2",
+      "Elegí una letra por turno para intentar encontrar la palabra oculta.",
+      "Solo hay seis oportunidades de fallar",
+      "Al finalizar puedes elegir repetir la partida o volver al menú"
+    ],
+    "temas": [
+      "Programación", "Sistemas Operativos"
+    ],
+	  "autor": "Matías Otte",
+    "url": "https://game.1001problemas.com/ahorcado/"
+  },
+  "ascii-memory": {
+    "tipo": "Juego",
+    "nombre": "Memoria ASCII",
+    "descripcion": "Juego de memoria donde emparejas letras con sus códigos ASCII.",
+    "instrucciones": [
+      "Haz clic en dos tarjetas para girarlas.",
+      "Empareja letras con sus valores numéricos.",
+      "Memoriza combinaciones para avanzar más rápido."
+    ],
+    "temas": [
+      "Códigos de caracteres",
+      "Representación binaria",
+      "Memoria visual"
+    ],
+    "autor": "Agustin Muñoz",
+    "url": "https://game.1001problemas.com/ascii-memory/"
+  },
+  "codigo-perdido": {
+    "tipo": "Juego",
+    "nombre": "Código Perdido",
+    "descripcion": "Juego narrativo que combina una historia de recuperación de memoria con desafíos para aprender Python.",
+    "instrucciones": [
+      "Leé atentamente la narrativa de cada etapa.",
+      "Resolvé los desafíos para avanzar en la historia.",
+      "Al completar cada desafío correctamente, obtendrás una letra para descubrir la palabra clave.",
+      "Al final, juntá todas las letras para revelar la palabra secreta y completar el juego."
+    ],
+    "temas": [
+      "Python",
+      "Lógica de programación",
+      "Narrativa interactiva",
+      "Desafíos de código"
+    ],
+    "autor": "Sofia Rodriguez",
+    "url": "https://game.1001problemas.com/codigo-perdido/"
+
+  },
+
+
+
+  "cofre-de-letras": {
+    "tipo": "Juego",
+    "nombre": "Cofre de letras",
+    "descripción": "Juego interactivo en el que enseña la formación de palabras mediante letras aleatorias.",
+    "instrucciones": [
+      "Utiliza el mouse para elegir las letras",
+      "Cuando esté formada la palabra, le damos click a enviar palabra",
+      "En caso de error, le damos a la opción de borrar"
+    ],
+    "temas": [
+      "Formación de palabras",
+      "letras"
+    ],
+    "autor": "Cristian Carro",
+    "url": "https://game.1001problemas.com/cofre-de-letras/"
+  },
+  "compuertas-logicas": {
+    "tipo": "Juego",
+    "nombre": "Juego de Compuertas Lógicas",
+    "descripcion": "Juego educativo sobre compuertas lógicas, en el que los jugadores responden preguntas para mejorar su comprensión de la lógica digital.",
+    "instrucciones": [
+      "Lee la pregunta sobre compuertas lógicas.",
+      "Haz clic en la respuesta correcta para sumar puntos.",
+      "Si fallas, se mostrará un mensaje antes de avanzar automáticamente.",
+      "El juego continúa hasta que se respondan todas las preguntas."
+    ],
+    "temas": [
+      "Lógica digital",
+      "Compuertas AND, OR, NOT, XOR",
+      "Pensamiento computacional"
+    ],
+    "url": "https://game.1001problemas.com/compuertas-logicas/"
+  },
+  "juego-pesca": {
+    "tipo": "Juego",
+    "nombre": "Juego de Pesca en Uruguay",
+    "descripcion": "Un juego interactivo para aprender sobre peces autóctonos de Uruguay mientras se participa en una divertida aventura de pesca.",
+    "instrucciones": [
+      "Haz clic en 'Lanzar caña' para intentar pescar algo.",
+      "Observa el resultado: puede ser un pez, una bota, o nada.",
+      "Responde correctamente a la pregunta sobre el pez o el objeto capturado.",
+      "Pierdes una vida por cada respuesta incorrecta. El juego termina si te quedas sin vidas o si un pez colosal te derrota.",
+      "Ganas si atrapas correctamente al Pejerrey o al Esturión gigante respondiendo correctamente."
+    ],
+    "temas": [
+      "Fauna uruguaya",
+      "Educación ambiental",
+      "Toma de decisiones",
+      "Cultura general"
+    ],
+    "autor": "Nicolás Monfort Albi",
+    "url": "https://game.1001problemas.com/juego-pesca/"
+  },
+  "lanzamiento-moneda": {
+    "tipo": "Juego",
+    "nombre": "Lanzamiento de Moneda",
+    "descripcion": "Juego interactivo que simula el lanzamiento de una moneda donde debes predecir si saldrá cara o cruz.",
+    "instrucciones": [
+      "Selecciona CARA o CRUZ antes de cada lanzamiento.",
+      "Si aciertas, tu puntuación aumenta y continúas jugando.",
+      "Si fallas, el juego termina y deberás reiniciar."
+    ],
+    "temas": [
+      "Probabilidad",
+      "Eventos aleatorios",
+      "Toma de decisiones"
+    ],
+    "autor": "Domingo Pérez",
+    "url": "https://game.1001problemas.com/lanzamiento-moneda/"
+  },
+  "ppt": {
+    "tipo": "Juego",
+    "nombre": "Piedra, Papel o Tijera",
+    "descripcion": "Juego clásico donde el jugador compite contra la computadora eligiendo entre piedra, papel o tijera.",
+    "instrucciones": [
+      "Hacé clic en una de las opciones: piedra, papel o tijera.",
+      "La computadora elegirá aleatoriamente su opción.",
+      "Ganá puntos venciendo la elección de la computadora.",
+      "Reiniciá la puntuación cuando quieras con el botón correspondiente."
+    ],
+    "temas": [
+      "Condicionales",
+      "Eventos de clic",
+      "Comparación de valores"
+    ],
+    "autor": "Agustina",
+    "url": "https://game.1001problemas.com/juegos/piedra_papel_o_tijera/"
+  },
+
+  "reto-suma": {
+    "tipo": "Juego",
+    "nombre": "Reto de Sumas",
+    "descripcion": "Un juego educativo para practicar sumas básicas con números aleatorios.",
+    "instrucciones": [
+      "Lee la pregunta matemática que aparece en pantalla.",
+      "Escribe tu respuesta en el campo de entrada.",
+      "Haz clic en 'Verificar' para comprobar tu respuesta.",
+      "Suma puntos por cada respuesta correcta."
+    ],
+    "temas": [
+      "Aritmética básica",
+      "Resolución de problemas",
+      "Pensamiento lógico"
+    ],
+    "autor": "Sebastián Álvarez",
+    "url": "https://game.1001problemas.com/reto-suma/"
+  },
+  "rosco": {
+    "tipo": "Juego",
+    "nombre": "Juego del Rosco",
+    "descripcion": "Juego de preguntas tipo rosco para poner a prueba tus conocimientos de programación.",
+    "instrucciones": [
+      "Seleccioná un tema para comenzar.",
+      "Respondiendo correctamente, completarás las letras del rosco.",
+      "Cada pregunta está relacionada con la letra correspondiente.",
+      "El objetivo es responder correctamente a todas las letras y sumar la mayor cantidad de puntos.",
+      "Tenés un tiempo límite para responder cada pregunta."
+    ],
+    "temas": [
+      "Programación",
+      "Algoritmos",
+      "Estructuras de Datos",
+      "Lenguajes de Programación"
+    ],
+    "autor": "Domingo Pérez",
+    "url": "https://game.1001problemas.com/rosco/"
+  },
+
+  "snake": {
+    "tipo": "Juego",
+    "nombre": "Snake Programer",
+    "descripcion": "En este juego, controlas una serpiente que, en lugar de comer simples manzanas o frutas, consume ´tokens de programación´ que van apareciendo en el tablero. Cada token representa un elemento de código (variables, funciones, operadores, etc.) que se va agregando a tu ´editor de código´ al ser consumido.",
+    "instrucciones": [
+      "Utilizá las flechas del teclado para mover la serpiente en la pantalla.",
+      "Evitá chocar contra los bordes o contra tu propia cola.",
+      "Recogé los tokens de código en el orden correcto para crear programas funcionales.",
+      "Cada token que comes es una pieza de código que se agrega a tu editor.",
+      "Completá cada nivel construyendo la función requerida sin errores.",
+      "Pensá bien el orden: un token en posición incorrecta genera un error de compilación.",
+      "Observá el panel lateral para ver qué función estás construyendo.",
+      "¡La serpiente crece con cada token, haciendo el desafío cada vez mayor!"
+    ],
+    "temas": [
+      "Programación"
+    ],
+	  "autor": "Sol Méndez",
+    "url": "https://game.1001problemas.com/snake/"
+  },
+  "sopa-de-letras": {
+    "tipo": "Juego",
+	  "nombre": "SopaDeLetras",
+	  "descripcion": "Juego Sencillo de busqueda de palabras.",
+	  "instrucciones": [
+  	  "Al llegar a al 25 se activa el modo final",
+  	  "Encuentra todas las palabras",
+  	  "El juego continúa hasta que se encuentren todas las palabras."
+	  ],
+	  "temas": [
+  	  "Conocimiento Basico",
+  	  "Palabras",
+    	"Pensamiento Visual"
+	  ],
+	  "autor":"Matias Zulueta",
+	  "url": "https:game.1001problemas.com/SopaDeLetras"
+  },
+
+  "trivia": {
+    "tipo": "Juego",
+    "nombre": "Trivia",
+    "descripcion": "Poné a prueba tus conocimientos de programación en distintos niveles de dificultad.",
+    "instrucciones": [
+      "utiliza el mouse para moverte por el juego.",
+      "utiliza el clic para elegir la opcion correcta."
+    ],
+    "tema": "Programación",
+    "nivel": "Inicial a Avanzado",
+    "lenguajes": [
+      "HTML", 
+      "CSS", 
+      "JavaScript"
+    ],
+    "autor": "Lucas Aguiar",
+    "url":"https://game.1001problemas.com/trivia/"
+  },
+
+
+  "prueba": {
+    "tipo": "Juego",
+    "nombre": "Juego de Prueba",
+    "descripcion": "Un juego introductorio para explorar conceptos básicos de lógica computacional.",
+    "instrucciones": [
+      "Usa las flechas para navegar.",
+      "Presiona Enter para seleccionar.",
+      "Responde acertijos para avanzar."
+    ],
+    "temas": [
+      "Pensamiento lógico",
+      "Algoritmos",
+      "Secuencias y condicionales"
+    ],
+    "autor": "Domingo Pérez",
+    "url": "https://1001problemas.com"
+  }
+}
+  

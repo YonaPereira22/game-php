@@ -1,0 +1,384 @@
+/* Estilos generales */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #2d3748;
+}
+
+/* Pantalla de inicio */
+.start-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.player-inputs {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 1.5rem;
+}
+
+.player-inputs h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.player-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #4a5568;
+}
+
+.input-group input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.3);
+}
+
+.difficulty-selection h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-easy {
+    background-color: #48bb78;
+    color: white;
+}
+
+.btn-easy:hover {
+    background-color: #38a169;
+}
+
+.btn-normal {
+    background-color: #4299e1;
+    color: white;
+}
+
+.btn-normal:hover {
+    background-color: #3182ce;
+}
+
+.btn-hard {
+    background-color: #9f7aea;
+    color: white;
+}
+
+.btn-hard:hover {
+    background-color: #805ad5;
+}
+
+.btn-gray {
+    background-color: #718096;
+    color: white;
+}
+
+.btn-gray:hover {
+    background-color: #4a5568;
+}
+
+.instructions {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    max-width: 500px;
+}
+
+.instructions h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.instructions ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    color: #4a5568;
+}
+
+/* Pantalla de juego */
+.game-screen {
+    display: none;
+    width: 100%;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    background-color: #f1f5f9;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.player-score {
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    text-align: center;
+}
+
+.player-score.player1 {
+    background-color: #fed7d7;
+    color: #9b2c2c;
+}
+
+.player-score.player2 {
+    background-color: #e6f6ff;
+    color: #2c5282;
+}
+
+.player-score.active {
+    box-shadow: 0 0 0 2px;
+}
+
+.player-name {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.score-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.turn-indicator {
+    text-align: center;
+}
+
+.turn-label {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: #4a5568;
+}
+
+.current-player {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.current-player.player1-turn {
+    color: #c53030;
+}
+
+.current-player.player2-turn {
+    color: #2b6cb0;
+}
+
+/* Tablero de juego */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .game-board {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .game-board {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+
+.card {
+    aspect-ratio: 1 / 1;
+    background-color: #4a5568;
+    color: white;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-back {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.card-front-code {
+    background-color: #fefcbf;
+    color: #744210;
+    font-family: monospace;
+}
+
+.card-front-char {
+    background-color: #e6fffa;
+    color: #285e61;
+}
+
+.card-matched-player1 {
+    background-color: #fed7d7;
+    color: #9b2c2c;
+}
+
+.card-matched-player2 {
+    background-color: #bee3f8;
+    color: #2c5282;
+}
+
+.card-content {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+@media (min-width: 768px) {
+    .card-content {
+        font-size: 3rem;
+    }
+}
+
+/* Pantalla de victoria */
+.game-complete {
+    text-align: center;
+    background-color: #f0fff4;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+    display: none;
+}
+
+.game-complete h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #276749;
+    margin-bottom: 0.5rem;
+}
+
+.final-scores {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1.5rem 0;
+}
+
+.final-score {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    min-width: 120px;
+}
+
+.final-score-player1 {
+    background-color: #fed7d7;
+}
+
+.final-score-player2 {
+    background-color: #bee3f8;
+}
+
+.final-score-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: #2d3748;
+}
+
+.final-score-value {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.final-score-player1 .final-score-value {
+    color: #c53030;
+}
+
+.final-score-player2 .final-score-value {
+    color: #2b6cb0;
+}
+
+.final-score-label {
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+.winner-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.moves-text {
+    margin-bottom: 1.5rem;
+    color: #4a5568;
+}

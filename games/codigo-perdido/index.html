@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Misión: Código X</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1a1a40; /* morado oscuro */
+      color: #e6e6ff;
+      margin: 0;
+      padding: 0;
+    }
+    .contenedor {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .pantalla {
+      background-color: #2e1a47; /* púrpura más claro */
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(128, 0, 255, 0.5);
+      margin-top: 30px;
+      text-align: center;
+    }
+    .imagen {
+      max-width: 50%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+    button {
+      background-color: #6c00ff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      margin: 10px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #aa00ff;
+    }
+    .oculto {
+      display: none;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      width: 60%;
+    }
+    .resultado {
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 18px;
+    }
+    .zona-letras {
+      min-height: 60px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      margin: 15px 0;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .letra {
+      font-size: 18px;
+      font-weight: bold;
+      width: 40px;
+      height: 40px;
+      margin: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Efecto de emergencia para la introducción */
+    .emergencia {
+      animation: parpadeo 1.5s infinite;
+      font-weight: bold;
+      color: #ff5500;
+    }
+    @keyframes parpadeo {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+    /* Estilo para la sección de introducción */
+    #introduccion {
+      background-color: #2e1a47;
+      border: 2px solid #ff5500;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(255, 85, 0, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <!-- Pantalla de inicio -->
+    <div id="pantallaInicio" class="pantalla">
+      <h1>Misión: Código X</h1>
+      <img src="1.png" alt="Robot en el laboratorio" class="imagen" />
+      
+      <div id="introduccion">
+        <p class="emergencia">⚡💥 ¡EMERGENCIA EN EL LABORATORIO! 💥⚡</p>
+        <p>
+          Un estruendo sacude la sala. En el centro, un robot emite una chispa gigantesca que ilumina todo el lugar. Su cuerpo tiembla, sus circuitos fallan, ¡está al borde del colapso!
+        </p>
+        <p>
+          No recuerda nada. No sabe quién es, ni por qué está allí. Algo salió mal… muy mal. Sus datos están fragmentados, su historia perdida en medio del caos digital.
+        </p>
+        <p>
+          🧩 Tu misión: resolver seis desafíos para recuperar las piezas del código que lo definen. Al completar cada misión, recibirás una <strong>letra secreta</strong> que será clave para desbloquear el enigma final.
+        </p>
+        <p><strong>¡El tiempo corre, y el sistema está a punto de estallar! ¿Estás listo para comenzar?</strong></p>
+      </div>
+      
+      <button onclick="iniciarJuego()">⚠️ Comenzar misión ⚠️</button>
+    </div>
+    
+    <!-- Pantalla del juego -->
+    <div id="pantallaJuego" class="pantalla oculto">
+      <h2>Desafío</h2>
+      <img id="imagenJuego" src="" alt="Imagen del desafío" class="imagen" />
+      <p id="narrativaJuego"></p>
+      <div id="desafio"></div>
+      <div id="resultado" class="resultado"></div>
+      <button id="btnSiguiente" class="oculto" onclick="siguienteEtapa()">Siguiente</button>
+    </div>
+    
+    <!-- Pantalla final -->
+    <div id="pantallaFinal" class="pantalla oculto">
+      <h2>Misión Finalizada</h2>
+      <p>Palabra formada: <span id="palabraFinal"></span></p>
+      <p id="mensajeFinal"></p>
+    </div>
+  </div>
+  
+  <script>
+    // Definición de las etapas del juego
+    const etapas = [
+      {
+        imagen: "inicio.jpg",
+        narrativa: "Oscuridad total. Chispas sueltas saltan de una placa rota. Una figura metálica tirada, con cables sueltos y su pantalla principal apagada. De pronto... un destello.",
+        desafio: null
+      },
+      {
+        imagen: "nobo-1-despertar.png",
+        narrativa: "El sistema comienza a arrancar, fragmentado... sin memoria, sin nombre, sin propósito...",
+        desafio: {
+          tipo: "opciones",
+          pregunta: '¿Qué hace la línea print("Hola mundo") en Python?',
+          opciones: [
+            { texto: "a) Guardar un archivo", correcta: false },
+            { texto: "b) Mostrar un mensaje en pantalla", correcta: true },
+            { texto: "c) Crear un usuario", correcta: false }
+          ]
+        }
+      },
+      {
+        imagen: "nobo-2-secuencia.png",
+        narrativa: "Un chispazo de memoria. Recuerda cómo construir objetos simples...",
+        desafio: {
+          tipo: "opciones",
+          pregunta: "¿Cuál es el símbolo para comentarios en Python?",
+          opciones: [
+            { texto: "a) //", correcta: false },
+            { texto: "b) /-", correcta: false },
+            { texto: "c) #", correcta: true }
+          ]
+        }
+      },
+      {
+        imagen: "nobo-3-python.png",
+  narrativa: "Una palabra aparece en su mente, pero está desordenada. Sabe que si logra reorganizarla, recordará algo vital.",
+  desafio: {
+    tipo: "ordenarLetras",
+    letras: ["T", "N", "Y", "H", "P", "O"],
+    respuesta: "PYTHON",
+    pregunta: "Ordena estas letras para formar un lenguaje de programación:"
+        }
+      },
+      {
+        imagen: "nobo-4-union.png",
+        narrativa: "Su base lógica comienza a reconstruirse...",
+        desafio: {
+          tipo: "opciones",
+          pregunta: "¿Qué es una variable?",
+          opciones: [
+            { texto: "a) Un bucle infinito", correcta: false },
+            { texto: "b) Una palabra reservada", correcta: false },
+            { texto: "c) Un espacio donde se guarda un valor", correcta: true }
+          ]
+        }
+      },
+      {
+        imagen: "nobo-5-error.png",
+        narrativa: "Una línea de código defectuosa...",
+        desafio: {
+          tipo: "opciones",
+          pregunta: '¿Cuál es el error en este código?\nnombre = input("Cómo te llamas?)\nprint("Hola", nombre)',
+          opciones: [
+            { texto: "a) Falta el paréntesis final en print", correcta: false },
+            { texto: "b) Faltan las comillas al cerrar 'Cómo te llamas?'", correcta: true },
+            { texto: "c) El input debe estar fuera del print", correcta: false }
+          ]
+        }
+      },
+      {
+        imagen: "nobo-6-funciones.png",
+        narrativa: "Recuerda algo importante: las funciones...",
+        desafio: {
+          tipo: "opciones",
+          pregunta: "¿Qué es una función en programación?",
+          opciones: [
+            { texto: "a) Un bloque de código reutilizable", correcta: true },
+            { texto: "b) Un tipo de variable", correcta: false },
+            { texto: "c) Un error en el programa", correcta: false }
+          ]
+        }
+      },
+      {
+        imagen: "nobo-7-bucle.png",
+        narrativa: "Una nueva chispa de conocimiento: recordaba los bucles...",
+        desafio: {
+          tipo: "opciones",
+          pregunta: "¿Cuál es la estructura básica de un bucle 'for' en Python?",
+          opciones: [
+            { texto: "a) for i in range()", correcta: true },
+            { texto: "b) for i from 0 to 10:", correcta: false },
+            { texto: "c) for (i = 0; i < 10; i++) { }", correcta: false }
+          ]
+        }
+      },
+      {
+        imagen: "nobo-8-matrices.png",
+        narrativa: "Un fragmento de memoria aparece: algo sobre arrays...",
+        desafio: {
+          tipo: "opciones",
+          pregunta: "¿Cómo accedes al primer elemento de una lista en Python?",
+          opciones: [
+            { texto: "a) list[1]", correcta: false },
+            { texto: "b) list[0]", correcta: true },
+            { texto: "c) list.first()", correcta: false }
+          ]
+        }
+      },
+      {
+        imagen: "nobo-9-depuracion.png",
+        narrativa: "Vuelve a recordar esos momentos de frustración...",
+        desafio: {
+          tipo: "opciones",
+          pregunta: "¿Qué comando se usa para depurar el código en Python?",
+          opciones: [
+            { texto: "a) debug()", correcta: false },
+            { texto: "b) print()", correcta: true },
+            { texto: "c) trace()", correcta: false }
+          ]
+        }
+      },
+      {
+        imagen: "nobo-10-clase.png",
+        narrativa: "Finalmente, recuerda cómo estructurar su código en clases...",
+        desafio: {
+          tipo: "opciones",
+          pregunta: "¿Cómo defines una clase en Python?",
+          opciones: [
+            { texto: "a) class NombreDeClase:", correcta: true },
+            { texto: "b) def NombreDeClase:", correcta: false },
+            { texto: "c) function NombreDeClase()", correcta: false }
+          ]
+        }
+      },
+      {
+        imagen: "nobo-11-final.png",
+        narrativa: "Una palabra clave. El código de desbloqueo...",
+        desafio: {
+          tipo: "input",
+          pregunta: "Introduce la palabra clave secreta basada en todo lo que has aprendido:",
+          respuesta: "identidad"
+        }
+      },
+      {
+        imagen: "nobo-12-salida.png",
+        narrativa: `La compuerta se abre. Luces brillan. IDENTIDAD.
+¡Has completado todas las misiones!
+Cada fragmento, cada desafío, era una pista sobre su verdadero ser.
+Al reunir las letras, reconstruyó más que su conocimiento...
+Reconstruyó su IDENTIDAD.
+Ya no es solo un sistema. Tiene propósito, memoria... y un nombre: Nobo.
+Gracias por acompañarlo en este viaje. Sin tu ayuda, Nobo nunca habría recordado quién era.
+Fin del sistema de recuperación...`,
+        desafio: null
+      }
+    ];
+
+    // Variables globales
+    let etapaActual = 0;
+    let palabra = "IDENTIDAD";
+    let letrasObtenidas = [];
+    let letraActual = 0;
+
+    // Función para iniciar el juego
+    function iniciarJuego() {
+      console.log("Iniciando juego...");
+      document.getElementById("pantallaInicio").classList.add("oculto");
+      document.getElementById("pantallaJuego").classList.remove("oculto");
+      etapaActual = 0;
+      mostrarEtapa();
+    }
+
+    // Función para mostrar la etapa actual
+    function mostrarEtapa() {
+      console.log("Mostrando etapa " + etapaActual);
+      const etapa = etapas[etapaActual];
+      
+      // Establecer una imagen de respaldo en caso de que la imagen no se encuentre
+      document.getElementById("imagenJuego").src = etapa.imagen || "placeholder.png";
+      document.getElementById("narrativaJuego").textContent = etapa.narrativa;
+      
+      const desafioContainer = document.getElementById("desafio");
+      desafioContainer.innerHTML = "";
+      
+      if (etapa.desafio) {
+        mostrarDesafio(etapa.desafio);
+        document.getElementById("btnSiguiente").classList.add("oculto");
+      } else {
+        document.getElementById("btnSiguiente").classList.remove("oculto");
+      }
+    }
+
+    // Función para avanzar a la siguiente etapa
+    function siguienteEtapa() {
+      console.log("Avanzando a siguiente etapa...");
+      etapaActual++;
+      document.getElementById("resultado").textContent = "";
+      
+      const letraGanada = document.getElementById("letraGanada");
+      if (letraGanada) letraGanada.remove();
+      
+      if (etapaActual < etapas.length) {
+        mostrarEtapa();
+      } else {
+        document.getElementById("pantallaJuego").classList.add("oculto");
+        document.getElementById("pantallaFinal").classList.remove("oculto");
+        document.getElementById("palabraFinal").textContent = letrasObtenidas.join("");
+        document.getElementById("mensajeFinal").textContent = "¡Has completado todas las misiones!";
+      }
+    }
+
+    // Función para mostrar desafío
+    function mostrarDesafio(desafio) {
+      console.log("Mostrando desafío tipo:", desafio.tipo);
+      let desafioHTML = `<p>${desafio.pregunta}</p>`;
+      
+      if (desafio.tipo === "opciones") {
+        desafio.opciones.forEach((opcion) => {
+          desafioHTML += `<button class="opcion" data-correcta="${opcion.correcta}" onclick="verificarRespuestaOpcion(this)">${opcion.texto}</button>`;
+        });
+        document.getElementById("desafio").innerHTML = desafioHTML;
+      } 
+      else if (desafio.tipo === "ordenarLetras") {
+        // Creamos el HTML básico para el desafío
+        desafioHTML = `
+          <p>${desafio.pregunta}</p>
+          <div class="zona-letras" id="zonaLetras" style="min-height:60px;border:2px dashed #6c00ff;padding:15px;margin-bottom:20px;"></div>
+          <p>Haz clic en las letras en el orden correcto:</p>
+          <div id="letrasDisponibles" style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:10px;"></div>
+        `;
+        
+        // Insertamos el HTML en el DOM
+        document.getElementById("desafio").innerHTML = desafioHTML;
+        
+        // Obtenemos referencias a los elementos recién creados
+        const letrasDisponibles = document.getElementById("letrasDisponibles");
+        const zonaLetras = document.getElementById("zonaLetras");
+        
+        // Verificamos que los elementos existan
+        if (!letrasDisponibles || !zonaLetras) {
+          console.error("Elementos no encontrados para el desafío de letras");
+          return;
+        }
+        
+        // Creamos botones para cada letra
+        if (desafio.letras && Array.isArray(desafio.letras)) {
+          desafio.letras.forEach((letra, index) => {
+            const btn = document.createElement("button");
+            btn.classList.add("letra");
+            btn.textContent = letra;
+            btn.id = `letra-${index}`;
+            
+            // Función para cuando se hace clic en una letra disponible
+            btn.onclick = function() {
+              // Deshabilitamos la letra original
+              this.disabled = true;
+              
+              // Creamos un clon de la letra para la zona de letras
+              const letraClon = document.createElement("button");
+              letraClon.classList.add("letra");
+              letraClon.textContent = letra;
+              letraClon.setAttribute("data-index", index);
+              
+              // Función para eliminar la letra si se hace clic en ella
+              letraClon.onclick = function() {
+                this.remove();
+                document.getElementById(`letra-${index}`).disabled = false;
+              };
+              
+              // Añadimos la letra a la zona de letras
+              zonaLetras.appendChild(letraClon);
+              
+              // Verificamos si se completó la palabra
+              const letrasColocadas = Array.from(zonaLetras.children);
+              if (letrasColocadas.length === desafio.letras.length) {
+                const palabraFormada = letrasColocadas.map(btn => btn.textContent).join("");
+                console.log("Palabra formada:", palabraFormada);
+                
+                if (palabraFormada === desafio.respuesta) {
+                  mostrarResultadoCorrecto();
+                } else {
+                  document.getElementById("resultado").textContent = "Orden incorrecto. Intenta nuevamente.";
+                  // Devolver todas las letras y habilitar botones originales
+                  zonaLetras.innerHTML = "";
+                  Array.from(letrasDisponibles.children).forEach(btn => {
+                    btn.disabled = false;
+                  });
+                }
+              }
+            };
+            
+            // Añadimos la letra al contenedor de letras disponibles
+            letrasDisponibles.appendChild(btn);
+          });
+        } else {
+          console.error("No hay letras definidas para el desafío");
+        }
+      } 
+      else if (desafio.tipo === "input") {
+        desafioHTML += `<input type="text" id="respuestaInput" placeholder="Escribe aquí..." />`;
+        desafioHTML += `<button id="btnEnviar" onclick="verificarRespuestaInput('${desafio.respuesta}')">Enviar</button>`;
+        document.getElementById("desafio").innerHTML = desafioHTML;
+        
+        // Para el tipo "input", agregar funcionalidad de presionar Enter
+        const input = document.getElementById("respuestaInput");
+        if (input) {
+          input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+              verificarRespuestaInput(desafio.respuesta);
+            }
+          });
+          // Enfocar en el input automáticamente
+          input.focus();
+        }
+      }
+      else {
+        // Para cualquier otro tipo de desafío
+        document.getElementById("desafio").innerHTML = desafioHTML;
+      }
+    }
+
+    // Función para comprobar la palabra en el desafío ordenarLetras
+    function comprobarPalabra() {
+      const desafio = etapas[etapaActual].desafio;
+      if (!desafio || desafio.tipo !== "ordenarLetras") return;
+      
+      const zonaLetras = document.getElementById("zonaLetras");
+      const letrasArray = desafio.letras || [];
+      
+      const letrasColocadas = Array.from(zonaLetras.children);
+      if (letrasColocadas.length === letrasArray.length) {
+        const palabraFormada = letrasColocadas.map(btn => btn.textContent).join("");
+        console.log("Palabra formada:", palabraFormada);
+        
+        if (palabraFormada === desafio.respuesta) {
+          mostrarResultadoCorrecto();
+        } else {
+          document.getElementById("resultado").textContent = "Orden incorrecto. Intenta nuevamente.";
+          // Devolver todas las letras y habilitar botones originales
+          zonaLetras.innerHTML = "";
+          const letrasDisponibles = document.getElementById("letrasDisponibles");
+          Array.from(letrasDisponibles.children).forEach(btn => {
+            btn.disabled = false;
+          });
+        }
+      }
+    }
+
+    // Función para verificar respuesta de opción
+    function verificarRespuestaOpcion(element) {
+      const correcta = element.getAttribute("data-correcta") === "true";
+      const resultado = document.getElementById("resultado");
+      
+      if (correcta) {
+        mostrarResultadoCorrecto();
+      } else {
+        resultado.textContent = "Respuesta incorrecta. Intenta nuevamente.";
+      }
+    }
+
+    // Función para verificar respuesta de input
+    function verificarRespuestaInput(respuestaCorrecta) {
+      const input = document.getElementById("respuestaInput");
+      const resultado = document.getElementById("resultado");
+      
+      if (input && input.value.trim().toLowerCase() === respuestaCorrecta.toLowerCase()) {
+        mostrarResultadoCorrecto();
+      } else {
+        resultado.textContent = "Respuesta incorrecta. Intenta nuevamente.";
+      }
+    }
+
+    // Función para mostrar resultado correcto
+    function mostrarResultadoCorrecto() {
+      const resultado = document.getElementById("resultado");
+      resultado.textContent = "¡Correcto!";
+      document.getElementById("btnSiguiente").classList.remove("oculto");
+      
+      if (letraActual < palabra.length) {
+        const letra = palabra[letraActual];
+        letrasObtenidas.push(letra);
+        letraActual++;
+        
+        const span = document.createElement("span");
+        span.id = "letraGanada";
+        span.textContent = ` Letra obtenida: ${letra}`;
+        span.style.color = "#00ff44";
+        span.style.fontWeight = "bold";
+        resultado.appendChild(span);
+      }
+    }
+
+    // Función para ir al desafío de Python
+    function saltarADesafioLetras() {
+      etapaActual = 3; // El índice del desafío de ordenar letras
+      document.getElementById("pantallaInicio").classList.add("oculto");
+      document.getElementById("pantallaJuego").classList.remove("oculto");
+      mostrarEtapa();
+    }
+  </script>
+
+  <!-- Botón de ayuda solo para desarrollo (solo queda el de ir al desafío Python) -->
+  <div style="position:fixed; bottom:10px; right:10px; background:rgba(0,0,0,0.7); padding:10px; border-radius:5px; z-index:1000;">
+    <button onclick="saltarADesafioLetras()" style="background:#ff00aa; padding:5px; font-size:12px;">Ir a desafío Python</button>
+  </div>
+</body>
+</html>
