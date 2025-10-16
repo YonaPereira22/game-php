@@ -76,7 +76,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
                     <input type="text" name="search" placeholder="Buscar juegos...." value="<?= htmlspecialchars($search) ?>">
                     
                     <select name="category">
-                        <option value="">Todas las categorías</option>
+                        <option value="">Categorías</option>
                         <?php foreach ($categories as $cat): ?>
                             <option value="<?= htmlspecialchars($cat) ?>" <?= $category === $cat ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($cat) ?>
