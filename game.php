@@ -84,12 +84,34 @@ $userVote = $stmt->fetchColumn();
         </div>
 
         <div class="game-frame-container">
-            <iframe 
-                src="games/<?= htmlspecialchars($game['folder_name']) ?>/index.html" 
-                class="game-frame"
-                sandbox="allow-scripts allow-same-origin allow-forms"
-                loading="lazy">
-            </iframe>
+            <?php
+            // Determinar la fuente del juego: carpeta local o GitHub Pages
+            $gameSource = '';
+            $folderPath = 'games/' . $game['folder_name'];
+            
+            // Primero intentar usar la carpeta local si existe
+            if (!empty($game['folder_name']) && is_dir($folderPath) && file_exists($folderPath . '/index.html')) {
+                $gameSource = $folderPath . '/index.html';
+            } 
+            // Si no hay carpeta, usar el enlace de GitHub
+            elseif (!empty($game['github_link'])) {
+                $gameSource = $game['github_link'];
+            }
+            ?>
+            
+            <?php if ($gameSource): ?>
+                <iframe 
+                    src="<?= htmlspecialchars($gameSource) ?>" 
+                    class="game-frame"
+                    sandbox="allow-scripts allow-same-origin allow-forms"
+                    loading="lazy">
+                </iframe>
+            <?php else: ?>
+                <div class="game-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>No se pudo cargar el juego. No hay carpeta local ni enlace de GitHub disponible.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </main>
 
