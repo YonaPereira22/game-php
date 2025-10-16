@@ -17,52 +17,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $author = sanitizeInput($_POST['author']);
     $category = sanitizeInput($_POST['category']);
     $ageGroup = sanitizeInput($_POST['age_group']);
+    $githubLink = sanitizeInput($_POST['github_link']);
     
-    if (empty($title) || empty($description) || empty($author) || empty($category) || empty($ageGroup)) {
+    if (empty($title) || empty($description) || empty($author) || empty($category) || empty($ageGroup) || empty($githubLink)) {
         $message = 'Todos los campos son obligatorios.';
         $messageType = 'error';
-    } elseif (!isset($_FILES['game_file']) || $_FILES['game_file']['error'] !== UPLOAD_ERR_OK) {
-        $message = 'Por favor selecciona un archivo ZIP válido.';
+    } elseif (!preg_match('/^https:\/\/[a-zA-Z0-9\-_]+\.github\.io\/[a-zA-Z0-9\-_\/]*$/', $githubLink)) {
+        $message = 'Por favor ingresa un enlace válido de GitHub Pages (debe contener github.io).';
         $messageType = 'error';
     } else {
-        $uploadedFile = $_FILES['game_file'];
+        // Generar un folder_name único basado en el título
         $folderName = sanitizeFilename($title . '-' . time());
-        $tempDir = 'uploads/' . $folderName;
-        $finalDir = 'games/' . $folderName;
         
-        if (!is_dir('uploads')) mkdir('uploads', 0755, true);
-        if (!is_dir('games')) mkdir('games', 0755, true);
-        
-        $zip = new ZipArchive();
-        if ($zip->open($uploadedFile['tmp_name']) === TRUE) {
-            $zip->extractTo($tempDir);
-            $zip->close();
-            
-            if (validateGameFolder($tempDir)) {
-                rename($tempDir, $finalDir);
-                
-                $stmt = $pdo->prepare("INSERT INTO games (title, description, author, folder_name, category, age_group) VALUES (?, ?, ?, ?, ?, ?)");
-                if ($stmt->execute([$title, $description, $author, $folderName, $category, $ageGroup])) {
-                    $message = 'Juego subido exitosamente. Está pendiente de aprobación.';
-                    $messageType = 'success';
-                } else {
-                    $message = 'Error al guardar en la base de datos.';
-                    $messageType = 'error';
-                    if (is_dir($finalDir)) {
-                        array_map('unlink', glob("$finalDir/*"));
-                        rmdir($finalDir);
-                    }
-                }
-            } else {
-                $message = 'El juego no es válido. Debe contener un index.html y no puede tener scripts maliciosos.';
-                $messageType = 'error';
-                if (is_dir($tempDir)) {
-                    array_map('unlink', glob("$tempDir/*"));
-                    rmdir($tempDir);
-                }
-            }
+        $stmt = $pdo->prepare("INSERT INTO games (title, description, author, folder_name, category, age_group, github_link) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        if ($stmt->execute([$title, $description, $author, $folderName, $category, $ageGroup, $githubLink])) {
+            $message = 'Juego registrado exitosamente. Está pendiente de aprobación.';
+            $messageType = 'success';
         } else {
-            $message = 'Error al extraer el archivo ZIP.';
+            $message = 'Error al guardar en la base de datos.';
             $messageType = 'error';
         }
     }
@@ -100,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
 
-        <form method="POST" enctype="multipart/form-data" class="upload-form">
+        <form method="POST" class="upload-form">
             <div class="form-group">
                 <label for="title">Título del Juego *</label>
                 <input type="text" id="title" name="title" required maxlength="255">
@@ -146,9 +118,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-group">
-                <label for="game_file">Archivo del Juego (ZIP) *</label>
-                <input type="file" id="game_file" name="game_file" accept=".zip" required>
-                <small>El archivo ZIP debe contener un index.html como archivo principal.</small>
+                <label for="github_link">Enlace de GitHub Pages *</label>
+                <input type="url" id="github_link" name="github_link" required placeholder="https://usuario.github.io/nombre-proyecto/" pattern="https://[a-zA-Z0-9\-_]+\.github\.io/.*">
+                <small>Debe ser un enlace de GitHub Pages (debe contener github.io en la URL).</small>
             </div>
 
             <div class="form-actions">
@@ -161,9 +133,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="upload-instructions">
             <h3><i class="fas fa-info-circle"></i> Instrucciones</h3>
             <ul>
-                <li>El juego debe estar comprimido en un archivo ZIP</li>
-                <li>Debe contener un archivo index.html como punto de entrada</li>
-                <li>No se permiten scripts maliciosos o código dañino</li>
+                <li>El juego debe estar alojado en GitHub Pages</li>
+                <li>El enlace debe tener el formato: https://usuario.github.io/proyecto/</li>
+                <li>Asegúrate de que el enlace sea accesible y funcional</li>
                 <li>El juego será revisado antes de ser publicado</li>
                 <li>Asegúrate de que sea contenido educativo apropiado</li>
             </ul>
