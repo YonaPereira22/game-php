@@ -143,12 +143,12 @@ require_once 'includes/functions.php';
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                     <a href="admin.php">Admin</a>
                 <?php endif; ?>
-                <a href="feedback.php" style="border-color: var(--yellow); color: var(--yellow);">Feedback</a>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a href="logout.php">Cerrar Sesión</a>
                 <?php else: ?>
                     <a href="login.php">Iniciar Sesión</a>
                 <?php endif; ?>
+                <a href="feedback.php" style="margin-left: 250px;">Feedback</a>
             </nav>
         </div>
     </header>

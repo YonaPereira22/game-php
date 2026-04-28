@@ -68,10 +68,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
                 <?php else: ?>
                     <a href="login.php">Iniciar Sesión</a>
                 <?php endif; ?>
-                <a href="feedback.php">Feedback</a>
-                <a href="hola.php">Feedback</a>
-
-            </nav>
+                <a href="feedback.php" style="margin-left: 200px;">Feedback</a>            </nav>
         </div>
     </header>
 
