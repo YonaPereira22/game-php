@@ -51,8 +51,8 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
 <body>
     <header>
         <div class="container">
-            <p class="blink">— INSERT COIN TO CONTINUE —</p>
-            <h1><i class="fas fa-gamepad"></i> Juegos Educativos</h1>
+            <p class="blink">— INSERTA LA FICHA —</p>
+            <h1><i class="fas fa-gamepad"></i> Juegos Educativos CeRP</h1>
             <p class="sub">APRENDE JUGANDO</p>
             <nav>
                 <a href="index.php">Inicio</a>
