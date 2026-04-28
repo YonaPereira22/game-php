@@ -116,23 +116,23 @@ background: var(--green);
 color: #000;
 }
 
-.feedback-float {
+a.feedback-float {
 position: fixed;
-left: 10px;
-top: 50%;
-transform: translateY(-50%);
-z-index: 10001;
+left: 16px !important;
+top: 50% !important;
+transform: translateY(-50%) !important;
+z-index: 10050 !important;
 display: inline-flex;
 align-items: center;
 gap: 8px;
-padding: 14px 16px;
-border: 2px solid var(--yellow);
-border-radius: 14px;
-background: linear-gradient(135deg, rgba(255, 255, 0, 0.22), rgba(255, 0, 255, 0.22));
-color: var(--yellow);
+padding: 15px 18px !important;
+border: 2px solid #ffe600 !important;
+border-radius: 14px !important;
+background: #1a1030 !important;
+color: #ffe600 !important;
 text-decoration: none;
 font-family: 'Press Start 2P', monospace;
-font-size: 10px;
+font-size: 11px !important;
 letter-spacing: 1px;
 text-transform: uppercase;
 text-shadow: 0 0 8px rgba(255, 255, 0, 0.8);
@@ -141,14 +141,14 @@ animation: feedback-float-bob 2.2s ease-in-out infinite, feedback-pulse 1.4s eas
 transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
-.feedback-float::before {
+a.feedback-float::before {
 content: '●';
 color: #ff3355;
 font-size: 12px;
 animation: feedback-alert-dot 0.9s steps(2, end) infinite;
 }
 
-.feedback-float:hover {
+a.feedback-float:hover {
 transform: translateY(-50%) translateX(8px) scale(1.03);
 box-shadow: 0 0 22px rgba(255, 255, 0, 0.75), inset 0 0 16px rgba(255, 255, 0, 0.35);
 filter: saturate(1.2);
@@ -186,10 +186,10 @@ opacity: 0.25;
 }
 
 @media (max-width: 768px) {
-.feedback-float {
-left: 6px;
-padding: 11px 12px;
-font-size: 8px;
+a.feedback-float {
+left: 8px !important;
+padding: 11px 12px !important;
+font-size: 8px !important;
 }
 }
 
