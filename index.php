@@ -68,9 +68,11 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
                 <?php else: ?>
                     <a href="login.php">Iniciar Sesión</a>
                 <?php endif; ?>
-                <a href="feedback.php" style="margin-left: 200px;">Feedback</a>            </nav>
+            </nav>
         </div>
     </header>
+
+    <a href="feedback.php" class="feedback-float">Feedback</a>
 
     <main class="container">
         <p class="section-label">ELIGE TU JUEGO Y PULSA ▶ JUGAR</p>

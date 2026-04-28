@@ -116,6 +116,42 @@ background: var(--green);
 color: #000;
 }
 
+.feedback-float {
+position: fixed;
+left: 0;
+top: 50%;
+transform: translateY(-50%);
+z-index: 9997;
+display: inline-block;
+padding: 12px 14px;
+border: 2px solid var(--cyan);
+border-left: none;
+border-radius: 0 10px 10px 0;
+background: rgba(0, 10, 26, 0.95);
+color: var(--cyan);
+text-decoration: none;
+font-family: 'Press Start 2P', monospace;
+font-size: 9px;
+letter-spacing: 1px;
+text-transform: uppercase;
+box-shadow: 0 0 12px rgba(0, 245, 255, 0.35);
+transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.feedback-float:hover {
+transform: translateY(-50%) translateX(6px);
+background: var(--cyan);
+color: #001018;
+box-shadow: 0 0 18px rgba(0, 245, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+.feedback-float {
+padding: 10px 12px;
+font-size: 8px;
+}
+}
+
 /* LOBBY */
 .container {
 max-width: 1100px;

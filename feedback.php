@@ -148,7 +148,6 @@ require_once 'includes/functions.php';
                 <?php else: ?>
                     <a href="login.php">Iniciar Sesión</a>
                 <?php endif; ?>
-                <a href="feedback.php" style="margin-left: 250px;">Feedback</a>
             </nav>
         </div>
     </header>
