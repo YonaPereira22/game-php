@@ -114,6 +114,84 @@ require_once 'includes/functions.php';
             border-radius: 4px;
         }
 
+        /* Login gate */
+        .feedback-login-gate {
+            text-align: center;
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .gate-icon {
+            font-size: 60px;
+            animation: gate-pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes gate-pulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(0, 245, 255, 0.4)); }
+            50%       { transform: scale(1.12); filter: drop-shadow(0 0 14px rgba(0, 245, 255, 0.9)); }
+        }
+
+        .gate-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 14px;
+            color: var(--yellow);
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
+        }
+
+        .gate-desc {
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            color: var(--cyan);
+            line-height: 1.6;
+            max-width: 480px;
+        }
+
+        .gate-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .gate-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 9px;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            border: 2px solid;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .gate-btn--primary {
+            background: var(--green);
+            color: #000;
+            border-color: var(--green);
+        }
+
+        .gate-btn--primary:hover {
+            background: #000;
+            color: var(--green);
+            box-shadow: 0 0 12px rgba(0, 255, 65, 0.6);
+        }
+
+        .gate-btn--secondary {
+            background: transparent;
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+
+        .gate-btn--secondary:hover {
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 12px rgba(0, 245, 255, 0.6);
+        }
+
         @media (max-width: 768px) {
             .avatar-wrapper {
                 grid-template-columns: 1fr;
@@ -167,7 +245,19 @@ require_once 'includes/functions.php';
 
         <div class="form-section">
             <h2>ENVÍA TU FEEDBACK</h2>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfPEzlKfk9NaUAGXFshgjtqC9tK5ebP51uAkozIKazNnDSsMA/viewform?usp=sharing&ouid=107745109144381411135" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfPEzlKfk9NaUAGXFshgjtqC9tK5ebP51uAkozIKazNnDSsMA/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+            <?php else: ?>
+                <div class="feedback-login-gate">
+                    <div class="gate-icon">🔒</div>
+                    <p class="gate-title">¡Necesitás estar conectado!</p>
+                    <p class="gate-desc">Solo los estudiantes registrados pueden enviar feedback.<br>Iniciá sesión o registrate para compartir tu experiencia.</p>
+                    <div class="gate-actions">
+                        <a href="login.php" class="gate-btn gate-btn--primary">▶ Iniciar sesión</a>
+                        <a href="register.php" class="gate-btn gate-btn--secondary">✚ Registrarme</a>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </main>
 
