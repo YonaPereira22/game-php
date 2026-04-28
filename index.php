@@ -44,7 +44,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juegos Educativos</title>
+    <title>ZELIA - Zona Educativa Lúdica con Inteligencia Artificial</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -52,8 +52,8 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
     <header>
         <div class="container">
             <p class="blink">— INSERTA LA FICHA —</p>
-            <h1><i class="fas fa-gamepad"></i> Juegos Educativos CeRP</h1>
-            <p class="sub">APRENDE JUGANDO</p>
+            <h1>🎮 ZELIA</h1>
+            <p class="sub">Zona Educativa Lúdica con Inteligencia Artificial</p>
             <nav>
                 <a href="index.php">Inicio</a>
                 <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['creator', 'admin'])): ?>

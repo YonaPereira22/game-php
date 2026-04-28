@@ -37,7 +37,12 @@ CREATE TABLE IF NOT EXISTS votes (
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255),
+    google_id VARCHAR(255) UNIQUE,
+    google_picture VARCHAR(500),
     role ENUM('admin','creator','student') DEFAULT 'student',
-    approved BOOLEAN DEFAULT FALSE
+    approved BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP NULL
 );
