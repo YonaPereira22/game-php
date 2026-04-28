@@ -38,14 +38,13 @@ Se ha implementado un sistema completo de autenticación con:
 1. Selecciona **"Aplicación web"** como tipo de aplicación
 2. Dale un nombre (ej: "Game Platform")
 3. En **"URIs de redirección autorizados"**, agrega:
-   - **Para desarrollo local:**
-     ```
-     http://localhost/game/game-php/google_callback.php
-     ```
-   - **Para producción:**
-     ```
-     https://tudominio.com/google_callback.php
-     ```
+    - **La URL exacta de callback que usa tu entorno**, por ejemplo:
+       ```
+       http://localhost/game/game-php/google_callback.php
+       http://localhost:8080/game-php/google_callback.php
+       https://tudominio.com/google_callback.php
+       ```
+    - Si usas varios entornos (puerto, dominio o subcarpeta distinta), debes agregar cada URI por separado.
 4. Haz clic en **"Crear"**
 
 ### 5. Copiar Credenciales
@@ -57,19 +56,17 @@ Se ha implementado un sistema completo de autenticación con:
 
 ### 6. Configurar en tu Aplicación
 
-1. Abre `config/google_oauth.php`
-2. Reemplaza:
+1. Abre `private/config.php`
+2. Define estas claves:
    ```php
-   define('GOOGLE_CLIENT_ID', 'YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com');
-   define('GOOGLE_CLIENT_SECRET', 'YOUR_GOOGLE_CLIENT_SECRET_HERE');
+   return [
+       'google_client_id' => 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+       'google_client_secret' => 'YOUR_GOOGLE_CLIENT_SECRET',
+       // Opcional pero recomendado para evitar redirect_uri_mismatch:
+       'google_redirect_uri' => 'http://localhost/game/game-php/google_callback.php',
+   ];
    ```
-   Con tus credenciales reales
-
-3. Ejemplo:
-   ```php
-   define('GOOGLE_CLIENT_ID', '123456789-abcdefghijk.apps.googleusercontent.com');
-   define('GOOGLE_CLIENT_SECRET', 'GOCSPX-1234567890abcdef');
-   ```
+3. Si no defines `google_redirect_uri`, el sistema la calcula automaticamente segun la URL actual.
 
 ---
 
@@ -174,10 +171,10 @@ Usuario hace clic "Google" → google_login.php → Google OAuth → google_call
 
 ### "Error de redirección URI"
 - **Causa**: La URL en Google Cloud Console no coincide
-- **Solución**: Verifica que sea exactamente:
-  ```
-  http://localhost/game/game-php/google_callback.php
-  ```
+- **Solución**:
+   1. Verifica el valor final de `GOOGLE_REDIRECT_URI`.
+   2. Copia esa URL exacta en "URIs de redirección autorizados" de Google Cloud.
+   3. Si cambias puerto, dominio o subcarpeta, agrega una nueva URI autorizada.
 
 ### "Email ya existe"
 - **Causa**: Intentaste crear una cuenta con email registrado
