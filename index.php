@@ -46,7 +46,85 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZELIA - Zona Educativa Lúdica con Inteligencia Artificial - 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=<?= filemtime(__DIR__ . '/css/style.css') ?>">
+    <style>
+        .feedback-float {
+            position: fixed;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10050;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 15px 18px;
+            border: 2px solid #ffe600;
+            border-radius: 14px;
+            background: #1a1030;
+            color: #ffe600;
+            text-decoration: none;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(255, 255, 0, 0.8);
+            box-shadow: 0 0 16px rgba(255, 255, 0, 0.45), inset 0 0 14px rgba(255, 255, 0, 0.2);
+            animation: feedback-float-bob 2.2s ease-in-out infinite, feedback-pulse 1.4s ease-in-out infinite;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        }
+
+        .feedback-float::before {
+            content: '●';
+            color: #ff3355;
+            font-size: 12px;
+            animation: feedback-alert-dot 0.9s steps(2, end) infinite;
+        }
+
+        .feedback-float:hover {
+            transform: translateY(-50%) translateX(8px) scale(1.03);
+            box-shadow: 0 0 22px rgba(255, 255, 0, 0.75), inset 0 0 16px rgba(255, 255, 0, 0.35);
+            filter: saturate(1.2);
+        }
+
+        @keyframes feedback-float-bob {
+            0%,
+            100% {
+                transform: translateY(-50%) translateX(0);
+            }
+            50% {
+                transform: translateY(calc(-50% - 6px)) translateX(0);
+            }
+        }
+
+        @keyframes feedback-pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 14px rgba(255, 255, 0, 0.4), inset 0 0 12px rgba(255, 255, 0, 0.18);
+            }
+            50% {
+                box-shadow: 0 0 26px rgba(255, 255, 0, 0.85), inset 0 0 20px rgba(255, 255, 0, 0.35);
+            }
+        }
+
+        @keyframes feedback-alert-dot {
+            0%,
+            49% {
+                opacity: 1;
+            }
+            50%,
+            100% {
+                opacity: 0.25;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .feedback-float {
+                left: 8px;
+                padding: 11px 12px;
+                font-size: 8px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
