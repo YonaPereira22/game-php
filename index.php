@@ -150,7 +150,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
         </div>
     </header>
 
-    <a href="feedback.php" class="feedback-float">Feedback</a>
+    <a href="feedback.php" class="feedback-float">Encuesta</a>
 
     <main class="container">
         <p class="section-label">ELIGE TU JUEGO Y PULSA ▶ JUGAR</p>

@@ -167,7 +167,7 @@ require_once 'includes/functions.php';
 
         <div class="form-section">
             <h2>ENVÍA TU FEEDBACK</h2>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdho8SKx5GoBC1B9/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfPEzlKfk9NaUAGXFshgjtqC9tK5ebP51uAkozIKazNnDSsMA/viewform?usp=sharing&ouid=107745109144381411135" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
         </div>
     </main>
 
