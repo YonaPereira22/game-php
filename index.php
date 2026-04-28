@@ -45,13 +45,15 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juegos Educativos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
         <div class="container">
+            <p class="blink">— INSERT COIN TO CONTINUE —</p>
             <h1><i class="fas fa-gamepad"></i> Juegos Educativos</h1>
+            <p class="sub">APRENDE JUGANDO</p>
             <nav>
                 <a href="index.php">Inicio</a>
                 <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['creator', 'admin'])): ?>
@@ -70,6 +72,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
     </header>
 
     <main class="container">
+        <p class="section-label">ELIGE TU JUEGO Y PULSA ▶ JUGAR</p>
         <section class="filters">
             <form method="GET" class="filter-form">
                 <div class="filter-group">
@@ -98,7 +101,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
             </form>
         </section>
 
-        <section class="games-grid">
+        <section class="grid">
             <?php if (empty($games)): ?>
                 <div class="no-games">
                     <i class="fas fa-sad-tear"></i>
@@ -106,35 +109,21 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
                 </div>
             <?php else: ?>
                 <?php foreach ($games as $game): ?>
-                    <div class="game-card">
-                        <div class="game-header">
-                            <h3><?= htmlspecialchars($game['title']) ?></h3>
-                            <div class="rating">
-                                <?php for ($i = 1; $i <= 5; $i++): ?>
-                                    <i class="fas fa-star <?= $i <= round($game['average_rating']) ? 'active' : '' ?>"></i>
-                                <?php endfor; ?>
-                                <span class="rating-text">
-                                    <?= number_format($game['average_rating'], 1) ?> 
-                                    (<?= $game['total_votes'] ?> votos)
-                                </span>
+                    <a href="game.php?id=<?= $game['id'] ?>" class="game-card">
+                        <div class="cscreen" style="background:#001a00">
+                            🎮
+                            <div class="cov">
+                                <span class="cov-btn">▶ JUGAR</span>
                             </div>
                         </div>
-                        
-                        <div class="game-info">
-                            <p class="description"><?= htmlspecialchars($game['description']) ?></p>
-                            <div class="game-meta">
-                                <span class="category"><i class="fas fa-tag"></i> <?= htmlspecialchars($game['category']) ?></span>
-                                <span class="age"><i class="fas fa-child"></i> <?= htmlspecialchars($game['age_group']) ?></span>
-                                <span class="author"><i class="fas fa-user"></i> <?= htmlspecialchars($game['author']) ?></span>
+                        <div class="cinfo">
+                            <div class="ctitle"><?= htmlspecialchars($game['title']) ?></div>
+                            <div class="cmeta">
+                                <span style="color:var(--cyan)"><?= htmlspecialchars($game['category']) ?></span>
+                                <span class="cbadge" style="color:#88cc44;border-color:#88cc44"><?= htmlspecialchars($game['age_group']) ?></span>
                             </div>
                         </div>
-                        
-                        <div class="game-actions">
-                            <a href="game.php?id=<?= $game['id'] ?>" class="btn-play">
-                                <i class="fas fa-play"></i> Jugar
-                            </a>
-                        </div>
-                    </div>
+                    </a>
                 <?php endforeach; ?>
             <?php endif; ?>
         </section>

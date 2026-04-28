@@ -31,21 +31,14 @@ $userVote = $stmt->fetchColumn();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($game['title']) ?> - Juegos Educativos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
-            <h2><?= htmlspecialchars($game['title']) ?></h2>
-            <nav>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="logout.php">Cerrar Sesión</a>
-                <?php else: ?>
-                    <a href="login.php">Iniciar Sesión</a>
-                <?php endif; ?>
-            </nav>
+            <a href="index.php" class="back-link">◀ VOLVER AL LOBBY</a>
+            <h1 style="margin: 10px 0; text-shadow: 0 0 10px var(--green);"><?= htmlspecialchars($game['title']) ?></h1>
         </div>
     </header>
 
