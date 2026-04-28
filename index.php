@@ -131,7 +131,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Juegos Educativos. Plataforma segura para el aprendizaje.</p>
+            <p>&copy; 2026 Juegos Educativos CeRP del Suroeste. Plataforma segura para el aprendizaje.</p>
         </div>
     </footer>
 </body>
