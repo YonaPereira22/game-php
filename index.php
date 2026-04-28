@@ -53,7 +53,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
         <div class="container">
             <p class="blink">— INSERTA LA FICHA AQUI—</p>
             <h1>🎮 ZELIA</h1>
-            <p class="sub">Zona Educativa Lúdica con Inteligencia Artificial</p>
+            <p class="sub">Zona Educativa Lúdica con Inteligencia Artificial - 2026</p>
             <nav>
                 <a href="index.php">Inicio</a>
                 <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['creator', 'admin'])): ?>
