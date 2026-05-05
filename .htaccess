@@ -1,1 +1,21 @@
 Options -Indexes
+
+# Mostrar pagina personalizada cuando exista acceso denegado.
+ErrorDocument 403 /acceso_prohibido.php
+
+# Bloquea acceso directo a carpetas internas que no deben ser publicas.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(db|docs|scripts)/ - [F,L,NC]
+</IfModule>
+
+# Bloquea acceso web directo a archivos sensibles de soporte y migraciones.
+<FilesMatch "(?i)\.(sql|md|env|ini|log|bak|yml|yaml)$">
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+	</IfModule>
+</FilesMatch>
