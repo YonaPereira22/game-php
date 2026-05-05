@@ -12,9 +12,12 @@ $is_localhost = (
 if ($is_localhost) {
     // Configuración LOCALHOST
     $host = 'localhost';
-    $dbname = 'game';
-    $username = 'root';
-    $password = '';
+  //  $dbname = 'game';
+    //$username = 'root';
+    //$password = '';
+    $dbname = 'u952965051_game';
+    $username = 'u952965051_game';
+    $password = 'main1001_Game';
 } else {
     // Configuración PRODUCCIÓN (Web)
     $host = 'localhost'; // Generalmente localhost en hosting compartido
