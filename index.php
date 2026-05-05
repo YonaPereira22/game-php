@@ -130,7 +130,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
     <header>
         <div class="container">
             <p class="blink">— INSERTA LA FICHA AQUI—</p>
-            <h1>🎮 ZELIA</h1>
+            <h1>🎮z ZELIA</h1>
             <p class="sub">Zona Educativa Lúdica con Inteligencia Artificial - 2026</p>
             <nav>
                 <a href="index.php">Inicio</a>
