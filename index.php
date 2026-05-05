@@ -215,5 +215,34 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
             <p>&copy; 2026 Juegos Educativos CeRP del Suroeste. Plataforma segura para el aprendizaje.</p>
         </div>
     </footer>
+
+    <!-- Botón de Contraste Flotante -->
+    <button id="contrast-toggle" title="Cambiar Contraste">◐</button>
+
+    <script>
+        // Control de Contraste
+        const contrastToggle = document.getElementById('contrast-toggle');
+        const htmlElement = document.documentElement;
+        
+        // Cargar preferencia guardada
+        const savedContrast = localStorage.getItem('zelia-contrast') === 'high';
+        if (savedContrast) {
+            document.body.classList.add('high-contrast');
+            contrastToggle.textContent = '◑';
+        }
+        
+        // Cambiar contraste al hacer click
+        contrastToggle.addEventListener('click', function() {
+            const isHighContrast = document.body.classList.toggle('high-contrast');
+            localStorage.setItem('zelia-contrast', isHighContrast ? 'high' : 'normal');
+            contrastToggle.textContent = isHighContrast ? '◑' : '◐';
+            
+            // Efecto visual
+            this.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 100);
+        });
+    </script>
 </body>
 </html>
