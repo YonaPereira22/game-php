@@ -44,7 +44,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zZELIA - Zona Educativa Lúdica con Inteligencia Artificial - 2026</title>
+    <title>ZELIA - Zona Educativa Lúdica con Inteligencia Artificial - 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css?v=<?= filemtime(__DIR__ . '/css/style.css') ?>">
     <style>
@@ -129,8 +129,8 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
 <body>
     <header>
         <div class="container">
-            <p class="blink">— IIIIIIIIIIIIIIINSERTA LA FICHA AQUI—</p>
-            <h1>🎮z 222222ZELIA</h1>
+            <p class="blink">— INSERTA LA FICHA AQUI—</p>
+            <h1>🎮ZELIA</h1>
             <p class="sub">Zona Educativa Lúdica con Inteligencia Artificial - 2026</p>
             <nav>
                 <a href="index.php">Inicio</a>

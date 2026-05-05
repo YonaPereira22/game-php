@@ -60,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <div class="container">
             <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
-            <h2>Subir Nuevo Juego</h2>
             <nav>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a href="logout.php">Cerrar Sesión</a>
@@ -72,92 +71,109 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </header>
 
     <main class="container">
-        <section class="upload-hero">
-            <p class="upload-kicker">PUBLICA TU EXPERIENCIA EDUCATIVA</p>
-            <h2 class="upload-title">Sube tu juego y compártelo con toda la comunidad ZELIA</h2>
-            <p class="upload-subtitle">Mantuvimos la vibra retro, pero con un flujo mas claro para publicar rapido y sin errores.</p>
-        </section>
+        <div class="retro-window">
 
-        <?php if ($message): ?>
-            <div class="message <?= $messageType ?>">
-                <?= htmlspecialchars($message) ?>
+            <!-- Barra de título al estilo retro -->
+            <div class="retro-titlebar">
+                <a href="index.php" class="retro-close-btn" title="Cancelar y volver">
+                    <i class="fas fa-times"></i>
+                </a>
+                <span class="retro-titlebar-label">
+                    <i class="fas fa-gamepad"></i> &nbsp;PUBLICAR JUEGO
+                </span>
+                <span class="retro-close-btn retro-close-btn--ghost" aria-hidden="true"></span>
             </div>
-        <?php endif; ?>
 
-        <section class="upload-layout">
-            <form method="POST" class="upload-form upload-card">
-                <div class="form-group">
-                    <label for="title">Titulo del Juego *</label>
-                    <input type="text" id="title" name="title" value="<?= htmlspecialchars($title) ?>" required maxlength="255" placeholder="Ejemplo: Laberinto de Fracciones">
-                </div>
+            <!-- Cuerpo de la ventana -->
+            <div class="retro-window-body">
 
-                <div class="form-group">
-                    <label for="description">Descripcion *</label>
-                    <textarea id="description" name="description" required rows="4" placeholder="Explica que aprende el estudiante y como se juega."><?= htmlspecialchars($description) ?></textarea>
-                </div>
+                <p class="retro-window-kicker">PUBLICA TU EXPERIENCIA EDUCATIVA EN LA COMUNIDAD ZELIA</p>
 
-                <div class="form-group">
-                    <label for="author">Autor *</label>
-                    <input type="text" id="author" name="author" value="<?= htmlspecialchars($author) ?>" required maxlength="100" placeholder="Nombre o grupo creador">
-                </div>
+                <?php if ($message): ?>
+                    <div class="message <?= $messageType ?>">
+                        <i class="fas fa-<?= $messageType === 'success' ? 'check-circle' : 'triangle-exclamation' ?>"></i>
+                        <?= htmlspecialchars($message) ?>
+                    </div>
+                <?php endif; ?>
 
-                <div class="form-row">
+                <form method="POST" class="upload-form">
+
                     <div class="form-group">
-                        <label for="category">Categoria *</label>
-                        <select id="category" name="category" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="Matemáticas" <?= $category === 'Matemáticas' ? 'selected' : '' ?>>Matematicas</option>
-                            <option value="Lenguaje" <?= $category === 'Lenguaje' ? 'selected' : '' ?>>Lenguaje</option>
-                            <option value="Ciencias" <?= $category === 'Ciencias' ? 'selected' : '' ?>>Ciencias</option>
-                            <option value="Historia" <?= $category === 'Historia' ? 'selected' : '' ?>>Historia</option>
-                            <option value="Geografía" <?= $category === 'Geografía' ? 'selected' : '' ?>>Geografia</option>
-                            <option value="Arte" <?= $category === 'Arte' ? 'selected' : '' ?>>Arte</option>
-                            <option value="Música" <?= $category === 'Música' ? 'selected' : '' ?>>Musica</option>
-                            <option value="Lógica" <?= $category === 'Lógica' ? 'selected' : '' ?>>Logica</option>
-                        </select>
+                        <label for="title"><i class="fas fa-heading"></i> &nbsp;TITULO DEL JUEGO *</label>
+                        <input type="text" id="title" name="title" value="<?= htmlspecialchars($title) ?>" required maxlength="255" placeholder="Ejemplo: Laberinto de Fracciones">
                     </div>
 
                     <div class="form-group">
-                        <label for="age_group">Edad Recomendada *</label>
-                        <select id="age_group" name="age_group" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="3-5 años" <?= $ageGroup === '3-5 años' ? 'selected' : '' ?>>3-5 anos</option>
-                            <option value="6-8 años" <?= $ageGroup === '6-8 años' ? 'selected' : '' ?>>6-8 anos</option>
-                            <option value="9-12 años" <?= $ageGroup === '9-12 años' ? 'selected' : '' ?>>9-12 anos</option>
-                            <option value="13-16 años" <?= $ageGroup === '13-16 años' ? 'selected' : '' ?>>13-16 anos</option>
-                            <option value="17+ años" <?= $ageGroup === '17+ años' ? 'selected' : '' ?>>17+ anos</option>
-                        </select>
+                        <label for="description"><i class="fas fa-align-left"></i> &nbsp;DESCRIPCION *</label>
+                        <textarea id="description" name="description" required rows="3" placeholder="Explica que aprende el estudiante y como se juega."><?= htmlspecialchars($description) ?></textarea>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="github_link">Enlace de GitHub Pages *</label>
-                    <input type="url" id="github_link" name="github_link" value="<?= htmlspecialchars($githubLink) ?>" required placeholder="https://usuario.github.io/nombre-proyecto/" pattern="https://[a-zA-Z0-9\-_]+\.github\.io/.*">
-                    <small>Debe ser un enlace de GitHub Pages y contener github.io.</small>
-                </div>
+                    <div class="form-group">
+                        <label for="author"><i class="fas fa-user"></i> &nbsp;AUTOR *</label>
+                        <input type="text" id="author" name="author" value="<?= htmlspecialchars($author) ?>" required maxlength="100" placeholder="Nombre o grupo creador">
+                    </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-upload"></i> Publicar Juego
-                    </button>
-                </div>
-            </form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category"><i class="fas fa-tag"></i> &nbsp;CATEGORIA *</label>
+                            <select id="category" name="category" required>
+                                <option value="">[ SELECCIONAR ]</option>
+                                <option value="Matemáticas" <?= $category === 'Matemáticas' ? 'selected' : '' ?>>Matematicas</option>
+                                <option value="Lenguaje" <?= $category === 'Lenguaje' ? 'selected' : '' ?>>Lenguaje</option>
+                                <option value="Ciencias" <?= $category === 'Ciencias' ? 'selected' : '' ?>>Ciencias</option>
+                                <option value="Historia" <?= $category === 'Historia' ? 'selected' : '' ?>>Historia</option>
+                                <option value="Geografía" <?= $category === 'Geografía' ? 'selected' : '' ?>>Geografia</option>
+                                <option value="Arte" <?= $category === 'Arte' ? 'selected' : '' ?>>Arte</option>
+                                <option value="Música" <?= $category === 'Música' ? 'selected' : '' ?>>Musica</option>
+                                <option value="Lógica" <?= $category === 'Lógica' ? 'selected' : '' ?>>Logica</option>
+                            </select>
+                        </div>
 
-            <aside class="upload-instructions upload-card">
-                <h3><i class="fas fa-info-circle"></i> Checklist de Publicacion</h3>
-                <ul>
-                    <li>El juego debe estar alojado en GitHub Pages.</li>
-                    <li>El enlace debe seguir formato https://usuario.github.io/proyecto/.</li>
-                    <li>Comprueba que el enlace sea accesible y funcional.</li>
-                    <li>El contenido sera revisado antes de publicarse.</li>
-                    <li>Incluye enfoque educativo y lenguaje apropiado.</li>
-                </ul>
-                <div class="upload-tip-box">
-                    <p><strong>Tip:</strong> si tu juego usa recursos externos, verifica que carguen por HTTPS para evitar bloqueos del navegador.</p>
-                </div>
-            </aside>
-        </section>
+                        <div class="form-group">
+                            <label for="age_group"><i class="fas fa-child"></i> &nbsp;EDAD RECOMENDADA *</label>
+                            <select id="age_group" name="age_group" required>
+                                <option value="">[ SELECCIONAR ]</option>
+                                <option value="3-5 años" <?= $ageGroup === '3-5 años' ? 'selected' : '' ?>>3-5 anos</option>
+                                <option value="6-8 años" <?= $ageGroup === '6-8 años' ? 'selected' : '' ?>>6-8 anos</option>
+                                <option value="9-12 años" <?= $ageGroup === '9-12 años' ? 'selected' : '' ?>>9-12 anos</option>
+                                <option value="13-16 años" <?= $ageGroup === '13-16 años' ? 'selected' : '' ?>>13-16 anos</option>
+                                <option value="17+ años" <?= $ageGroup === '17+ años' ? 'selected' : '' ?>>17+ anos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="github_link"><i class="fab fa-github"></i> &nbsp;ENLACE GITHUB PAGES *</label>
+                        <input type="url" id="github_link" name="github_link" value="<?= htmlspecialchars($githubLink) ?>" required placeholder="https://usuario.github.io/nombre-proyecto/" pattern="https://[a-zA-Z0-9\-_]+\.github\.io/.*">
+                        <small><i class="fas fa-circle-info"></i> Formato: https://usuario.github.io/proyecto/</small>
+                    </div>
+
+                    <!-- Checklist integrado -->
+                    <div class="retro-checklist">
+                        <p class="retro-checklist-title"><i class="fas fa-list-check"></i> &nbsp;CHECKLIST DE PUBLICACION</p>
+                        <ul>
+                            <li><i class="fas fa-caret-right"></i> El juego debe estar alojado en GitHub Pages</li>
+                            <li><i class="fas fa-caret-right"></i> URL con formato https://usuario.github.io/proyecto/</li>
+                            <li><i class="fas fa-caret-right"></i> El enlace debe ser accesible y funcional</li>
+                            <li><i class="fas fa-caret-right"></i> Contenido sera revisado antes de publicarse</li>
+                            <li><i class="fas fa-caret-right"></i> Recursos externos deben cargar por HTTPS</li>
+                        </ul>
+                    </div>
+
+                    <!-- Botones estilo OK / CANCEL -->
+                    <div class="retro-actions">
+                        <button type="submit" class="retro-btn retro-btn-ok">
+                            <i class="fas fa-check"></i> OK
+                        </button>
+                        <a href="index.php" class="retro-btn retro-btn-cancel">
+                            <i class="fas fa-times"></i> CANCEL
+                        </a>
+                    </div>
+
+                </form>
+            </div><!-- /retro-window-body -->
+        </div><!-- /retro-window -->
     </main>
-    
+
 </body>
 </html>
