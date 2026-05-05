@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
+    <title>ZELIA - Iniciar Sesión</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <div class="container">
             <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
-            <h2>Iniciar Sesión</h2>
+            <h2>🎮 ZELIA - Iniciar Sesión</h2>
         </div>
     </header>
     <main class="container login-container">

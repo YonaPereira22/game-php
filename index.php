@@ -133,7 +133,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
             <h1>🎮 ZELIA</h1>
             <p class="sub">Zona Educativa Lúdica con Inteligencia Artificial - 2026</p>
             <nav>
-                <a href="index.php">Inicio</a>
+                <a href="index.php">Inicioo</a>
                 <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['creator', 'admin'])): ?>
                     <a href="upload.php">Subir Juego</a>
                 <?php endif; ?>
