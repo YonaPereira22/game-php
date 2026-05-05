@@ -7,7 +7,11 @@ $category = isset($_GET['category']) ? sanitizeInput($_GET['category']) : '';
 $ageGroup = isset($_GET['age']) ? sanitizeInput($_GET['age']) : '';
 $search = isset($_GET['search']) ? sanitizeInput($_GET['search']) : '';
 
-$sql = "SELECT * FROM games WHERE approved = 1";
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+
+$sql = $isAdmin
+    ? "SELECT * FROM games"
+    : "SELECT * FROM games WHERE approved = 1";
 $params = [];
 
 if ($category) {
@@ -32,10 +36,10 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $games = $stmt->fetchAll();
 
-$categoriesStmt = $pdo->query("SELECT DISTINCT category FROM games WHERE approved = 1 AND category IS NOT NULL");
+$categoriesStmt = $pdo->query("SELECT DISTINCT category FROM games WHERE category IS NOT NULL");
 $categories = $categoriesStmt->fetchAll(PDO::FETCH_COLUMN);
 
-$ageGroupsStmt = $pdo->query("SELECT DISTINCT age_group FROM games WHERE approved = 1 AND age_group IS NOT NULL");
+$ageGroupsStmt = $pdo->query("SELECT DISTINCT age_group FROM games WHERE age_group IS NOT NULL");
 $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
@@ -190,7 +194,10 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
                 </div>
             <?php else: ?>
                 <?php foreach ($games as $game): ?>
-                    <a href="game.php?id=<?= $game['id'] ?>" class="game-card">
+                    <a href="game.php?id=<?= $game['id'] ?>" class="game-card<?= (!$game['approved']) ? ' game-card--pending' : '' ?>">
+                        <?php if (!$game['approved']): ?>
+                            <span class="game-pending-badge">PENDIENTE</span>
+                        <?php endif; ?>
                         <div class="cscreen" style="background:#001a00">
                             <img src="images/game-thumbnails/<?= htmlspecialchars($game['folder_name']) ?>.svg" alt="<?= htmlspecialchars($game['title']) ?>" class="game-thumbnail" onerror="this.src='images/game-thumbnails/default.svg'">
                             <div class="cov">

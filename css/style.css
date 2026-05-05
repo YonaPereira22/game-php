@@ -597,6 +597,42 @@ margin-bottom: 20px;
 font-size: 16px;
 }
 
+/* Pending game notice (admin preview) */
+.game-pending-notice {
+font-family: 'Press Start 2P', monospace;
+font-size: 8px;
+background: rgba(255, 255, 0, 0.08);
+border: 2px solid var(--yellow);
+color: var(--yellow);
+padding: 10px 16px;
+display: flex;
+align-items: center;
+gap: 12px;
+flex-wrap: wrap;
+margin-bottom: 4px;
+letter-spacing: 1px;
+}
+
+/* Pending badge on game-card */
+.game-card--pending {
+opacity: 0.8;
+position: relative;
+}
+
+.game-pending-badge {
+position: absolute;
+top: 8px;
+right: 8px;
+z-index: 2;
+font-family: 'Press Start 2P', monospace;
+font-size: 6px;
+background: var(--yellow);
+color: #000;
+padding: 4px 7px;
+letter-spacing: 1px;
+pointer-events: none;
+}
+
 /* Footer */
 footer {
 text-align: center;
@@ -646,6 +682,94 @@ transform: scale(1.1);
 
 #contrast-toggle:active {
 transform: scale(0.95);
+}
+
+/* Tabs retro */
+.retro-tabs {
+display: flex;
+border-bottom: 4px solid #000;
+}
+
+.retro-tab {
+font-family: 'Press Start 2P', monospace;
+font-size: 8px;
+padding: 12px 18px;
+border: none;
+border-right: 2px solid #000;
+cursor: pointer;
+letter-spacing: 1px;
+background: rgba(0, 255, 65, 0.08);
+color: var(--green);
+transition: background 0.1s, color 0.1s;
+outline: none;
+flex: 1;
+}
+
+.retro-tab:last-child {
+border-right: none;
+}
+
+.retro-tab--active {
+background: var(--green);
+color: #000;
+}
+
+.retro-tab:not(.retro-tab--active):hover {
+background: rgba(0, 255, 65, 0.18);
+}
+
+.retro-tab-panel--hidden {
+display: none;
+}
+
+/* Import summary */
+.import-summary {
+border: 2px solid var(--green);
+padding: 12px 16px;
+margin-bottom: 18px;
+background: rgba(0, 255, 65, 0.05);
+}
+
+.import-summary-label {
+font-family: 'Press Start 2P', monospace;
+font-size: 7px;
+color: var(--green);
+margin-bottom: 10px;
+letter-spacing: 1px;
+}
+
+.import-summary ul {
+list-style: none;
+margin: 0;
+padding: 0;
+display: grid;
+gap: 6px;
+}
+
+.import-summary li {
+font-size: 20px;
+color: var(--cyan);
+}
+
+.import-summary li strong {
+color: var(--green);
+font-size: 14px;
+}
+
+body.theme-light .retro-tab {
+color: var(--green);
+background: rgba(18, 63, 42, 0.06);
+border-color: var(--border);
+}
+
+body.theme-light .retro-tab--active {
+background: var(--green);
+color: #fff;
+}
+
+body.theme-light .import-summary {
+border-color: var(--green);
+background: rgba(18, 63, 42, 0.04);
 }
 
 /* Upload page – retro dialog */

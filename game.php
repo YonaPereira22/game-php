@@ -10,7 +10,13 @@ if (!$gameId) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT * FROM games WHERE id = ? AND approved = 1");
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+
+if ($isAdmin) {
+    $stmt = $pdo->prepare("SELECT * FROM games WHERE id = ?");
+} else {
+    $stmt = $pdo->prepare("SELECT * FROM games WHERE id = ? AND approved = 1");
+}
 $stmt->execute([$gameId]);
 $game = $stmt->fetch();
 
@@ -78,25 +84,34 @@ $userVote = $stmt->fetchColumn();
 
         <div class="game-frame-container">
             <?php
-            // Determinar la fuente del juego: carpeta local o GitHub Pages
-            $gameSource = '';
-            $folderPath = 'games/' . $game['folder_name'];
-            
-            // Primero intentar usar la carpeta local si existe
-            if (!empty($game['folder_name']) && is_dir($folderPath) && file_exists($folderPath . '/index.html')) {
-                $gameSource = $folderPath . '/index.html';
-            } 
-            // Si no hay carpeta, usar el enlace de GitHub
-            elseif (!empty($game['github_link'])) {
+            // Prioridad: github_link (GitHub Pages) > carpeta local importada
+            $gameSource  = '';
+            $sandboxAttr = 'allow-scripts allow-same-origin allow-forms allow-popups';
+            $folderPath  = 'games/' . $game['folder_name'];
+
+            if (!empty($game['github_link'])) {
+                // Usar el enlace de GitHub Pages directamente
                 $gameSource = $game['github_link'];
+            } elseif (!empty($game['folder_name']) && is_dir($folderPath) && file_exists($folderPath . '/index.html')) {
+                // Fallback: carpeta local (juego importado vía repo)
+                $gameSource = $folderPath . '/index.html';
             }
             ?>
-            
+
+            <?php if ($isAdmin && !$game['approved']): ?>
+                <div class="game-pending-notice">
+                    <i class="fas fa-clock"></i>&nbsp; JUEGO PENDIENTE DE APROBACION &nbsp;
+                    <a href="admin.php?action=approve&id=<?= $game['id'] ?>" class="retro-btn retro-btn-ok" style="font-size:8px;padding:6px 14px">
+                        <i class="fas fa-check"></i> APROBAR
+                    </a>
+                </div>
+            <?php endif; ?>
+
             <?php if ($gameSource): ?>
-                <iframe 
-                    src="<?= htmlspecialchars($gameSource) ?>" 
+                <iframe
+                    src="<?= htmlspecialchars($gameSource) ?>"
                     class="game-frame"
-                    sandbox="allow-scripts allow-same-origin allow-forms"
+                    sandbox="<?= $sandboxAttr ?>"
                     loading="lazy">
                 </iframe>
             <?php else: ?>
