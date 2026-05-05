@@ -1,0 +1,20 @@
+<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background grid -->
+  <rect width="200" height="160" fill="#001a00"/>
+  
+  <!-- Border -->
+  <rect width="200" height="160" fill="none" stroke="#00ff41" stroke-width="2"/>
+  
+  <!-- Play area -->
+  <rect x="15" y="20" width="170" height="125" fill="#0a0a1a" stroke="#00ff41" stroke-width="1"/>
+  
+  <!-- Snake body - pixelated style -->
+  <rect x="30" y="40" width="12" height="12" fill="#00ff41"/>
+  <rect x="42" y="40" width="12" height="12" fill="#00ff41"/>
+  <rect x="54" y="40" width="12" height="12" fill="#00ff41"/>
+  <rect x="54" y="52" width="12" height="12" fill="#00ff41"/>
+  <rect x="54" y="64" width="12" height="12" fill="#00f5ff"/>
+  
+  <!-- Food/Apple -->
+  <rect x="120" y="80" width="12" height="12" fill="#ff0033"/>
+</svg>

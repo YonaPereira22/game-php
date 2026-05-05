@@ -1,0 +1,30 @@
+<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="160" fill="#001a00"/>
+  
+  <!-- Border -->
+  <rect width="200" height="160" fill="none" stroke="#00ff41" stroke-width="2"/>
+  
+  <!-- Grid of cards -->
+  <g id="cards">
+    <!-- Row 1 -->
+    <rect x="25" y="25" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+    <rect x="65" y="25" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+    <rect x="105" y="25" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+    <rect x="145" y="25" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+    
+    <!-- Row 2 -->
+    <rect x="25" y="65" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+    <rect x="65" y="65" width="30" height="30" fill="#00ff41" stroke="#00ff41" stroke-width="1.5"/>
+    <text x="80" y="82" font-size="14" fill="#000" text-anchor="middle" font-family="Arial" font-weight="bold">A</text>
+    <rect x="105" y="65" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+    <rect x="145" y="65" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+    
+    <!-- Row 3 -->
+    <rect x="25" y="105" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+    <rect x="65" y="105" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+    <rect x="105" y="105" width="30" height="30" fill="#00ff41" stroke="#00ff41" stroke-width="1.5"/>
+    <text x="120" y="122" font-size="14" fill="#000" text-anchor="middle" font-family="Arial" font-weight="bold">A</text>
+    <rect x="145" y="105" width="30" height="30" fill="#0a0a1a" stroke="#00ff41" stroke-width="1.5"/>
+  </g>
+</svg>

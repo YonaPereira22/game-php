@@ -259,6 +259,22 @@ align-items:center;
 justify-content:center;
 font-size:58px;
 position:relative;
+overflow:hidden;
+background:#001a00;
+}
+
+.game-thumbnail{
+width:100%;
+height:100%;
+object-fit:contain;
+image-rendering:pixelated;
+image-rendering:crisp-edges;
+opacity:0.9;
+transition:opacity 0.15s;
+}
+
+.game-card:hover .game-thumbnail{
+opacity:1;
 }
 
 .cov{
