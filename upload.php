@@ -141,5 +141,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </ul>
         </div>
     </main>
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>

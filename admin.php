@@ -261,5 +261,6 @@ $users = $usersStmt->fetchAll();
 
     <?php endif; ?>
     </main>
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>

@@ -108,6 +108,7 @@ $userVote = $stmt->fetchColumn();
         </div>
     </main>
 
+    <script src="js/theme-toggle.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
