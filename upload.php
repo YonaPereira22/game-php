@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="upload-page">
     <header>
         <div class="container">
             <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
@@ -86,6 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <section class="upload-layout">
             <form method="POST" class="upload-form upload-card">
+                <h3 class="upload-form-title">Datos del Juego</h3>
+                <p class="upload-form-subtitle">Completa la ficha con informacion clara para que el equipo pueda aprobarlo rapidamente.</p>
+
                 <div class="form-group">
                     <label for="title">Titulo del Juego *</label>
                     <input type="text" id="title" name="title" value="<?= htmlspecialchars($title) ?>" required maxlength="255" placeholder="Ejemplo: Laberinto de Fracciones">
