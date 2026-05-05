@@ -7,7 +7,7 @@ http_response_code(403);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso prohibido | ZELIA</title>
-    <meta http-equiv="refresh" content="3;url=index.php">
+    <meta http-equiv="refresh" content="3;url=/index.php">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
@@ -169,12 +169,12 @@ http_response_code(403);
         <p class="desc">Este recurso no esta disponible publicamente.</p>
         <p class="hint">Redirigiendo al inicio en 3s<span class="dots">...</span></p>
         <div class="actions">
-            <a class="btn" href="index.php">IR AL INICIO</a>
+            <a class="btn" href="/index.php">IR AL INICIO</a>
         </div>
     </main>
     <script>
         setTimeout(function () {
-            window.location.replace('index.php');
+            window.location.replace('/index.php');
         }, 3000);
     </script>
 </body>
