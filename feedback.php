@@ -261,7 +261,7 @@ require_once 'includes/functions.php';
         </div>
     </main>
 
-    <script src="js/theme-toggle.js"></script>
+    
     <script>
         const messages = [
             "¡Hola! Soy tu asistente virtual. Tus comentarios son muy importantes para mejorar la plataforma.",

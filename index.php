@@ -216,6 +216,6 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
         </div>
     </footer>
 
-    <script src="js/theme-toggle.js"></script>
+    
 </body>
 </html>
