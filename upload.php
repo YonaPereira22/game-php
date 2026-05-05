@@ -71,93 +71,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </header>
 
-    <main class="container">
-        <section class="upload-hero">
-            <p class="upload-kicker">PUBLICA TU EXPERIENCIA EDUCATIVA</p>
-            <h2 class="upload-title">Sube tu juego y compártelo con toda la comunidad ZELIA</h2>
-            <p class="upload-subtitle">Mantuvimos la vibra retro, pero con un flujo mas claro para publicar rapido y sin errores.</p>
-        </section>
-
-        <?php if ($message): ?>
-            <div class="message <?= $messageType ?>">
-                <?= htmlspecialchars($message) ?>
+    <main class="container upload-main">
+        <section class="upload-shell">
+            <div class="upload-loading" aria-hidden="true">
+                <p>LOADING FORM...</p>
+                <div class="upload-loading-track"><span></span></div>
             </div>
-        <?php endif; ?>
 
-        <section class="upload-layout">
-            <form method="POST" class="upload-form upload-card">
-                <h3 class="upload-form-title">Datos del Juego</h3>
-                <p class="upload-form-subtitle">Completa la ficha con informacion clara para que el equipo pueda aprobarlo rapidamente.</p>
-
-                <div class="form-group">
-                    <label for="title">Titulo del Juego *</label>
-                    <input type="text" id="title" name="title" value="<?= htmlspecialchars($title) ?>" required maxlength="255" placeholder="Ejemplo: Laberinto de Fracciones">
+            <section class="upload-window" aria-labelledby="upload-window-title">
+                <div class="upload-window-bar">
+                    <span class="upload-window-close">x</span>
+                    <h3 id="upload-window-title">ENTER GAME DATA</h3>
                 </div>
 
-                <div class="form-group">
-                    <label for="description">Descripcion *</label>
-                    <textarea id="description" name="description" required rows="4" placeholder="Explica que aprende el estudiante y como se juega."><?= htmlspecialchars($description) ?></textarea>
+                <div class="upload-window-body">
+                    <?php if ($message): ?>
+                        <div class="message <?= $messageType ?> upload-message">
+                            <?= htmlspecialchars($message) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST" class="upload-form">
+                        <div class="form-group">
+                            <label for="title">Titulo del Juego *</label>
+                            <input type="text" id="title" name="title" value="<?= htmlspecialchars($title) ?>" required maxlength="255" placeholder="Ejemplo: Laberinto de Fracciones">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Descripcion *</label>
+                            <textarea id="description" name="description" required rows="4" placeholder="Explica que aprende el estudiante y como se juega."><?= htmlspecialchars($description) ?></textarea>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="author">Autor *</label>
+                                <input type="text" id="author" name="author" value="<?= htmlspecialchars($author) ?>" required maxlength="100" placeholder="Nombre o grupo creador">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category">Categoria *</label>
+                                <select id="category" name="category" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Matemáticas" <?= $category === 'Matemáticas' ? 'selected' : '' ?>>Matematicas</option>
+                                    <option value="Lenguaje" <?= $category === 'Lenguaje' ? 'selected' : '' ?>>Lenguaje</option>
+                                    <option value="Ciencias" <?= $category === 'Ciencias' ? 'selected' : '' ?>>Ciencias</option>
+                                    <option value="Historia" <?= $category === 'Historia' ? 'selected' : '' ?>>Historia</option>
+                                    <option value="Geografía" <?= $category === 'Geografía' ? 'selected' : '' ?>>Geografia</option>
+                                    <option value="Arte" <?= $category === 'Arte' ? 'selected' : '' ?>>Arte</option>
+                                    <option value="Música" <?= $category === 'Música' ? 'selected' : '' ?>>Musica</option>
+                                    <option value="Lógica" <?= $category === 'Lógica' ? 'selected' : '' ?>>Logica</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="age_group">Edad Recomendada *</label>
+                            <select id="age_group" name="age_group" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="3-5 años" <?= $ageGroup === '3-5 años' ? 'selected' : '' ?>>3-5 anos</option>
+                                <option value="6-8 años" <?= $ageGroup === '6-8 años' ? 'selected' : '' ?>>6-8 anos</option>
+                                <option value="9-12 años" <?= $ageGroup === '9-12 años' ? 'selected' : '' ?>>9-12 anos</option>
+                                <option value="13-16 años" <?= $ageGroup === '13-16 años' ? 'selected' : '' ?>>13-16 anos</option>
+                                <option value="17+ años" <?= $ageGroup === '17+ años' ? 'selected' : '' ?>>17+ anos</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="github_link">Enlace de GitHub Pages *</label>
+                            <input type="url" id="github_link" name="github_link" value="<?= htmlspecialchars($githubLink) ?>" required placeholder="https://usuario.github.io/nombre-proyecto/" pattern="https://[a-zA-Z0-9\-_]+\.github\.io/.*">
+                            <small>Debe contener github.io y estar publicado por HTTPS.</small>
+                        </div>
+
+                        <div class="upload-actions">
+                            <button type="submit" class="upload-btn upload-btn-ok">
+                                <i class="fas fa-check"></i> OK
+                            </button>
+                            <a href="index.php" class="upload-btn upload-btn-cancel">CANCEL</a>
+                        </div>
+                    </form>
                 </div>
+            </section>
 
-                <div class="form-group">
-                    <label for="author">Autor *</label>
-                    <input type="text" id="author" name="author" value="<?= htmlspecialchars($author) ?>" required maxlength="100" placeholder="Nombre o grupo creador">
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="category">Categoria *</label>
-                        <select id="category" name="category" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="Matemáticas" <?= $category === 'Matemáticas' ? 'selected' : '' ?>>Matematicas</option>
-                            <option value="Lenguaje" <?= $category === 'Lenguaje' ? 'selected' : '' ?>>Lenguaje</option>
-                            <option value="Ciencias" <?= $category === 'Ciencias' ? 'selected' : '' ?>>Ciencias</option>
-                            <option value="Historia" <?= $category === 'Historia' ? 'selected' : '' ?>>Historia</option>
-                            <option value="Geografía" <?= $category === 'Geografía' ? 'selected' : '' ?>>Geografia</option>
-                            <option value="Arte" <?= $category === 'Arte' ? 'selected' : '' ?>>Arte</option>
-                            <option value="Música" <?= $category === 'Música' ? 'selected' : '' ?>>Musica</option>
-                            <option value="Lógica" <?= $category === 'Lógica' ? 'selected' : '' ?>>Logica</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="age_group">Edad Recomendada *</label>
-                        <select id="age_group" name="age_group" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="3-5 años" <?= $ageGroup === '3-5 años' ? 'selected' : '' ?>>3-5 anos</option>
-                            <option value="6-8 años" <?= $ageGroup === '6-8 años' ? 'selected' : '' ?>>6-8 anos</option>
-                            <option value="9-12 años" <?= $ageGroup === '9-12 años' ? 'selected' : '' ?>>9-12 anos</option>
-                            <option value="13-16 años" <?= $ageGroup === '13-16 años' ? 'selected' : '' ?>>13-16 anos</option>
-                            <option value="17+ años" <?= $ageGroup === '17+ años' ? 'selected' : '' ?>>17+ anos</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="github_link">Enlace de GitHub Pages *</label>
-                    <input type="url" id="github_link" name="github_link" value="<?= htmlspecialchars($githubLink) ?>" required placeholder="https://usuario.github.io/nombre-proyecto/" pattern="https://[a-zA-Z0-9\-_]+\.github\.io/.*">
-                    <small>Debe ser un enlace de GitHub Pages y contener github.io.</small>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-upload"></i> Publicar Juego
-                    </button>
-                </div>
-            </form>
-
-            <aside class="upload-instructions upload-card">
-                <h3><i class="fas fa-info-circle"></i> Checklist de Publicacion</h3>
+            <aside class="upload-help">
+                <h4>CHECKLIST</h4>
                 <ul>
-                    <li>El juego debe estar alojado en GitHub Pages.</li>
-                    <li>El enlace debe seguir formato https://usuario.github.io/proyecto/.</li>
-                    <li>Comprueba que el enlace sea accesible y funcional.</li>
-                    <li>El contenido sera revisado antes de publicarse.</li>
-                    <li>Incluye enfoque educativo y lenguaje apropiado.</li>
+                    <li>Publica en GitHub Pages.</li>
+                    <li>Verifica enlace funcional.</li>
+                    <li>Usa contenido educativo.</li>
+                    <li>Prioriza recursos HTTPS.</li>
                 </ul>
-                <div class="upload-tip-box">
-                    <p><strong>Tip:</strong> si tu juego usa recursos externos, verifica que carguen por HTTPS para evitar bloqueos del navegador.</p>
-                </div>
             </aside>
         </section>
     </main>
