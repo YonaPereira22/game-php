@@ -649,222 +649,171 @@ transform: scale(0.95);
 }
 
 /* Upload page */
-.upload-main {
-padding-bottom: 36px;
+.upload-hero {
+margin: 18px 0 22px;
+padding: 18px;
+border: 1px solid var(--border);
+background: linear-gradient(135deg, rgba(0, 255, 65, 0.08), rgba(0, 245, 255, 0.05));
+border-radius: 8px;
 }
 
-.upload-shell {
-max-width: 780px;
-margin: 20px auto 0;
-display: flex;
-flex-direction: column;
-gap: 14px;
-}
-
-.upload-loading {
-max-width: 360px;
-padding: 10px 12px;
-border: 3px solid var(--green);
-background: #0f1512;
-box-shadow: 0 0 0 1px rgba(0, 255, 65, 0.35);
+.upload-kicker {
 font-family: 'Press Start 2P', monospace;
 font-size: 8px;
-color: var(--green);
-}
-
-.upload-loading p {
-margin-bottom: 8px;
-}
-
-.upload-loading-track {
-height: 16px;
-border: 2px solid var(--green);
-padding: 2px;
-}
-
-.upload-loading-track span {
-display: block;
-width: 45%;
-height: 100%;
-background: var(--green);
-animation: upload-progress 1.8s linear infinite;
-}
-
-.upload-window {
-width: 100%;
-border: 3px solid var(--green);
-box-shadow: 0 0 0 1px rgba(0, 255, 65, 0.35), 0 16px 30px rgba(0, 0, 0, 0.36);
-}
-
-.upload-window-bar {
-display: flex;
-align-items: center;
-gap: 10px;
-padding: 8px 12px;
-background: #7cf07e;
-color: #0a120d;
-border-bottom: 3px solid #13361f;
-}
-
-.upload-window-close {
-font-family: 'Press Start 2P', monospace;
-font-size: 10px;
-line-height: 1;
-}
-
-.upload-window-bar h3 {
-font-family: 'Press Start 2P', monospace;
-font-size: clamp(10px, 1.8vw, 15px);
-letter-spacing: 1px;
-margin: 0;
-}
-
-.upload-window-body {
-background: #111816;
-padding: 16px;
-}
-
-.upload-message {
+letter-spacing: 1.6px;
+color: var(--cyan);
 margin-bottom: 12px;
+}
+
+.upload-title {
+font-family: 'Press Start 2P', monospace;
+font-size: clamp(12px, 2.2vw, 18px);
+line-height: 1.5;
+color: var(--green);
+margin-bottom: 10px;
+}
+
+.upload-subtitle {
+font-size: 20px;
+color: var(--cyan);
+line-height: 1.4;
+}
+
+.upload-layout {
+display: grid;
+grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+gap: 18px;
+margin-bottom: 26px;
+align-items: start;
+}
+
+.upload-card {
+border: 1px solid var(--border);
+background: var(--card);
+border-radius: 8px;
+padding: 18px;
+box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
 }
 
 .upload-form .form-group {
 display: flex;
 flex-direction: column;
-gap: 6px;
-margin-bottom: 12px;
+gap: 8px;
+margin-bottom: 14px;
+}
+
+.upload-form .form-row {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
 }
 
 .upload-form label {
 font-family: 'Press Start 2P', monospace;
 font-size: 8px;
-letter-spacing: 0.5px;
-color: #8df89c;
+color: var(--cyan);
+letter-spacing: 0.8px;
 }
 
 .upload-form input[type="text"],
 .upload-form input[type="url"],
 .upload-form textarea,
 .upload-form select {
-width: 100%;
-background: #f1f3f2;
-border: 3px solid #1f2b23;
-color: #111816;
-padding: 10px 12px;
 font-family: 'VT323', monospace;
-font-size: 30px;
-line-height: 1.05;
-border-radius: 0;
+background: rgba(3, 8, 24, 0.55);
+border: 1px solid var(--border);
+color: var(--green);
+padding: 10px 12px;
+font-size: 22px;
+border-radius: 6px;
+transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .upload-form textarea {
-min-height: 118px;
 resize: vertical;
+min-height: 120px;
 }
 
 .upload-form input::placeholder,
 .upload-form textarea::placeholder {
-color: #69786d;
-}
-
-.upload-form select {
-cursor: pointer;
+color: rgba(0, 245, 255, 0.45);
 }
 
 .upload-form input:focus,
 .upload-form textarea:focus,
 .upload-form select:focus {
 outline: none;
-border-color: #59dd6a;
-box-shadow: 0 0 0 2px rgba(89, 221, 106, 0.35);
-}
-
-.form-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 12px;
+border-color: var(--green);
+box-shadow: 0 0 0 2px rgba(0, 255, 65, 0.2);
 }
 
 .upload-form small {
-font-size: 15px;
-color: #8df89c;
+font-size: 18px;
+color: var(--cyan);
+opacity: 0.9;
 }
 
-.upload-actions {
-margin-top: 18px;
+.upload-form .form-actions {
+margin-top: 16px;
 display: flex;
-gap: 10px;
 justify-content: flex-end;
 }
 
-.upload-btn {
-min-width: 160px;
-padding: 10px 12px;
-text-align: center;
-font-family: 'Press Start 2P', monospace;
-font-size: 9px;
-text-decoration: none;
-border: 3px solid #13281a;
-box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.35);
+.upload-form .btn-primary {
+padding: 10px 16px;
+border: 1px solid transparent;
 }
 
-.upload-btn-ok {
-background: #7cf07e;
-color: #0f1c13;
-}
-
-.upload-btn-cancel {
-background: transparent;
-color: #7cf07e;
-}
-
-.upload-btn:hover {
+.upload-form .btn-primary:hover {
 transform: translateY(-1px);
 }
 
-.upload-help {
-padding: 12px 14px;
-border: 2px dashed var(--cyan);
-background: rgba(0, 245, 255, 0.06);
+.upload-instructions h3 {
+font-family: 'Press Start 2P', monospace;
+font-size: 10px;
+color: var(--yellow);
+margin-bottom: 14px;
 }
 
-.upload-help h4 {
-font-family: 'Press Start 2P', monospace;
-font-size: 9px;
-margin-bottom: 10px;
+.upload-instructions ul {
+list-style: none;
+display: grid;
+gap: 10px;
+margin: 0;
+padding: 0;
+}
+
+.upload-instructions li {
+font-size: 22px;
+line-height: 1.35;
+color: var(--green);
+padding-left: 18px;
+position: relative;
+}
+
+.upload-instructions li::before {
+content: '▸';
+position: absolute;
+left: 0;
 color: var(--cyan);
 }
 
-.upload-help ul {
-margin: 0;
-padding-left: 18px;
-display: grid;
-gap: 8px;
+.upload-tip-box {
+margin-top: 16px;
+padding: 12px;
+border: 1px dashed var(--cyan);
+border-radius: 6px;
+background: rgba(0, 245, 255, 0.05);
 }
 
-.upload-help li {
+.upload-tip-box p {
 font-size: 20px;
-line-height: 1.15;
-color: var(--green);
+color: var(--cyan);
+line-height: 1.35;
 }
 
-body.theme-light .upload-window {
-border-color: #0f4c67;
-box-shadow: 0 0 0 1px rgba(15, 76, 103, 0.2), 0 16px 26px rgba(15, 76, 103, 0.14);
-}
-
-body.theme-light .upload-window-bar {
-background: #8ce1ff;
-border-bottom-color: #215569;
-}
-
-body.theme-light .upload-window-body {
-background: #f6fbff;
-}
-
-body.theme-light .upload-form label,
-body.theme-light .upload-form small {
-color: #0f4c67;
+body.theme-light .upload-hero {
+background: linear-gradient(135deg, rgba(15, 76, 103, 0.08), rgba(18, 63, 42, 0.08));
 }
 
 body.theme-light .upload-form input[type="text"],
@@ -872,48 +821,22 @@ body.theme-light .upload-form input[type="url"],
 body.theme-light .upload-form textarea,
 body.theme-light .upload-form select {
 background: #ffffff;
-color: #11231f;
-border-color: #204b3a;
 }
 
-body.theme-light .upload-btn-ok {
-background: #2ab56b;
-color: #ffffff;
-}
-
-body.theme-light .upload-btn-cancel {
-color: #2ab56b;
-border-color: #2ab56b;
-}
-
-@keyframes upload-progress {
-0% { transform: translateX(0); }
-50% { transform: translateX(110%); }
-100% { transform: translateX(0); }
-}
-
-@media (max-width: 760px) {
-.upload-shell {
-margin-top: 14px;
-}
-
-.form-grid {
+@media (max-width: 900px) {
+.upload-layout {
 grid-template-columns: 1fr;
 }
 
-.upload-actions {
+.upload-form .form-row {
+grid-template-columns: 1fr;
+}
+
+.upload-form .form-actions {
 justify-content: stretch;
-flex-direction: column;
 }
 
-.upload-btn {
+.upload-form .btn-primary {
 width: 100%;
-}
-
-.upload-form input[type="text"],
-.upload-form input[type="url"],
-.upload-form textarea,
-.upload-form select {
-font-size: 26px;
 }
 }
