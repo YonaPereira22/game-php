@@ -10,14 +10,14 @@
 }
 
 body.theme-light{
---green:#1b3f1e;
---cyan:#004f66;
---magenta:#7a2f8c;
---yellow:#8f6b00;
---red:#9a1b36;
---bg:#f4f8ff;
+--green:#123f2a;
+--cyan:#0f4c67;
+--magenta:#6f2f82;
+--yellow:#745a00;
+--red:#8c1f38;
+--bg:#fcfdff;
 --card:#ffffff;
---border:#bdd3e3;
+--border:#b9cad9;
 color-scheme:light;
 }
 
@@ -46,6 +46,62 @@ z-index:9998;
 
 body.theme-light::after{
 background:radial-gradient(ellipse at center,transparent 58%,rgba(140,170,190,0.18) 100%);
+}
+
+body.theme-light header{
+background:linear-gradient(180deg,rgba(15,76,103,.08),transparent);
+}
+
+body.theme-light h1{
+text-shadow:0 0 2px rgba(18,63,42,.25),0 0 8px rgba(18,63,42,.2);
+}
+
+body.theme-light .sub{
+text-shadow:none;
+}
+
+body.theme-light .section-label{
+border-bottom-color:rgba(15,76,103,.35);
+}
+
+body.theme-light .filters{
+background:rgba(255,255,255,0.96);
+}
+
+body.theme-light .cmeta,
+body.theme-light .current-rating span,
+body.theme-light footer{
+color:#3a5363;
+}
+
+body.theme-light .vote-star{
+color:#8fa7b6;
+}
+
+body.theme-light .game-card:hover{
+box-shadow:0 10px 26px rgba(15,76,103,.18);
+}
+
+body.theme-light nav a:hover,
+body.theme-light .back-link:hover,
+body.theme-light button{
+background:var(--green);
+color:#ffffff;
+}
+
+body.theme-light button:hover{
+background:#0d2f20;
+color:#ffffff;
+}
+
+body.theme-light input[type="text"]:focus,
+body.theme-light select:focus,
+body.theme-light button:focus,
+body.theme-light #contrast-toggle:focus,
+body.theme-light nav a:focus,
+body.theme-light .back-link:focus{
+outline:2px solid var(--cyan);
+outline-offset:2px;
 }
 
 /* HEADER */
