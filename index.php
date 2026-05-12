@@ -138,6 +138,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
             <p class="sub">Zona Educativa Lúdica con Inteligencia Artificial - 2026</p>
             <nav>
                 <a href="index.php">Inicio</a>
+                <a href="nosotros.php">Nosotros</a>
                 <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['creator', 'admin'])): ?>
                     <a href="upload.php">Subir Juego</a>
                 <?php endif; ?>
@@ -148,7 +149,7 @@ $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a href="logout.php">Cerrar Sesión</a>
                 <?php else: ?>
-                    <a href="login.php">Iniciar Sesión</a>
+                    <a href="login.php" class="nav-login">Iniciar Sesión</a>
                 <?php endif; ?>
             </nav>
         </div>

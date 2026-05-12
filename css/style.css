@@ -191,6 +191,33 @@ background: var(--green);
 color: #000;
 }
 
+/* Botón Iniciar Sesión — estilo diferenciado */
+nav a.nav-login {
+color: #ffffff;
+border: 2px solid var(--green);
+background: transparent;
+text-shadow: 0 0 6px rgba(0,255,65,0.5);
+}
+
+nav a.nav-login:hover {
+background: var(--green);
+color: #ffffff;
+box-shadow: 0 0 14px rgba(0,255,65,0.6);
+}
+
+body.theme-light nav a.nav-login {
+color: #ffffff;
+background: var(--green);
+border: 2px solid var(--green);
+text-shadow: none;
+}
+
+body.theme-light nav a.nav-login:hover {
+background: #0d2f20;
+border-color: #0d2f20;
+color: #ffffff;
+}
+
 a.feedback-float {
 position: fixed;
 left: 16px !important;

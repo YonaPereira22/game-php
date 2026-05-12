@@ -215,6 +215,7 @@ require_once 'includes/functions.php';
             <p class="sub">APRENDE JUGANDO</p>
             <nav>
                 <a href="index.php">Inicio</a>
+                <a href="nosotros.php">Nosotros</a>
                 <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['creator', 'admin'])): ?>
                     <a href="upload.php">Subir Juego</a>
                 <?php endif; ?>
@@ -224,7 +225,7 @@ require_once 'includes/functions.php';
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a href="logout.php">Cerrar Sesión</a>
                 <?php else: ?>
-                    <a href="login.php">Iniciar Sesión</a>
+                    <a href="login.php" class="nav-login">Iniciar Sesión</a>
                 <?php endif; ?>
             </nav>
         </div>
