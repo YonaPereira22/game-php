@@ -11,41 +11,35 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['creator', 'admin
 
 $message     = '';
 $messageType = '';
-$activeTab   = 'import'; // pestaña activa por defecto
+$activeTab   = 'import';
 
-// ── Valores del formulario manual ────────────────────────────────────────────
-$title      = '';
+$title       = '';
 $description = '';
-$author     = '';
-$category   = '';
-$ageGroup   = '';
-$githubLink = '';
-
-// ── Valores del formulario de importación ────────────────────────────────────
-$repoUrl    = '';
-$importMeta = null;
+$author      = '';
+$category    = '';
+$ageGroup    = '';
+$githubLink  = '';
+$repoUrl     = '';
+$importMeta  = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $mode = $_POST['mode'] ?? 'manual';
+    $mode      = $_POST['mode'] ?? 'manual';
     $activeTab = $mode;
 
-    // ── Modo: importar desde GitHub ───────────────────────────────────────
     if ($mode === 'import') {
         $repoUrl = trim($_POST['repo_url'] ?? '');
         if (empty($repoUrl)) {
             $message     = 'Ingresa la URL del repositorio de GitHub.';
             $messageType = 'error';
         } else {
-            $result = importFromGithub($repoUrl, $pdo);
+            $result      = importFromGithub($repoUrl, $pdo);
             $message     = $result['message'];
             $messageType = $result['ok'] ? 'success' : 'error';
             if ($result['ok']) {
                 $importMeta = $result['meta'];
-                $repoUrl    = ''; // limpiar para próximo uso
+                $repoUrl    = '';
             }
         }
-
-    // ── Modo: formulario manual ───────────────────────────────────────────
     } else {
         $title       = sanitizeInput($_POST['title']       ?? '');
         $description = sanitizeInput($_POST['description'] ?? '');
@@ -78,357 +72,180 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subir Juego - Juegos Educativos</title>
+    <title>Subir Juego — ZELIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
-            <nav>
-                <a href="nosotros.php">Nosotros</a>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="logout.php">Cerrar Sesión</a>
-                <?php else: ?>
-                    <a href="login.php" class="nav-login">Iniciar Sesión</a>
-                <?php endif; ?>
-            </nav>
+
+<?php include 'includes/navbar.php'; ?>
+
+<main class="upload-page">
+    <div class="container">
+
+        <div class="page-header">
+            <div class="section-badge">PUBLICAR</div>
+            <h1 class="page-title">Subir un juego</h1>
+            <p class="page-subtitle">Comparte tu juego con la comunidad educativa</p>
         </div>
-    </header>
 
-    <main class="container">
-        <div class="retro-window">
-
-            <!-- Barra de título retro -->
-            <div class="retro-titlebar">
-                <a href="index.php" class="retro-close-btn" title="Cancelar y volver">
-                    <i class="fas fa-times"></i>
-                </a>
-                <span class="retro-titlebar-label">
-                    <i class="fas fa-gamepad"></i>&nbsp; PUBLICAR JUEGO
-                </span>
-                <span class="retro-close-btn retro-close-btn--ghost" aria-hidden="true"></span>
+        <div class="upload-card">
+            <div class="upload-card-header">
+                <div class="upload-tabs">
+                    <button class="upload-tab <?= $activeTab === 'import' ? 'active' : '' ?>" onclick="switchTab('import')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                        Importar Repo
+                    </button>
+                    <button class="upload-tab <?= $activeTab === 'manual' ? 'active' : '' ?>" onclick="switchTab('manual')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Formulario
+                    </button>
+                </div>
             </div>
 
-            <!-- Tabs retro -->
-            <div class="retro-tabs">
-                <button type="button" class="retro-tab <?= $activeTab === 'import' ? 'retro-tab--active' : '' ?>" data-tab="import">
-                    <i class="fab fa-github"></i> IMPORTAR REPO
-                </button>
-                <button type="button" class="retro-tab <?= $activeTab === 'manual' ? 'retro-tab--active' : '' ?>" data-tab="manual">
-                    <i class="fas fa-keyboard"></i> FORMULARIO
-                </button>
-            </div>
-
-            <!-- Cuerpo -->
-            <div class="retro-window-body">
+            <div class="upload-card-body">
 
                 <?php if ($message): ?>
-                    <div class="message <?= $messageType ?>">
-                        <i class="fas fa-<?= $messageType === 'success' ? 'check-circle' : 'triangle-exclamation' ?>"></i>
-                        <?= $message ?>
-                    </div>
+                    <div class="alert alert-<?= $messageType ?>"><?= htmlspecialchars($message) ?></div>
                 <?php endif; ?>
 
-                <?php if ($messageType === 'success' && $activeTab === 'import' && $importMeta): ?>
-                    <!-- Resumen de importación exitosa -->
+                <?php if ($importMeta): ?>
                     <div class="import-summary">
-                        <p class="import-summary-label"><i class="fas fa-robot"></i>&nbsp; DATOS DETECTADOS DESDE info.json</p>
+                        <div class="import-summary-title">✓ Juego importado</div>
                         <ul>
-                            <li><strong>TITULO:</strong> <?= htmlspecialchars($importMeta['title']) ?></li>
-                            <li><strong>AUTOR:</strong> <?= htmlspecialchars($importMeta['author']) ?></li>
-                            <li><strong>CATEGORIA:</strong> <?= htmlspecialchars($importMeta['category']) ?></li>
-                            <li><strong>EDAD:</strong> <?= htmlspecialchars($importMeta['age_group']) ?></li>
+                            <li><strong>Título:</strong> <?= htmlspecialchars($importMeta['title'] ?? '') ?></li>
+                            <li><strong>Autor:</strong>  <?= htmlspecialchars($importMeta['author'] ?? '') ?></li>
+                            <li><strong>Carpeta:</strong> games/<?= htmlspecialchars($importMeta['folder'] ?? '') ?></li>
                         </ul>
                     </div>
                 <?php endif; ?>
 
-                <!-- ══════════════ TAB: IMPORTAR DESDE GITHUB ══════════════ -->
-                <div class="retro-tab-panel <?= $activeTab === 'import' ? '' : 'retro-tab-panel--hidden' ?>" id="panel-import">
-                    <p class="retro-window-kicker">PEGA LA URL DEL REPO Y DEJANOS HACER EL RESTO</p>
+                <!-- TAB: Importar desde GitHub -->
+                <div class="upload-tab-panel <?= $activeTab === 'import' ? 'active' : '' ?>" id="panel-import">
+                    <div class="upload-kicker">
+                        Pega la URL de un repositorio público de GitHub. El sistema descargará los archivos y extraerá la metadata del <code>info.json</code> si existe.
+                    </div>
 
-                    <form method="POST" class="upload-form">
+                    <div class="upload-checklist">
+                        <div class="upload-checklist-title">El repositorio debe tener:</div>
+                        <ul>
+                            <li>Un archivo <code>index.html</code> en la raíz</li>
+                            <li>Repositorio público (sin autenticación)</li>
+                            <li>Opcionalmente un <code>info.json</code> con título, descripción, categoría y edad</li>
+                        </ul>
+                    </div>
+
+                    <form method="POST">
                         <input type="hidden" name="mode" value="import">
-
                         <div class="form-group">
-                            <label for="repo_url"><i class="fab fa-github"></i>&nbsp; URL DEL REPOSITORIO *</label>
+                            <label class="form-label" for="repo_url">URL del repositorio GitHub</label>
                             <input
                                 type="url"
                                 id="repo_url"
                                 name="repo_url"
+                                class="form-input"
+                                placeholder="https://github.com/usuario/mi-juego"
                                 value="<?= htmlspecialchars($repoUrl) ?>"
                                 required
-                                placeholder="https://github.com/usuario/nombre-del-juego"
-                                pattern="https://github\.com/.+/.+"
                             >
-                            <small><i class="fas fa-circle-info"></i>&nbsp; El repo debe ser público y tener un <strong>index.html</strong> en la raíz.</small>
                         </div>
-
-                        <div class="retro-checklist">
-                            <p class="retro-checklist-title"><i class="fas fa-robot"></i>&nbsp; QUE HACE LA IMPORTACION</p>
-                            <ul>
-                                <li><i class="fas fa-caret-right"></i> Descarga el repositorio completo como ZIP</li>
-                                <li><i class="fas fa-caret-right"></i> Lee <strong>info.json</strong> para obtener título, autor y categoría</li>
-                                <li><i class="fas fa-caret-right"></i> Crea la carpeta <code>games/{nombre-repo}/</code> con los archivos</li>
-                                <li><i class="fas fa-caret-right"></i> Registra el juego en la base de datos</li>
-                                <li><i class="fas fa-caret-right"></i> Solo se permiten .html .css .js .json .png .jpg .svg .mp3 ...</li>
-                            </ul>
-                        </div>
-
-                        <div class="retro-actions">
-                            <button type="submit" class="retro-btn retro-btn-ok">
-                                <i class="fas fa-download"></i> IMPORTAR
-                            </button>
-                            <a href="index.php" class="retro-btn retro-btn-cancel">
-                                <i class="fas fa-times"></i> CANCEL
-                            </a>
+                        <div class="upload-actions">
+                            <button type="submit" class="btn btn-primary">Importar juego</button>
                         </div>
                     </form>
                 </div>
 
-                <!-- ══════════════ TAB: FORMULARIO MANUAL ══════════════ -->
-                <div class="retro-tab-panel <?= $activeTab === 'manual' ? '' : 'retro-tab-panel--hidden' ?>" id="panel-manual">
-                    <p class="retro-window-kicker">COMPLETA LOS DATOS DE TU JUEGO EN GITHUB PAGES</p>
+                <!-- TAB: Formulario manual -->
+                <div class="upload-tab-panel <?= $activeTab === 'manual' ? 'active' : '' ?>" id="panel-manual">
+                    <div class="upload-kicker">
+                        Ingresa los datos del juego manualmente. El juego debe estar publicado en GitHub Pages.
+                    </div>
 
-                    <form method="POST" class="upload-form">
+                    <form method="POST">
                         <input type="hidden" name="mode" value="manual">
 
                         <div class="form-group">
-                            <label for="title"><i class="fas fa-heading"></i>&nbsp; TITULO DEL JUEGO *</label>
-                            <input type="text" id="title" name="title" value="<?= htmlspecialchars($title) ?>" required maxlength="255" placeholder="Ejemplo: Laberinto de Fracciones">
+                            <label class="form-label" for="title">Título del juego</label>
+                            <input type="text" id="title" name="title" class="form-input"
+                                placeholder="Mi juego educativo"
+                                value="<?= htmlspecialchars($title) ?>" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="description"><i class="fas fa-align-left"></i>&nbsp; DESCRIPCION *</label>
-                            <textarea id="description" name="description" required rows="3" placeholder="Explica que aprende el estudiante y como se juega."><?= htmlspecialchars($description) ?></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="author"><i class="fas fa-user"></i>&nbsp; AUTOR *</label>
-                            <input type="text" id="author" name="author" value="<?= htmlspecialchars($author) ?>" required maxlength="100" placeholder="Nombre o grupo creador">
+                            <label class="form-label" for="description">Descripción</label>
+                            <textarea id="description" name="description" class="form-textarea"
+                                placeholder="Breve descripción del juego y su objetivo educativo…"
+                                required><?= htmlspecialchars($description) ?></textarea>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="category"><i class="fas fa-tag"></i>&nbsp; CATEGORIA *</label>
-                                <select id="category" name="category" required>
-                                    <option value="">[ SELECCIONAR ]</option>
-                                    <option value="Matemáticas"  <?= $category === 'Matemáticas'  ? 'selected' : '' ?>>Matematicas</option>
-                                    <option value="Lenguaje"     <?= $category === 'Lenguaje'     ? 'selected' : '' ?>>Lenguaje</option>
-                                    <option value="Ciencias"     <?= $category === 'Ciencias'     ? 'selected' : '' ?>>Ciencias</option>
-                                    <option value="Historia"     <?= $category === 'Historia'     ? 'selected' : '' ?>>Historia</option>
-                                    <option value="Geografía"    <?= $category === 'Geografía'    ? 'selected' : '' ?>>Geografia</option>
-                                    <option value="Arte"         <?= $category === 'Arte'         ? 'selected' : '' ?>>Arte</option>
-                                    <option value="Música"       <?= $category === 'Música'       ? 'selected' : '' ?>>Musica</option>
-                                    <option value="Lógica"       <?= $category === 'Lógica'       ? 'selected' : '' ?>>Logica</option>
-                                </select>
+                                <label class="form-label" for="author">Autor</label>
+                                <input type="text" id="author" name="author" class="form-input"
+                                    placeholder="Tu nombre"
+                                    value="<?= htmlspecialchars($author) ?>" required>
                             </div>
-
                             <div class="form-group">
-                                <label for="age_group"><i class="fas fa-child"></i>&nbsp; EDAD RECOMENDADA *</label>
-                                <select id="age_group" name="age_group" required>
-                                    <option value="">[ SELECCIONAR ]</option>
-                                    <option value="3-5 años"   <?= $ageGroup === '3-5 años'   ? 'selected' : '' ?>>3-5 anos</option>
-                                    <option value="6-8 años"   <?= $ageGroup === '6-8 años'   ? 'selected' : '' ?>>6-8 anos</option>
-                                    <option value="9-12 años"  <?= $ageGroup === '9-12 años'  ? 'selected' : '' ?>>9-12 anos</option>
-                                    <option value="13-16 años" <?= $ageGroup === '13-16 años' ? 'selected' : '' ?>>13-16 anos</option>
-                                    <option value="17+ años"   <?= $ageGroup === '17+ años'   ? 'selected' : '' ?>>17+ anos</option>
-                                </select>
+                                <label class="form-label" for="category">Categoría</label>
+                                <input type="text" id="category" name="category" class="form-input"
+                                    placeholder="Ej: Matemáticas"
+                                    value="<?= htmlspecialchars($category) ?>" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="github_link"><i class="fab fa-github"></i>&nbsp; ENLACE GITHUB PAGES *</label>
-                            <input type="url" id="github_link" name="github_link" value="<?= htmlspecialchars($githubLink) ?>" required
-                                placeholder="https://usuario.github.io/nombre-proyecto/"
-                                pattern="https://[a-zA-Z0-9\-_]+\.github\.io/.*">
-                            <small><i class="fas fa-circle-info"></i>&nbsp; Formato: https://usuario.github.io/proyecto/</small>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="age_group">Grupo de edad</label>
+                                <select id="age_group" name="age_group" class="form-select" required>
+                                    <option value="">Seleccionar…</option>
+                                    <?php
+                                    $ages = ['6-8 años','9-11 años','12-14 años','15+ años','Todas las edades'];
+                                    foreach ($ages as $a):
+                                    ?>
+                                    <option value="<?= htmlspecialchars($a) ?>" <?= $ageGroup === $a ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($a) ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="github_link">Enlace GitHub Pages</label>
+                                <input type="url" id="github_link" name="github_link" class="form-input"
+                                    placeholder="https://usuario.github.io/juego"
+                                    value="<?= htmlspecialchars($githubLink) ?>" required>
+                                <span class="form-hint">Debe contener github.io</span>
+                            </div>
                         </div>
 
-                        <div class="retro-checklist">
-                            <p class="retro-checklist-title"><i class="fas fa-list-check"></i>&nbsp; CHECKLIST DE PUBLICACION</p>
-                            <ul>
-                                <li><i class="fas fa-caret-right"></i> El juego debe estar alojado en GitHub Pages</li>
-                                <li><i class="fas fa-caret-right"></i> URL con formato https://usuario.github.io/proyecto/</li>
-                                <li><i class="fas fa-caret-right"></i> El enlace debe ser accesible y funcional</li>
-                                <li><i class="fas fa-caret-right"></i> Contenido sera revisado antes de publicarse</li>
-                                <li><i class="fas fa-caret-right"></i> Recursos externos deben cargar por HTTPS</li>
-                            </ul>
-                        </div>
-
-                        <div class="retro-actions">
-                            <button type="submit" class="retro-btn retro-btn-ok">
-                                <i class="fas fa-check"></i> OK
-                            </button>
-                            <a href="index.php" class="retro-btn retro-btn-cancel">
-                                <i class="fas fa-times"></i> CANCEL
-                            </a>
+                        <div class="upload-actions">
+                            <button type="submit" class="btn btn-primary">Publicar juego</button>
+                            <a href="index.php" class="btn btn-ghost">Cancelar</a>
                         </div>
                     </form>
                 </div>
 
-            </div><!-- /retro-window-body -->
-        </div><!-- /retro-window -->
-    </main>
-
-    <script>
-    (function () {
-        const tabs   = document.querySelectorAll('.retro-tab');
-        const panels = document.querySelectorAll('.retro-tab-panel');
-
-        tabs.forEach(function (tab) {
-            tab.addEventListener('click', function () {
-                const target = this.dataset.tab;
-
-                tabs.forEach(function (t) { t.classList.remove('retro-tab--active'); });
-                panels.forEach(function (p) { p.classList.add('retro-tab-panel--hidden'); });
-
-                this.classList.add('retro-tab--active');
-                document.getElementById('panel-' + target).classList.remove('retro-tab-panel--hidden');
-            });
-        });
-    })();
-    </script>
-</body>
-</html>
-
-?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subir Juego - Juegos Educativos</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
-            <nav>
-                <a href="nosotros.php">Nosotros</a>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="logout.php">Cerrar Sesión</a>
-                <?php else: ?>
-                    <a href="login.php" class="nav-login">Iniciar Sesión</a>
-                <?php endif; ?>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
-        <div class="retro-window">
-
-            <!-- Barra de título al estilo retro -->
-            <div class="retro-titlebar">
-                <a href="index.php" class="retro-close-btn" title="Cancelar y volver">
-                    <i class="fas fa-times"></i>
-                </a>
-                <span class="retro-titlebar-label">
-                    <i class="fas fa-gamepad"></i> &nbsp;PUBLICAR JUEGO
-                </span>
-                <span class="retro-close-btn retro-close-btn--ghost" aria-hidden="true"></span>
             </div>
+        </div>
 
-            <!-- Cuerpo de la ventana -->
-            <div class="retro-window-body">
+    </div>
+</main>
 
-                <p class="retro-window-kicker">PUBLICA TU EXPERIENCIA EDUCATIVA EN LA COMUNIDAD ZELIA</p>
+<?php include 'includes/footer.php'; ?>
 
-                <?php if ($message): ?>
-                    <div class="message <?= $messageType ?>">
-                        <i class="fas fa-<?= $messageType === 'success' ? 'check-circle' : 'triangle-exclamation' ?>"></i>
-                        <?= htmlspecialchars($message) ?>
-                    </div>
-                <?php endif; ?>
-
-                <form method="POST" class="upload-form">
-
-                    <div class="form-group">
-                        <label for="title"><i class="fas fa-heading"></i> &nbsp;TITULO DEL JUEGO *</label>
-                        <input type="text" id="title" name="title" value="<?= htmlspecialchars($title) ?>" required maxlength="255" placeholder="Ejemplo: Laberinto de Fracciones">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description"><i class="fas fa-align-left"></i> &nbsp;DESCRIPCION *</label>
-                        <textarea id="description" name="description" required rows="3" placeholder="Explica que aprende el estudiante y como se juega."><?= htmlspecialchars($description) ?></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="author"><i class="fas fa-user"></i> &nbsp;AUTOR *</label>
-                        <input type="text" id="author" name="author" value="<?= htmlspecialchars($author) ?>" required maxlength="100" placeholder="Nombre o grupo creador">
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="category"><i class="fas fa-tag"></i> &nbsp;CATEGORIA *</label>
-                            <select id="category" name="category" required>
-                                <option value="">[ SELECCIONAR ]</option>
-                                <option value="Matemáticas" <?= $category === 'Matemáticas' ? 'selected' : '' ?>>Matematicas</option>
-                                <option value="Lenguaje" <?= $category === 'Lenguaje' ? 'selected' : '' ?>>Lenguaje</option>
-                                <option value="Ciencias" <?= $category === 'Ciencias' ? 'selected' : '' ?>>Ciencias</option>
-                                <option value="Historia" <?= $category === 'Historia' ? 'selected' : '' ?>>Historia</option>
-                                <option value="Geografía" <?= $category === 'Geografía' ? 'selected' : '' ?>>Geografia</option>
-                                <option value="Arte" <?= $category === 'Arte' ? 'selected' : '' ?>>Arte</option>
-                                <option value="Música" <?= $category === 'Música' ? 'selected' : '' ?>>Musica</option>
-                                <option value="Lógica" <?= $category === 'Lógica' ? 'selected' : '' ?>>Logica</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="age_group"><i class="fas fa-child"></i> &nbsp;EDAD RECOMENDADA *</label>
-                            <select id="age_group" name="age_group" required>
-                                <option value="">[ SELECCIONAR ]</option>
-                                <option value="3-5 años" <?= $ageGroup === '3-5 años' ? 'selected' : '' ?>>3-5 anos</option>
-                                <option value="6-8 años" <?= $ageGroup === '6-8 años' ? 'selected' : '' ?>>6-8 anos</option>
-                                <option value="9-12 años" <?= $ageGroup === '9-12 años' ? 'selected' : '' ?>>9-12 anos</option>
-                                <option value="13-16 años" <?= $ageGroup === '13-16 años' ? 'selected' : '' ?>>13-16 anos</option>
-                                <option value="17+ años" <?= $ageGroup === '17+ años' ? 'selected' : '' ?>>17+ anos</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="github_link"><i class="fab fa-github"></i> &nbsp;ENLACE GITHUB PAGES *</label>
-                        <input type="url" id="github_link" name="github_link" value="<?= htmlspecialchars($githubLink) ?>" required placeholder="https://usuario.github.io/nombre-proyecto/" pattern="https://[a-zA-Z0-9\-_]+\.github\.io/.*">
-                        <small><i class="fas fa-circle-info"></i> Formato: https://usuario.github.io/proyecto/</small>
-                    </div>
-
-                    <!-- Checklist integrado -->
-                    <div class="retro-checklist">
-                        <p class="retro-checklist-title"><i class="fas fa-list-check"></i> &nbsp;CHECKLIST DE PUBLICACION</p>
-                        <ul>
-                            <li><i class="fas fa-caret-right"></i> El juego debe estar alojado en GitHub Pages</li>
-                            <li><i class="fas fa-caret-right"></i> URL con formato https://usuario.github.io/proyecto/</li>
-                            <li><i class="fas fa-caret-right"></i> El enlace debe ser accesible y funcional</li>
-                            <li><i class="fas fa-caret-right"></i> Contenido sera revisado antes de publicarse</li>
-                            <li><i class="fas fa-caret-right"></i> Recursos externos deben cargar por HTTPS</li>
-                        </ul>
-                    </div>
-
-                    <!-- Botones estilo OK / CANCEL -->
-                    <div class="retro-actions">
-                        <button type="submit" class="retro-btn retro-btn-ok">
-                            <i class="fas fa-check"></i> OK
-                        </button>
-                        <a href="index.php" class="retro-btn retro-btn-cancel">
-                            <i class="fas fa-times"></i> CANCEL
-                        </a>
-                    </div>
-
-                </form>
-            </div><!-- /retro-window-body -->
-        </div><!-- /retro-window -->
-    </main>
-
+<script>
+function switchTab(tab) {
+    document.querySelectorAll('.upload-tab').forEach(function(btn, i) {
+        btn.classList.toggle('active', (i === 0 && tab === 'import') || (i === 1 && tab === 'manual'));
+    });
+    document.querySelectorAll('.upload-tab-panel').forEach(function(panel) {
+        panel.classList.toggle('active', panel.id === 'panel-' + tab);
+    });
+}
+</script>
 </body>
 </html>

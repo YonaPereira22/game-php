@@ -3,7 +3,6 @@ session_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
-// Si ya está logueado, redirigir
 if (isset($_SESSION['user_id'])) {
     header('Location: index.php');
     exit;
@@ -17,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if (empty($username) || empty($password)) {
-        $message = 'Usuario y contraseña requeridos';
+        $message = 'Usuario y contraseña requeridos.';
         $messageType = 'error';
     } else {
         try {
@@ -30,24 +29,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $message = 'Tu cuenta está pendiente de aprobación. Por favor, espera la confirmación del administrador.';
                     $messageType = 'error';
                 } else {
-                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_id']  = $user['id'];
                     $_SESSION['username'] = $username;
-                    $_SESSION['role'] = $user['role'];
-                    
-                    // Actualizar último acceso
+                    $_SESSION['role']     = $user['role'];
+
                     $updateStmt = $pdo->prepare('UPDATE users SET last_login = NOW() WHERE id = ?');
                     $updateStmt->execute([$user['id']]);
-                    
+
                     $redirect = $_GET['redirect'] ?? 'index.php';
                     header('Location: ' . $redirect);
                     exit;
                 }
             } else {
-                $message = 'Usuario o contraseña incorrectos';
+                $message = 'Usuario o contraseña incorrectos.';
                 $messageType = 'error';
             }
         } catch (PDOException $e) {
-            $message = 'Error en el servidor: ' . $e->getMessage();
+            $message = 'Error en el servidor.';
             $messageType = 'error';
         }
     }
@@ -58,153 +56,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZELIA - Iniciar Sesión</title>
+    <title>Iniciar Sesión — ZELIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .login-container {
-            max-width: 450px;
-            margin: 40px auto;
-        }
-        .auth-form {
-            background: #fff;
-            border: 2px solid #333;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .divider {
-            text-align: center;
-            margin: 20px 0;
-            position: relative;
-        }
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #ddd;
-        }
-        .divider span {
-            background: #fff;
-            padding: 0 10px;
-            position: relative;
-            z-index: 1;
-            color: #666;
-            font-size: 14px;
-        }
-        .google-login {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px;
-            background: #fff;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
-        .google-login:hover {
-            border-color: #4285f4;
-            background: #f9f9f9;
-            box-shadow: 0 2px 4px rgba(66, 133, 244, 0.3);
-        }
-        .google-login img {
-            width: 20px;
-            height: 20px;
-        }
-        .auth-links {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        .auth-links a {
-            color: #0066cc;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .auth-links a:hover {
-            text-decoration: underline;
-        }
-        .message {
-            padding: 12px 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            border-left: 4px solid;
-        }
-        .message.error {
-            background: #fee;
-            border-left-color: #f00;
-            color: #c00;
-        }
-        .message.success {
-            background: #efe;
-            border-left-color: #0f0;
-            color: #060;
-        }
-    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1><a href="index.php"><i class="fas fa-arrow-left"></i> Volver</a></h1>
-            <h2>🎮 ZELIA - Iniciar Sesión</h2>
-        </div>
-    </header>
-    <main class="container login-container">
+
+<?php include 'includes/navbar.php'; ?>
+
+<main class="form-page">
+    <div class="form-card">
+        <h1 class="form-card-title">Bienvenido de vuelta</h1>
+        <p class="form-card-subtitle">Inicia sesión en tu cuenta ZELIA</p>
+
         <?php if ($message): ?>
-            <div class="message <?= htmlspecialchars($messageType) ?>">
+            <div class="alert alert-<?= $messageType ?>">
                 <?= htmlspecialchars($message) ?>
             </div>
         <?php endif; ?>
-        
-        <div class="auth-form">
-            <!-- Botón de Google OAuth -->
-            <a href="google_login.php" class="google-login">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_3844_7657)">
-                        <path d="M23.745 12.27c0-.79-.1-1.54-.257-2.26H12v4.26h6.899c-.29 1.48-1.144 2.73-2.404 3.58v3.01h3.89c2.27-2.09 3.576-5.17 3.576-8.59z" fill="#4285F4"/>
-                        <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.01c-1.08.72-2.45 1.13-4.05 1.13-3.12 0-5.78-2.11-6.73-4.96h-3.98v3.1C3.43 23.06 7.33 24 12 24z" fill="#34A853"/>
-                        <path d="M5.27 14.25c-.27-.72-.42-1.49-.42-2.25s.15-1.53.42-2.25V6.65h-3.98a11.966 11.966 0 000 10.7l3.98-3.1z" fill="#FBBC05"/>
-                        <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.94 1.12 15.23 0 12 0 7.33 0 3.43.97 1.29 3.65l3.98 3.1c.95-2.85 3.61-4.96 6.73-4.96z" fill="#EA4335"/>
-                    </g>
-                </svg>
-                Inicia sesión con Google
-            </a>
-            
-            <div class="divider">
-                <span>o con tu cuenta</span>
+
+        <a href="google_login.php" class="google-btn">
+            <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/></svg>
+            Continuar con Google
+        </a>
+
+        <div class="divider">o con tu cuenta</div>
+
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label" for="username">Usuario o Email</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-input"
+                    placeholder="tu_usuario"
+                    autocomplete="username"
+                    required
+                >
             </div>
-            
-            <!-- Formulario de login tradicional -->
-            <form method="POST">
-                <div class="form-group">
-                    <label for="username">Usuario o Email</label>
-                    <input type="text" id="username" name="username" required autofocus>
-                </div>
-                <div class="form-group">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary" style="width: 100%;">Ingresar</button>
-                </div>
-            </form>
-            
-            <div class="auth-links">
-                <p>¿No tienes cuenta? <a href="register.php">Regístrate aquí</a></p>
+            <div class="form-group">
+                <label class="form-label" for="password">Contraseña</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-input"
+                    placeholder="••••••••"
+                    autocomplete="current-password"
+                    required
+                >
             </div>
-        </div>
-    </main>
-    
+            <button type="submit" class="form-submit">Iniciar Sesión</button>
+        </form>
+
+        <p class="auth-footer">
+            ¿No tienes cuenta? <a href="register.php">Crear una cuenta</a>
+        </p>
+    </div>
+</main>
+
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>
-
-

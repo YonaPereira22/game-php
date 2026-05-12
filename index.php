@@ -4,31 +4,17 @@ require_once 'config/database.php';
 require_once 'includes/functions.php';
 
 $category = isset($_GET['category']) ? sanitizeInput($_GET['category']) : '';
-$ageGroup = isset($_GET['age']) ? sanitizeInput($_GET['age']) : '';
-$search = isset($_GET['search']) ? sanitizeInput($_GET['search']) : '';
+$ageGroup = isset($_GET['age'])      ? sanitizeInput($_GET['age'])      : '';
+$search   = isset($_GET['search'])   ? sanitizeInput($_GET['search'])   : '';
 
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
-$sql = $isAdmin
-    ? "SELECT * FROM games"
-    : "SELECT * FROM games WHERE approved = 1";
+$sql    = $isAdmin ? "SELECT * FROM games" : "SELECT * FROM games WHERE approved = 1";
 $params = [];
 
-if ($category) {
-    $sql .= " AND category = ?";
-    $params[] = $category;
-}
-
-if ($ageGroup) {
-    $sql .= " AND age_group = ?";
-    $params[] = $ageGroup;
-}
-
-if ($search) {
-    $sql .= " AND (title LIKE ? OR description LIKE ?)";
-    $params[] = "%$search%";
-    $params[] = "%$search%";
-}
+if ($category) { $sql .= " AND category = ?";                             $params[] = $category; }
+if ($ageGroup)  { $sql .= " AND age_group = ?";                           $params[] = $ageGroup; }
+if ($search)    { $sql .= " AND (title LIKE ? OR description LIKE ?)";    $params[] = "%$search%"; $params[] = "%$search%"; }
 
 $sql .= " ORDER BY average_rating DESC, created_at DESC";
 
@@ -37,193 +23,172 @@ $stmt->execute($params);
 $games = $stmt->fetchAll();
 
 $categoriesStmt = $pdo->query("SELECT DISTINCT category FROM games WHERE category IS NOT NULL");
-$categories = $categoriesStmt->fetchAll(PDO::FETCH_COLUMN);
+$categories     = $categoriesStmt->fetchAll(PDO::FETCH_COLUMN);
 
 $ageGroupsStmt = $pdo->query("SELECT DISTINCT age_group FROM games WHERE age_group IS NOT NULL");
-$ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
-?>
+$ageGroups     = $ageGroupsStmt->fetchAll(PDO::FETCH_COLUMN);
 
+$totalStmt = $pdo->query("SELECT COUNT(*) FROM games WHERE approved = 1");
+$totalGames = $totalStmt->fetchColumn();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZELIA - Zona Educativa Lúdica con Inteligencia Artificial - 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=<?= filemtime(__DIR__ . '/css/style.css') ?>">
-    <style>
-        .feedback-float {
-            position: fixed;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10050;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 15px 18px;
-            border: 2px solid #ffe600;
-            border-radius: 14px;
-            background: #1a1030;
-            color: #ffe600;
-            text-decoration: none;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 11px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-shadow: 0 0 8px rgba(255, 255, 0, 0.8);
-            box-shadow: 0 0 16px rgba(255, 255, 0, 0.45), inset 0 0 14px rgba(255, 255, 0, 0.2);
-            animation: feedback-float-bob 2.2s ease-in-out infinite, feedback-pulse 1.4s ease-in-out infinite;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-        }
-
-        .feedback-float::before {
-            content: '●';
-            color: #ff3355;
-            font-size: 12px;
-            animation: feedback-alert-dot 0.9s steps(2, end) infinite;
-        }
-
-        .feedback-float:hover {
-            transform: translateY(-50%) translateX(8px) scale(1.03);
-            box-shadow: 0 0 22px rgba(255, 255, 0, 0.75), inset 0 0 16px rgba(255, 255, 0, 0.35);
-            filter: saturate(1.2);
-        }
-
-        @keyframes feedback-float-bob {
-            0%,
-            100% {
-                transform: translateY(-50%) translateX(0);
-            }
-            50% {
-                transform: translateY(calc(-50% - 6px)) translateX(0);
-            }
-        }
-
-        @keyframes feedback-pulse {
-            0%,
-            100% {
-                box-shadow: 0 0 14px rgba(255, 255, 0, 0.4), inset 0 0 12px rgba(255, 255, 0, 0.18);
-            }
-            50% {
-                box-shadow: 0 0 26px rgba(255, 255, 0, 0.85), inset 0 0 20px rgba(255, 255, 0, 0.35);
-            }
-        }
-
-        @keyframes feedback-alert-dot {
-            0%,
-            49% {
-                opacity: 1;
-            }
-            50%,
-            100% {
-                opacity: 0.25;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .feedback-float {
-                left: 8px;
-                padding: 11px 12px;
-                font-size: 8px;
-            }
-        }
-    </style>
+    <title>ZELIA — Zona Educativa Lúdica con Inteligencia Artificial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <p class="blink">— INSERTA LA FICHA AQUI—</p>
-            <h1>🎮ZELIA</h1>
-            <p class="sub">Zona Educativa Lúdica con Inteligencia Artificial - 2026</p>
-            <nav>
-                <a href="index.php">Inicio</a>
-                <a href="nosotros.php">Nosotros</a>
-                <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['creator', 'admin'])): ?>
-                    <a href="upload.php">Subir Juego</a>
-                <?php endif; ?>
-                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                    <a href="admin.php">Admin</a>
-                <?php endif; ?>
-                
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="logout.php">Cerrar Sesión</a>
-                <?php else: ?>
-                    <a href="login.php" class="nav-login">Iniciar Sesión</a>
-                <?php endif; ?>
-            </nav>
+
+<?php include 'includes/navbar.php'; ?>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge">🎮 Plataforma educativa · 2026</div>
+                <h1 class="hero-title">
+                    Aprende<br>
+                    <span class="gradient-text">jugando</span>
+                </h1>
+                <p class="hero-desc">
+                    Explora juegos educativos diseñados para desarrollar habilidades digitales de forma divertida e interactiva.
+                </p>
+                <div class="hero-actions">
+                    <a href="#juegos" class="btn btn-primary">Ver juegos</a>
+                    <a href="nosotros.php" class="btn btn-ghost">Conocer el equipo</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <strong><?= $totalGames ?></strong>
+                        <span>Juegos</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <strong><?= count($categories) ?></strong>
+                        <span>Categorías</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <strong>100%</strong>
+                        <span>Gratuito</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-circle"></div>
+                <div class="floating-card fc1"><span>🧠</span><p>LÓGICA</p></div>
+                <div class="floating-card fc2"><span>📐</span><p>MATEMÁTICAS</p></div>
+                <div class="floating-card fc3"><span>🎯</span><p>ESTRATEGIA</p></div>
+            </div>
         </div>
-    </header>
+    </div>
+</section>
 
-    <a href="feedback.php" class="feedback-float">Encuesta</a>
+<!-- FILTROS -->
+<section class="search-section" id="juegos">
+    <div class="container">
+        <form method="GET" class="search-bar">
+            <div class="search-input-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input
+                    type="text"
+                    name="search"
+                    class="search-input"
+                    placeholder="Buscar juegos…"
+                    value="<?= htmlspecialchars($search) ?>"
+                >
+            </div>
 
-    <main class="container">
-        <p class="section-label">ELIGE TU JUEGO Y PULSA ▶ JUGAR</p>
-        <section class="filters">
-            <form method="GET" class="filter-form">
-                <div class="filter-group">
-                    <input type="text" name="search" placeholder="Buscar juegos...." value="<?= htmlspecialchars($search) ?>">
-                    
-                    <select name="category">
-                        <option value="">Categorías</option>
-                        <?php foreach ($categories as $cat): ?>
-                            <option value="<?= htmlspecialchars($cat) ?>" <?= $category === $cat ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($cat) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    
-                    <select name="age">
-                        <option value="">Todas las edades</option>
-                        <?php foreach ($ageGroups as $age): ?>
-                            <option value="<?= htmlspecialchars($age) ?>" <?= $ageGroup === $age ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($age) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    
-                    <button type="submit"><i class="fas fa-search"></i> Filtrar</button>
-                </div>
-            </form>
-        </section>
-
-        <section class="grid">
-            <?php if (empty($games)): ?>
-                <div class="no-games">
-                    <i class="fas fa-sad-tear"></i>
-                    <p>No se encontraron juegos con los filtros seleccionados.</p>
-                </div>
-            <?php else: ?>
-                <?php foreach ($games as $game): ?>
-                    <a href="game.php?id=<?= $game['id'] ?>" class="game-card<?= (!$game['approved']) ? ' game-card--pending' : '' ?>">
-                        <?php if (!$game['approved']): ?>
-                            <span class="game-pending-badge">PENDIENTE</span>
-                        <?php endif; ?>
-                        <div class="cscreen" style="background:#001a00">
-                            <img src="images/game-thumbnails/<?= htmlspecialchars($game['folder_name']) ?>.svg" alt="<?= htmlspecialchars($game['title']) ?>" class="game-thumbnail" onerror="this.src='images/game-thumbnails/default.svg'">
-                            <div class="cov">
-                                <span class="cov-btn">▶ JUGAR</span>
-                            </div>
-                        </div>
-                        <div class="cinfo">
-                            <div class="ctitle"><?= htmlspecialchars($game['title']) ?></div>
-                            <div class="cmeta">
-                                <span style="color:var(--cyan)"><?= htmlspecialchars($game['category']) ?></span>
-                                <span class="cbadge" style="color:#88cc44;border-color:#88cc44"><?= htmlspecialchars($game['age_group']) ?></span>
-                            </div>
-                        </div>
+            <div class="filter-chips">
+                <a href="?<?= $ageGroup ? 'age='.urlencode($ageGroup) : '' ?>" class="chip<?= !$category ? ' active' : '' ?>">Todos</a>
+                <?php foreach ($categories as $cat): ?>
+                    <a href="?category=<?= urlencode($cat) ?><?= $ageGroup ? '&age='.urlencode($ageGroup) : '' ?><?= $search ? '&search='.urlencode($search) : '' ?>"
+                       class="chip<?= $category === $cat ? ' active' : '' ?>">
+                        <?= htmlspecialchars($cat) ?>
                     </a>
                 <?php endforeach; ?>
-            <?php endif; ?>
-        </section>
-    </main>
+            </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Juegos Educativos CeRP del Suroeste. Plataforma segura para el aprendizaje.</p>
+            <select name="age" class="age-select" onchange="this.form.submit()">
+                <option value="">Todas las edades</option>
+                <?php foreach ($ageGroups as $age): ?>
+                    <option value="<?= htmlspecialchars($age) ?>" <?= $ageGroup === $age ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($age) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </form>
+    </div>
+</section>
+
+<!-- JUEGOS -->
+<section class="games-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Juegos disponibles</h2>
+            <span class="section-count"><?= count($games) ?></span>
         </div>
-    </footer>
 
-    
+        <div class="games-grid">
+            <?php if (empty($games)): ?>
+                <div class="no-games">
+                    <span style="font-size:48px">🔍</span>
+                    <p>No se encontraron juegos con esos filtros.</p>
+                </div>
+            <?php else: ?>
+                <?php
+                $emojiMap = ['lógica'=>'🧩','matematicas'=>'📐','matemáticas'=>'📐','lenguaje'=>'📝','ciencias'=>'🔬','arte'=>'🎨','historia'=>'🏛️','programacion'=>'💻','programación'=>'💻'];
+                foreach ($games as $game):
+                    $cat    = strtolower($game['category'] ?? '');
+                    $emoji  = $emojiMap[$cat] ?? '🎮';
+                    $rating = round($game['average_rating'] ?? 0);
+                    $stars  = str_repeat('★', $rating) . str_repeat('☆', 5 - $rating);
+                ?>
+                <a href="game.php?id=<?= $game['id'] ?>" class="game-card<?= (!$game['approved']) ? ' game-card--pending' : '' ?>">
+                    <?php if (!$game['approved']): ?>
+                        <span class="game-pending-badge">PENDIENTE</span>
+                    <?php endif; ?>
+                    <div class="game-card-img">
+                        <img
+                            src="images/game-thumbnails/<?= htmlspecialchars($game['folder_name']) ?>.svg"
+                            alt="<?= htmlspecialchars($game['title']) ?>"
+                            class="game-thumbnail"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'"
+                        >
+                        <span class="game-emoji" style="display:none"><?= $emoji ?></span>
+                        <div class="game-card-overlay">
+                            <span class="play-btn">▶ Jugar</span>
+                        </div>
+                    </div>
+                    <div class="game-card-body">
+                        <div class="game-card-meta">
+                            <span class="game-badge"><?= htmlspecialchars($game['category']) ?></span>
+                            <span class="game-age"><?= htmlspecialchars($game['age_group']) ?></span>
+                        </div>
+                        <div class="game-title"><?= htmlspecialchars($game['title']) ?></div>
+                        <div class="game-desc"><?= htmlspecialchars($game['description']) ?></div>
+                        <div class="game-footer">
+                            <span class="stars"><?= $stars ?></span>
+                            <span class="game-rating"><?= number_format($game['average_rating'] ?? 0, 1) ?></span>
+                        </div>
+                    </div>
+                </a>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<a href="feedback.php" class="feedback-float">Encuesta</a>
+
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>
