@@ -257,6 +257,26 @@
     ],
     "autor": "Domingo Pérez",
     "url": "https://1001problemas.com"
+  },
+
+  "simulador-redes": {
+    "tipo": "Juego",
+    "nombre": "NetSim Academy",
+    "descripcion": "Simulador educativo de redes de computadoras. Explorá componentes de hardware, ensamblado de PCs, redes locales e Internet mediante misiones interactivas y un quiz final.",
+    "instrucciones": [
+      "Recorrés las pestañas: Componentes, Ensamblado, Red Local e Internet.",
+      "Completá cada misión para sumar puntos y estrellas.",
+      "Respondé el quiz final para demostrar lo aprendido.",
+      "Podés reiniciar el progreso en cualquier momento."
+    ],
+    "temas": [
+      "Redes de computadoras",
+      "Hardware",
+      "Internet",
+      "Arquitectura de redes"
+    ],
+    "autor": "Domingo Perez",
+    "url": "https://game.1001problemas.com/simulador-redes/"
   }
 }
   

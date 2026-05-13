@@ -52,7 +52,8 @@ INSERT INTO `games` (`id`, `title`, `description`, `author`, `folder_name`, `cat
 (3, 'Código Perdido', 'Juego narrativo que combina una historia de recuperación de memoria con desafíos para aprender Python.', 'Sofia Rodriguez', 'codigo-perdido', 'Python', '9-12 años', '2025-06-24 00:26:50', 1, 0, 0.00, NULL),
 (4, 'Juego del Rosco', 'Juego de preguntas tipo rosco para poner a prueba tus conocimientos de programación.', 'Domingo Pérez', 'rosco', 'Programación', '9-12 años', '2025-06-24 00:26:50', 1, 0, 0.00, NULL),
 (5, 'Snake Programer', 'En este juego, controlas una serpiente que, en lugar de comer simples manzanas o frutas, consume ´tokens de programación´ que van apareciendo en el tablero. Cada token representa un elemento de código (variables, funciones, operadores, etc.) que se va agregando a tu ´editor de código´ al ser consumido.', 'Sol Méndez', 'snake', 'Programación', '9-12 años', '2025-06-24 00:26:50', 1, 1, 3.00, NULL),
-(6, 'PlayIA', 'Juego creado para el Taller de IA 2025', 'Informatica 2do - 2025', 'playia-1760618248', 'Ciencias', '13-16 años', '2025-10-16 12:37:28', 1, 0, 0.00, 'https://domingo1987.github.io/PlayIA');
+(6, 'PlayIA', 'Juego creado para el Taller de IA 2025', 'Informatica 2do - 2025', 'playia-1760618248', 'Ciencias', '13-16 años', '2025-10-16 12:37:28', 1, 0, 0.00, 'https://domingo1987.github.io/PlayIA'),
+(7, 'NetSim Academy', 'Simulador educativo de redes de computadoras. Explorá componentes de hardware, ensamblado de PCs, redes locales e Internet mediante misiones interactivas y un quiz final.', 'Domingo Perez', 'simulador-redes', 'Redes', '13-16 años', '2026-05-13 00:00:00', 1, 0, 0.00, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -74,7 +75,7 @@ ALTER TABLE `games`
 -- AUTO_INCREMENT de la tabla `games`
 --
 ALTER TABLE `games`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

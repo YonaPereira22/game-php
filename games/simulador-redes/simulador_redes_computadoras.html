@@ -1,0 +1,1206 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  :root {
+    --bg: #0f1117;
+    --bg2: #161a24;
+    --bg3: #1e2436;
+    --card: #1a1f2e;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #e8eaf0;
+    --text2: #9aa3b8;
+    --text3: #5a6380;
+    --accent: #4f8ef7;
+    --accent2: #7c3aed;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --teal: #14b8a6;
+    --pink: #ec4899;
+    --font: 'Nunito', sans-serif;
+    --mono: 'Space Mono', monospace;
+  }
+
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+  /* HEADER */
+  .header { background: linear-gradient(135deg, #0d1321 0%, #1a1040 50%, #0d1321 100%); padding: 16px 20px; border-bottom: 1px solid var(--border2); display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  .header-logo { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .header-title { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; }
+  .header-sub { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+  .header-score { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+  .score-item { text-align: right; }
+  .score-num { font-size: 20px; font-weight: 800; color: var(--accent); font-family: var(--mono); }
+  .score-lbl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stars { display: flex; gap: 3px; }
+  .star { font-size: 16px; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 0; background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .tab { padding: 12px 16px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; color: var(--text3); transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+  .tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(79,142,247,0.05); }
+  .tab-icon { font-size: 14px; }
+  .tab-badge { background: var(--green); color: #000; font-size: 9px; padding: 1px 5px; border-radius: 99px; font-weight: 800; }
+  .tab-lock { font-size: 11px; }
+
+  /* SECTIONS */
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ---- SECTION 1: COMPONENTES ---- */
+  .s1-intro { padding: 20px; background: linear-gradient(135deg, rgba(79,142,247,0.08), rgba(124,58,237,0.08)); border-bottom: 1px solid var(--border); }
+  .s1-intro h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .s1-intro p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; padding: 16px; }
+  
+  .comp-category { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .comp-cat-header { padding: 12px 16px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+  .comp-cat-header.entrada { background: rgba(34,197,94,0.12); color: var(--green); border-bottom: 1px solid rgba(34,197,94,0.2); }
+  .comp-cat-header.procesamiento { background: rgba(79,142,247,0.12); color: var(--accent); border-bottom: 1px solid rgba(79,142,247,0.2); }
+  .comp-cat-header.almacenamiento { background: rgba(245,158,11,0.12); color: var(--amber); border-bottom: 1px solid rgba(245,158,11,0.2); }
+  .comp-cat-header.salida { background: rgba(236,72,153,0.12); color: var(--pink); border-bottom: 1px solid rgba(236,72,153,0.2); }
+  .comp-cat-header.software { background: rgba(124,58,237,0.12); color: #a78bfa; border-bottom: 1px solid rgba(124,58,237,0.2); }
+
+  .comp-items { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .comp-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+  .comp-item:hover { border-color: var(--border2); transform: translateX(2px); }
+  .comp-item.selected { border-color: var(--accent); background: rgba(79,142,247,0.08); }
+  .comp-emoji { font-size: 22px; width: 32px; text-align: center; }
+  .comp-info { flex: 1; }
+  .comp-name { font-size: 13px; font-weight: 700; }
+  .comp-desc { font-size: 11px; color: var(--text3); margin-top: 2px; line-height: 1.4; }
+  .comp-badge { font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; margin-left: auto; }
+  .badge-hw { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-sw { background: rgba(124,58,237,0.15); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+
+  .detail-panel { margin: 0 16px 16px; background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.2); border-radius: 12px; padding: 16px; display: none; }
+  .detail-panel.show { display: block; animation: fadeIn 0.2s ease; }
+  .detail-panel h3 { font-size: 15px; font-weight: 800; margin-bottom: 8px; color: var(--accent); }
+  .detail-panel p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .detail-fun-fact { margin-top: 10px; padding: 10px; background: rgba(245,158,11,0.08); border-left: 3px solid var(--amber); border-radius: 4px; font-size: 12px; color: var(--text2); }
+  .detail-fun-fact strong { color: var(--amber); }
+
+  /* ---- SECTION 2: ENSAMBLADO ---- */
+  .build-area { padding: 16px; }
+  .build-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+  .build-sub { font-size: 12px; color: var(--text3); margin-bottom: 16px; }
+
+  .build-game { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pieces-pool { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
+  .pieces-pool h3 { font-size: 12px; font-weight: 800; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .pieces-list { display: flex; flex-direction: column; gap: 6px; }
+  .piece { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+  .piece:hover { border-color: var(--border2); background: var(--bg3); }
+  .piece.used { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+  .piece-emoji { font-size: 20px; }
+
+  .computer-slots { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .computer-header { padding: 12px 16px; background: linear-gradient(135deg, rgba(79,142,247,0.15), rgba(124,58,237,0.15)); border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .slots-grid { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .slot-row { display: flex; align-items: center; gap: 8px; }
+  .slot-label { font-size: 11px; font-weight: 700; color: var(--text3); width: 110px; text-align: right; text-transform: uppercase; letter-spacing: 0.5px; }
+  .slot { flex: 1; min-height: 44px; background: var(--bg2); border: 1.5px dashed var(--border2); border-radius: 10px; display: flex; align-items: center; padding: 0 12px; gap: 8px; cursor: pointer; transition: all 0.2s; font-size: 13px; color: var(--text3); }
+  .slot:hover:not(.filled) { border-color: var(--accent); background: rgba(79,142,247,0.05); }
+  .slot.filled { border-style: solid; border-color: var(--green); background: rgba(34,197,94,0.06); color: var(--text); font-weight: 600; }
+  .slot.wrong { border-color: var(--red); background: rgba(239,68,68,0.06); animation: shake 0.3s ease; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+  .slot-emoji { font-size: 18px; }
+
+  .build-feedback { margin-top: 12px; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 600; display: none; }
+  .build-feedback.show { display: block; }
+  .build-feedback.success { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: var(--green); }
+  .build-feedback.error { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: var(--red); }
+
+  .build-progress { padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border); background: var(--bg2); }
+  .progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--teal)); border-radius: 99px; transition: width 0.4s ease; }
+  .progress-text { font-size: 12px; font-weight: 700; color: var(--text2); }
+
+  /* ---- SECTION 3: RED ---- */
+  .network-area { padding: 16px; }
+  .network-canvas-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .network-toolbar { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tool-btn { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border2); background: var(--bg2); color: var(--text2); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; font-family: var(--font); }
+  .tool-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tool-btn.active { background: rgba(79,142,247,0.15); border-color: var(--accent); color: var(--accent); }
+  .tool-sep { width: 1px; height: 20px; background: var(--border); }
+
+  .net-canvas { width: 100%; height: 360px; position: relative; background: radial-gradient(circle at 50% 50%, rgba(79,142,247,0.04) 0%, transparent 70%), var(--bg); overflow: hidden; cursor: crosshair; }
+  .net-node { position: absolute; width: 64px; height: 64px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; user-select: none; }
+  .net-node:hover { transform: scale(1.08); }
+  .net-node.selected { box-shadow: 0 0 0 3px var(--accent); }
+  .net-node-icon { font-size: 26px; }
+  .net-node-label { font-size: 9px; font-weight: 700; margin-top: 2px; text-align: center; line-height: 1.2; }
+  .net-node.pc { background: rgba(79,142,247,0.15); border-color: rgba(79,142,247,0.3); }
+  .net-node.router { background: rgba(124,58,237,0.15); border-color: rgba(124,58,237,0.3); }
+  .net-node.switch { background: rgba(20,184,166,0.15); border-color: rgba(20,184,166,0.3); }
+  .net-node.server { background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.3); }
+  .net-node.internet { background: rgba(236,72,153,0.15); border-color: rgba(236,72,153,0.3); }
+
+  svg.net-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+  .net-line { stroke: rgba(79,142,247,0.35); stroke-width: 2; stroke-dasharray: none; }
+  .net-line.data-flow { stroke: var(--green); stroke-width: 2.5; stroke-dasharray: 6 4; animation: dashFlow 0.8s linear infinite; }
+  @keyframes dashFlow { to { stroke-dashoffset: -20; } }
+
+  .data-packet { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); pointer-events: none; transition: none; display: none; }
+
+  .net-info { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 16px; flex-wrap: wrap; }
+  .net-stat { font-size: 12px; }
+  .net-stat strong { color: var(--accent); }
+  .net-legend { display: flex; gap: 12px; margin-left: auto; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text3); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  .net-mission { margin-top: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+  .mission-title { font-size: 12px; font-weight: 800; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .mission-list { display: flex; flex-direction: column; gap: 6px; }
+  .mission-item { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 8px 10px; background: var(--bg2); border-radius: 8px; border: 1px solid var(--border); }
+  .mission-check { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; transition: all 0.3s; }
+  .mission-check.done { background: var(--green); border-color: var(--green); color: #000; }
+  .mission-text { flex: 1; }
+  .mission-pts { font-size: 11px; color: var(--amber); font-weight: 700; }
+
+  /* ---- SECTION 4: INTERNET ---- */
+  .internet-area { padding: 16px; }
+  .journey-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .journey-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .journey-header h3 { font-size: 14px; font-weight: 800; }
+  .journey-header p { font-size: 12px; color: var(--text3); }
+
+  .journey-steps { padding: 16px; display: flex; flex-direction: column; gap: 0; }
+  .j-step { display: flex; gap: 12px; position: relative; }
+  .j-step:not(:last-child)::before { content: ''; position: absolute; left: 19px; top: 42px; width: 2px; height: calc(100% - 2px); background: linear-gradient(180deg, var(--accent), transparent); }
+  .j-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; border: 2px solid var(--border2); background: var(--bg2); z-index: 1; transition: all 0.5s; }
+  .j-icon.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 16px rgba(79,142,247,0.5); }
+  .j-icon.done { background: var(--green); border-color: var(--green); }
+  .j-content { flex: 1; padding-bottom: 20px; }
+  .j-title { font-size: 14px; font-weight: 800; margin-bottom: 3px; }
+  .j-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+  .j-packet { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; padding: 4px 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 99px; font-family: var(--mono); font-size: 10px; color: var(--text2); }
+
+  .journey-controls { padding: 14px 18px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: var(--bg2); }
+  .j-url-input { flex: 1; background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 9px 14px; font-size: 13px; color: var(--text); font-family: var(--mono); outline: none; transition: border-color 0.2s; }
+  .j-url-input:focus { border-color: var(--accent); }
+  .j-btn { padding: 9px 18px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s; font-family: var(--font); }
+  .j-btn:hover { background: #3a7ef6; transform: translateY(-1px); }
+  .j-btn:active { transform: translateY(0); }
+
+  .protocol-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+  .proto-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; transition: all 0.3s; }
+  .proto-card.highlight { border-color: var(--accent); background: rgba(79,142,247,0.08); }
+  .proto-name { font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--accent); }
+  .proto-full { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+  .proto-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+  /* ---- SECTION 5: QUIZ ---- */
+  .quiz-area { padding: 16px; }
+  .quiz-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; max-width: 700px; margin: 0 auto; }
+  .quiz-top { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .q-counter { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+  .q-progress { flex: 1; height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .q-prog-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.5s ease; }
+  .q-score { font-size: 13px; font-weight: 800; color: var(--amber); }
+
+  .question-area { padding: 20px 20px 10px; }
+  .q-category { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--teal); margin-bottom: 8px; }
+  .q-text { font-size: 16px; font-weight: 700; line-height: 1.5; margin-bottom: 18px; }
+  .q-emoji { font-size: 32px; margin-bottom: 10px; display: block; }
+
+  .options-grid { display: flex; flex-direction: column; gap: 8px; padding: 0 20px 20px; }
+  .option { padding: 13px 16px; background: var(--bg2); border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+  .option:hover:not(.answered) { border-color: var(--accent); background: rgba(79,142,247,0.06); }
+  .option.correct { border-color: var(--green); background: rgba(34,197,94,0.1); color: var(--green); }
+  .option.wrong { border-color: var(--red); background: rgba(239,68,68,0.1); color: var(--red); }
+  .option-letter { width: 26px; height: 26px; border-radius: 8px; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0; font-family: var(--mono); }
+  .option.correct .option-letter { background: var(--green); color: #000; }
+  .option.wrong .option-letter { background: var(--red); color: #fff; }
+
+  .q-feedback { margin: 0 20px 16px; padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; display: none; }
+  .q-feedback.show { display: block; }
+  .q-feedback.correct { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: var(--green); }
+  .q-feedback.incorrect { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--red); }
+  .q-feedback strong { display: block; margin-bottom: 4px; }
+
+  .q-next { margin: 0 20px 20px; padding: 12px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; width: calc(100% - 0px); display: none; font-family: var(--font); transition: all 0.2s; }
+  .q-next.show { display: block; }
+  .q-next:hover { background: #3a7ef6; }
+
+  .quiz-result { padding: 40px 20px; text-align: center; display: none; }
+  .quiz-result.show { display: block; }
+  .result-emoji { font-size: 64px; margin-bottom: 16px; }
+  .result-score { font-size: 48px; font-weight: 800; color: var(--accent); font-family: var(--mono); }
+  .result-msg { font-size: 16px; color: var(--text2); margin: 8px 0 24px; }
+  .result-stars { font-size: 32px; margin-bottom: 20px; }
+  .result-btn { padding: 12px 24px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; font-family: var(--font); margin: 0 6px; }
+  .result-btn.outline { background: transparent; border: 1.5px solid var(--border2); color: var(--text2); }
+
+  /* Buttons */
+  .btn-primary { padding: 10px 20px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; font-family: var(--font); transition: all 0.2s; }
+  .btn-primary:hover { background: #3a7ef6; transform: translateY(-1px); }
+  .btn-ghost { padding: 10px 20px; background: transparent; color: var(--text2); border: 1px solid var(--border2); border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: var(--font); transition: all 0.2s; }
+  .btn-ghost:hover { border-color: var(--text2); color: var(--text); }
+
+  /* Toast */
+  .toast { position: fixed; bottom: 20px; right: 20px; padding: 12px 18px; border-radius: 12px; font-size: 13px; font-weight: 700; z-index: 1000; transform: translateY(60px); opacity: 0; transition: all 0.3s; max-width: 280px; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { background: rgba(34,197,94,0.9); color: #000; }
+  .toast.info { background: rgba(79,142,247,0.9); color: #fff; }
+  .toast.error { background: rgba(239,68,68,0.9); color: #fff; }
+
+  /* Particle ping */
+  @keyframes ping { 0%{transform:scale(1);opacity:1} 100%{transform:scale(3);opacity:0} }
+  .ping { position: absolute; border-radius: 50%; animation: ping 1s ease-out forwards; pointer-events: none; }
+
+  .section-actions { padding: 14px 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg2); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">💻</div>
+  <div>
+    <div class="header-title">NetSim Academy</div>
+    <div class="header-sub">Arquitectura · Redes · Internet</div>
+  </div>
+  <div class="header-score">
+    <div class="score-item">
+      <div class="score-num" id="total-score">0</div>
+      <div class="score-lbl">Puntos</div>
+    </div>
+    <div class="stars" id="stars-display">
+      <span class="star">☆</span><span class="star">☆</span><span class="star">☆</span>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showSection(0)" id="tab0"><span class="tab-icon">🔩</span> Componentes</div>
+  <div class="tab" onclick="showSection(1)" id="tab1"><span class="tab-icon">🖥️</span> Ensamblado</div>
+  <div class="tab" onclick="showSection(2)" id="tab2"><span class="tab-icon">🌐</span> Red Local</div>
+  <div class="tab" onclick="showSection(3)" id="tab3"><span class="tab-icon">🚀</span> Internet</div>
+  <div class="tab" onclick="showSection(4)" id="tab4"><span class="tab-icon">🧠</span> Quiz <span class="tab-badge" id="quiz-badge" style="display:none">!</span></div>
+</div>
+
+<!-- ==================== SECTION 0: COMPONENTES ==================== -->
+<div class="section active" id="section0">
+  <div class="s1-intro">
+    <h2>¿De qué está hecho un sistema digital?</h2>
+    <p>Explorá los componentes de una computadora. Tocá cada uno para ver qué hace, si es hardware o software, y cómo contribuye al sistema completo.</p>
+  </div>
+
+  <div class="components-grid">
+    <!-- Entrada -->
+    <div class="comp-category">
+      <div class="comp-cat-header entrada">⬇️ Dispositivos de Entrada</div>
+      <div class="comp-items">
+        <div class="comp-item" onclick="showDetail('teclado')">
+          <span class="comp-emoji">⌨️</span>
+          <div class="comp-info"><div class="comp-name">Teclado</div><div class="comp-desc">Convierte teclas en señales eléctricas</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('mouse')">
+          <span class="comp-emoji">🖱️</span>
+          <div class="comp-info"><div class="comp-name">Mouse / Ratón</div><div class="comp-desc">Captura movimiento y clics</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('microfono')">
+          <span class="comp-emoji">🎙️</span>
+          <div class="comp-info"><div class="comp-name">Micrófono</div><div class="comp-desc">Convierte sonido en señal digital</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('camara')">
+          <span class="comp-emoji">📷</span>
+          <div class="comp-info"><div class="comp-name">Cámara / Webcam</div><div class="comp-desc">Digitaliza imágenes y video</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Procesamiento -->
+    <div class="comp-category">
+      <div class="comp-cat-header procesamiento">⚙️ Procesamiento</div>
+      <div class="comp-items">
+        <div class="comp-item" onclick="showDetail('cpu')">
+          <span class="comp-emoji">🧠</span>
+          <div class="comp-info"><div class="comp-name">CPU – Procesador</div><div class="comp-desc">El "cerebro": ejecuta instrucciones</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('ram')">
+          <span class="comp-emoji">📋</span>
+          <div class="comp-info"><div class="comp-name">RAM – Memoria</div><div class="comp-desc">Memoria de trabajo temporal</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('gpu')">
+          <span class="comp-emoji">🎮</span>
+          <div class="comp-info"><div class="comp-name">GPU – Tarjeta Gráfica</div><div class="comp-desc">Procesa imágenes y video</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Almacenamiento -->
+    <div class="comp-category">
+      <div class="comp-cat-header almacenamiento">💾 Almacenamiento</div>
+      <div class="comp-items">
+        <div class="comp-item" onclick="showDetail('ssd')">
+          <span class="comp-emoji">💿</span>
+          <div class="comp-info"><div class="comp-name">SSD / Disco Sólido</div><div class="comp-desc">Almacenamiento rápido permanente</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('hdd')">
+          <span class="comp-emoji">🗄️</span>
+          <div class="comp-info"><div class="comp-name">HDD – Disco Duro</div><div class="comp-desc">Almacenamiento magnético masivo</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('pendrive')">
+          <span class="comp-emoji">🔌</span>
+          <div class="comp-info"><div class="comp-name">Pendrive / USB</div><div class="comp-desc">Almacenamiento portátil</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Salida -->
+    <div class="comp-category">
+      <div class="comp-cat-header salida">⬆️ Dispositivos de Salida</div>
+      <div class="comp-items">
+        <div class="comp-item" onclick="showDetail('monitor')">
+          <span class="comp-emoji">🖥️</span>
+          <div class="comp-info"><div class="comp-name">Monitor / Pantalla</div><div class="comp-desc">Muestra imágenes y texto</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('impresora')">
+          <span class="comp-emoji">🖨️</span>
+          <div class="comp-info"><div class="comp-name">Impresora</div><div class="comp-desc">Lleva lo digital al papel</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('parlantes')">
+          <span class="comp-emoji">🔊</span>
+          <div class="comp-info"><div class="comp-name">Parlantes / Auriculares</div><div class="comp-desc">Salida de audio</div></div>
+          <span class="comp-badge badge-hw">HW</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Software -->
+    <div class="comp-category">
+      <div class="comp-cat-header software">💡 Software</div>
+      <div class="comp-items">
+        <div class="comp-item" onclick="showDetail('so')">
+          <span class="comp-emoji">🪟</span>
+          <div class="comp-info"><div class="comp-name">Sistema Operativo</div><div class="comp-desc">Gestiona todo el hardware</div></div>
+          <span class="comp-badge badge-sw">SW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('apps')">
+          <span class="comp-emoji">📱</span>
+          <div class="comp-info"><div class="comp-name">Aplicaciones</div><div class="comp-desc">Programas con funciones específicas</div></div>
+          <span class="comp-badge badge-sw">SW</span>
+        </div>
+        <div class="comp-item" onclick="showDetail('drivers')">
+          <span class="comp-emoji">🔧</span>
+          <div class="comp-info"><div class="comp-name">Drivers / Controladores</div><div class="comp-desc">Conectan el SO con el hardware</div></div>
+          <span class="comp-badge badge-sw">SW</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-panel" id="detail-panel">
+    <h3 id="detail-title">-</h3>
+    <p id="detail-body">-</p>
+    <div class="detail-fun-fact" id="detail-fact">-</div>
+  </div>
+
+  <div class="section-actions">
+    <span style="font-size:12px;color:var(--text3)">Tocá cada componente para explorar</span>
+    <button class="btn-primary" onclick="showSection(1)">Siguiente: Ensamblado →</button>
+  </div>
+</div>
+
+<!-- ==================== SECTION 1: ENSAMBLADO ==================== -->
+<div class="section" id="section1">
+  <div class="build-area">
+    <div class="build-title">🖥️ Ensambla tu computadora</div>
+    <div class="build-sub">Arrastrá (tocá) los componentes a las ranuras correctas para construir un sistema completo</div>
+
+    <div class="build-game">
+      <div class="pieces-pool">
+        <h3>📦 Componentes disponibles</h3>
+        <div class="pieces-list" id="pieces-list">
+          <div class="piece" id="piece-cpu" onclick="selectPiece('cpu','CPU','🧠')"><span class="piece-emoji">🧠</span> CPU / Procesador</div>
+          <div class="piece" id="piece-ram" onclick="selectPiece('ram','RAM','📋')"><span class="piece-emoji">📋</span> Memoria RAM</div>
+          <div class="piece" id="piece-ssd" onclick="selectPiece('ssd','SSD / Disco','💿')"><span class="piece-emoji">💿</span> SSD / Disco</div>
+          <div class="piece" id="piece-monitor" onclick="selectPiece('monitor','Monitor','🖥️')"><span class="piece-emoji">🖥️</span> Monitor</div>
+          <div class="piece" id="piece-teclado" onclick="selectPiece('teclado','Teclado','⌨️')"><span class="piece-emoji">⌨️</span> Teclado</div>
+          <div class="piece" id="piece-so" onclick="selectPiece('so','Sist. Operativo','🪟')"><span class="piece-emoji">🪟</span> Sistema Operativo</div>
+          <div class="piece" id="piece-gpu" onclick="selectPiece('gpu','Tarjeta Gráfica','🎮')"><span class="piece-emoji">🎮</span> Tarjeta Gráfica</div>
+          <div class="piece" id="piece-impresora" onclick="selectPiece('impresora','Impresora','🖨️')"><span class="piece-emoji">🖨️</span> Impresora</div>
+        </div>
+      </div>
+
+      <div class="computer-slots">
+        <div class="computer-header">🖥️ Sistema en construcción</div>
+        <div class="slots-grid">
+          <div class="slot-row">
+            <div class="slot-label">Procesamiento</div>
+            <div class="slot" id="slot-procesamiento" onclick="fillSlot('procesamiento',['cpu','gpu'])">
+              <span class="slot-emoji" id="slot-procesamiento-icon">+</span>
+              <span id="slot-procesamiento-text" style="font-size:12px">Colocá el "cerebro"</span>
+            </div>
+          </div>
+          <div class="slot-row">
+            <div class="slot-label">Memoria RAM</div>
+            <div class="slot" id="slot-ram" onclick="fillSlot('ram',['ram'])">
+              <span class="slot-emoji" id="slot-ram-icon">+</span>
+              <span id="slot-ram-text" style="font-size:12px">Memoria de trabajo</span>
+            </div>
+          </div>
+          <div class="slot-row">
+            <div class="slot-label">Almacenamiento</div>
+            <div class="slot" id="slot-almacenamiento" onclick="fillSlot('almacenamiento',['ssd'])">
+              <span class="slot-emoji" id="slot-almacenamiento-icon">+</span>
+              <span id="slot-almacenamiento-text" style="font-size:12px">Disco permanente</span>
+            </div>
+          </div>
+          <div class="slot-row">
+            <div class="slot-label">Entrada</div>
+            <div class="slot" id="slot-entrada" onclick="fillSlot('entrada',['teclado'])">
+              <span class="slot-emoji" id="slot-entrada-icon">+</span>
+              <span id="slot-entrada-text" style="font-size:12px">Dispositivo de entrada</span>
+            </div>
+          </div>
+          <div class="slot-row">
+            <div class="slot-label">Salida</div>
+            <div class="slot" id="slot-salida" onclick="fillSlot('salida',['monitor','impresora'])">
+              <span class="slot-emoji" id="slot-salida-icon">+</span>
+              <span id="slot-salida-text" style="font-size:12px">Dispositivo de salida</span>
+            </div>
+          </div>
+          <div class="slot-row">
+            <div class="slot-label">Software base</div>
+            <div class="slot" id="slot-software" onclick="fillSlot('software',['so'])">
+              <span class="slot-emoji" id="slot-software-icon">+</span>
+              <span id="slot-software-text" style="font-size:12px">Sistema Operativo</span>
+            </div>
+          </div>
+        </div>
+        <div class="build-progress">
+          <div class="progress-bar"><div class="progress-fill" id="build-progress-fill" style="width:0%"></div></div>
+          <div class="progress-text" id="build-progress-text">0/6</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="build-feedback" id="build-feedback"></div>
+  </div>
+  <div class="section-actions">
+    <button class="btn-ghost" onclick="showSection(0)">← Volver</button>
+    <button class="btn-primary" onclick="showSection(2)">Siguiente: Red →</button>
+  </div>
+</div>
+
+<!-- ==================== SECTION 2: RED LOCAL ==================== -->
+<div class="section" id="section2">
+  <div class="network-area">
+    <div class="network-canvas-wrap">
+      <div class="network-toolbar">
+        <button class="tool-btn active" id="btn-add-pc" onclick="setTool('pc')">💻 PC</button>
+        <button class="tool-btn" id="btn-add-router" onclick="setTool('router')">📡 Router</button>
+        <button class="tool-btn" id="btn-add-switch" onclick="setTool('switch')">🔀 Switch</button>
+        <button class="tool-btn" id="btn-add-server" onclick="setTool('server')">🖥️ Servidor</button>
+        <div class="tool-sep"></div>
+        <button class="tool-btn" id="btn-connect" onclick="setTool('connect')">🔗 Conectar</button>
+        <div class="tool-sep"></div>
+        <button class="tool-btn" onclick="sendData()" id="btn-send">📦 Enviar datos</button>
+        <button class="tool-btn" onclick="clearNetwork()">🗑️ Limpiar</button>
+      </div>
+
+      <div class="net-canvas" id="net-canvas" onclick="canvasClick(event)">
+        <svg class="net-lines" id="net-svg"></svg>
+        <!-- Nodes injected here -->
+      </div>
+
+      <div class="net-info">
+        <div class="net-stat">Nodos: <strong id="node-count">0</strong></div>
+        <div class="net-stat">Conexiones: <strong id="conn-count">0</strong></div>
+        <div class="net-stat" id="net-status-msg" style="color:var(--text3)">Hacé clic en el canvas para agregar dispositivos</div>
+        <div class="net-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#4f8ef7"></div>PC</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>Router</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#14b8a6"></div>Switch</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Servidor</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="net-mission">
+      <div class="mission-title">🎯 Misiones de red</div>
+      <div class="mission-list">
+        <div class="mission-item" id="mission-1">
+          <div class="mission-check" id="mcheck-1">✓</div>
+          <div class="mission-text">Colocá al menos 2 PCs en la red</div>
+          <div class="mission-pts">+20 pts</div>
+        </div>
+        <div class="mission-item" id="mission-2">
+          <div class="mission-check" id="mcheck-2">✓</div>
+          <div class="mission-text">Agregá un router o switch</div>
+          <div class="mission-pts">+25 pts</div>
+        </div>
+        <div class="mission-item" id="mission-3">
+          <div class="mission-check" id="mcheck-3">✓</div>
+          <div class="mission-text">Conectá dispositivos entre sí</div>
+          <div class="mission-pts">+20 pts</div>
+        </div>
+        <div class="mission-item" id="mission-4">
+          <div class="mission-check" id="mcheck-4">✓</div>
+          <div class="mission-text">Enviá datos entre nodos</div>
+          <div class="mission-pts">+35 pts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-actions">
+    <button class="btn-ghost" onclick="showSection(1)">← Volver</button>
+    <button class="btn-primary" onclick="showSection(3)">Siguiente: Internet →</button>
+  </div>
+</div>
+
+<!-- ==================== SECTION 3: INTERNET ==================== -->
+<div class="section" id="section3">
+  <div class="internet-area">
+    <div class="journey-wrap">
+      <div class="journey-header">
+        <div>
+          <h3>🌐 Viaje de un dato por Internet</h3>
+          <p>Simulá cómo viaja una solicitud web desde tu PC hasta el servidor</p>
+        </div>
+      </div>
+
+      <div class="journey-steps" id="journey-steps">
+        <div class="j-step" id="jstep-0">
+          <div class="j-icon" id="jicon-0">💻</div>
+          <div class="j-content">
+            <div class="j-title">1. Tu computadora</div>
+            <div class="j-desc">Escribís una URL. El navegador crea un <strong>paquete de datos</strong> con esa solicitud.</div>
+            <div class="j-packet">📦 GET /index.html HTTP/1.1</div>
+          </div>
+        </div>
+        <div class="j-step" id="jstep-1">
+          <div class="j-icon" id="jicon-1">📡</div>
+          <div class="j-content">
+            <div class="j-title">2. Router doméstico</div>
+            <div class="j-desc">Tu router asigna una <strong>dirección IP</strong> y reenvía el paquete hacia Internet por el proveedor de servicio (ISP).</div>
+            <div class="j-packet">🔢 IP: 192.168.1.x → ISP</div>
+          </div>
+        </div>
+        <div class="j-step" id="jstep-2">
+          <div class="j-icon" id="jicon-2">🏢</div>
+          <div class="j-content">
+            <div class="j-title">3. ISP – Proveedor de Internet</div>
+            <div class="j-desc">El ISP conecta tu paquete con la red troncal de Internet, la <strong>"columna vertebral"</strong> global.</div>
+            <div class="j-packet">🌐 DNS lookup → IP del servidor</div>
+          </div>
+        </div>
+        <div class="j-step" id="jstep-3">
+          <div class="j-icon" id="jicon-3">🔀</div>
+          <div class="j-content">
+            <div class="j-title">4. Routers de Internet</div>
+            <div class="j-desc">Múltiples routers deciden el mejor camino. El protocolo <strong>IP</strong> guía cada paquete salto a salto.</div>
+            <div class="j-packet">⚡ ~15 hops hasta el destino</div>
+          </div>
+        </div>
+        <div class="j-step" id="jstep-4">
+          <div class="j-icon" id="jicon-4">🖥️</div>
+          <div class="j-content">
+            <div class="j-title">5. Servidor web</div>
+            <div class="j-desc">El servidor recibe la solicitud, procesa y envía la respuesta (<strong>HTTP 200 OK</strong>) con el contenido pedido.</div>
+            <div class="j-packet">✅ HTTP/1.1 200 OK + HTML</div>
+          </div>
+        </div>
+        <div class="j-step" id="jstep-5">
+          <div class="j-icon" id="jicon-5">🖼️</div>
+          <div class="j-content">
+            <div class="j-title">6. Tu navegador</div>
+            <div class="j-desc">El navegador recibe los paquetes, los reensambla y <strong>renderiza la página</strong> que ves en pantalla.</div>
+            <div class="j-packet">🎉 ¡Página cargada!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="journey-controls">
+        <input type="text" class="j-url-input" id="j-url" value="www.escuela.edu.ar" placeholder="Escribe una URL...">
+        <button class="j-btn" onclick="startJourney()">▶ Simular viaje</button>
+      </div>
+    </div>
+
+    <div class="protocol-cards" id="proto-cards">
+      <div class="proto-card" id="pc-http">
+        <div class="proto-name">HTTP/S</div>
+        <div class="proto-full">HyperText Transfer Protocol</div>
+        <div class="proto-desc">Protocolo para transferir páginas web. La "S" agrega encriptación SSL/TLS.</div>
+      </div>
+      <div class="proto-card" id="pc-dns">
+        <div class="proto-name">DNS</div>
+        <div class="proto-full">Domain Name System</div>
+        <div class="proto-desc">Traduce nombres como "google.com" en direcciones IP numéricas.</div>
+      </div>
+      <div class="proto-card" id="pc-ip">
+        <div class="proto-name">IP</div>
+        <div class="proto-full">Internet Protocol</div>
+        <div class="proto-desc">Divide datos en paquetes y los dirige a través de la red usando direcciones únicas.</div>
+      </div>
+      <div class="proto-card" id="pc-tcp">
+        <div class="proto-name">TCP</div>
+        <div class="proto-full">Transmission Control Protocol</div>
+        <div class="proto-desc">Garantiza que todos los paquetes lleguen completos y en orden.</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-actions">
+    <button class="btn-ghost" onclick="showSection(2)">← Volver</button>
+    <button class="btn-primary" onclick="showSection(4);document.getElementById('quiz-badge').style.display='none'">🧠 ¡Hacer el Quiz! →</button>
+  </div>
+</div>
+
+<!-- ==================== SECTION 4: QUIZ ==================== -->
+<div class="section" id="section4">
+  <div class="quiz-area">
+    <div class="quiz-card">
+      <div class="quiz-top">
+        <span class="q-counter" id="q-counter">Pregunta 1/10</span>
+        <div class="q-progress"><div class="q-prog-fill" id="q-prog" style="width:10%"></div></div>
+        <span class="q-score" id="q-score-display">0 pts</span>
+      </div>
+
+      <div id="quiz-body">
+        <div class="question-area">
+          <div class="q-category" id="q-category">-</div>
+          <span class="q-emoji" id="q-emoji">-</span>
+          <div class="q-text" id="q-text">-</div>
+        </div>
+        <div class="options-grid" id="options-grid"></div>
+        <div class="q-feedback" id="q-feedback"></div>
+        <button class="q-next" id="q-next" onclick="nextQuestion()">Siguiente pregunta →</button>
+      </div>
+
+      <div class="quiz-result" id="quiz-result">
+        <div class="result-emoji" id="result-emoji">-</div>
+        <div class="result-score" id="result-score">-</div>
+        <div class="result-stars" id="result-stars">-</div>
+        <div class="result-msg" id="result-msg">-</div>
+        <div>
+          <button class="result-btn" onclick="restartQuiz()">🔄 Jugar de nuevo</button>
+          <button class="result-btn outline" onclick="showSection(0)">← Ver contenido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// GLOBAL STATE
+// ============================================================
+let totalScore = 0;
+let selectedPiece = null;
+let filledSlots = {};
+let networkTool = 'pc';
+let netNodes = [];
+let netConnections = [];
+let selectedNode = null;
+let missionsDone = { m1: false, m2: false, m3: false, m4: false };
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function addScore(pts) {
+  totalScore += pts;
+  document.getElementById('total-score').textContent = totalScore;
+  updateStars();
+}
+
+function updateStars() {
+  const stars = document.getElementById('stars-display');
+  const count = totalScore >= 300 ? 3 : totalScore >= 150 ? 2 : totalScore >= 50 ? 1 : 0;
+  stars.innerHTML = [1,2,3].map(i => `<span class="star">${i <= count ? '⭐' : '☆'}</span>`).join('');
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showSection(idx) {
+  document.querySelectorAll('.section').forEach((s,i) => {
+    s.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  if (idx === 4) initQuiz();
+}
+
+// ============================================================
+// SECTION 0: COMPONENTES
+// ============================================================
+const details = {
+  teclado: { title: '⌨️ Teclado', body: 'Dispositivo de entrada que traduce las teclas físicas en códigos digitales. Cada tecla envía un código único (código ASCII o Unicode) que la CPU interpreta.', fact: '💡 Dato curioso: Los teclados QWERTY fueron diseñados en 1874 para las máquinas de escribir. ¡Usamos el mismo diseño más de 150 años después!' },
+  mouse: { title: '🖱️ Mouse / Ratón', body: 'Captura el movimiento físico y lo convierte en coordenadas X,Y en la pantalla. Los modernos usan sensores ópticos o láser que detectan el movimiento contra cualquier superficie.', fact: '💡 Un mouse típico puede detectar más de 1000 puntos por pulgada (DPI) de resolución.' },
+  microfono: { title: '🎙️ Micrófono', body: 'Convierte ondas de sonido (variaciones de presión del aire) en señales eléctricas analógicas, que luego se digitalizan mediante un conversor analógico-digital (ADC).', fact: '💡 La voz humana tiene frecuencias de 85 Hz a 255 Hz. El micrófono puede capturar hasta 20.000 Hz.' },
+  camara: { title: '📷 Cámara / Webcam', body: 'Captura luz a través de un lente y la convierte en señal digital usando un sensor CCD o CMOS. Cada píxel registra la intensidad de luz roja, verde y azul (RGB).', fact: '💡 Una cámara de 12 megapíxeles captura 12 millones de puntos de color por imagen.' },
+  cpu: { title: '🧠 CPU – Procesador', body: 'El cerebro del sistema. Ejecuta instrucciones millones de veces por segundo. Tiene núcleos, caché y una velocidad medida en GHz. Realiza operaciones aritmético-lógicas básicas muy rápido.', fact: '💡 Un procesador moderno puede ejecutar más de 3.000 millones de operaciones por segundo (3 GHz).' },
+  ram: { title: '📋 RAM – Memoria', body: 'Memoria de trabajo temporal y volátil. Todo lo que la CPU necesita "ahora mismo" se almacena aquí. Es mucho más rápida que el disco, pero se borra al apagar el equipo.', fact: '💡 Una RAM DDR4 puede transferir hasta 32 GB de datos por segundo. ¡Un disco HDD solo transfiere 150 MB/s!' },
+  gpu: { title: '🎮 GPU – Tarjeta Gráfica', body: 'Procesa imágenes, videos y cálculos paralelos masivos. Tiene miles de núcleos pequeños (vs los pocos grandes de la CPU). Hoy también se usa para inteligencia artificial.', fact: '💡 Las GPUs modernas tienen más de 10.000 núcleos y pueden hacer 100+ teraFLOPS de cálculos.' },
+  ssd: { title: '💿 SSD – Disco Sólido', body: 'Almacena datos permanentemente usando memoria flash NAND. Sin partes móviles, es muy rápido y resistente. Los datos persisten aunque se apague el equipo.', fact: '💡 Un SSD NVMe puede leer datos a 7.000 MB/s. ¡Un disco HDD solo llega a 150 MB/s!' },
+  hdd: { title: '🗄️ HDD – Disco Duro', body: 'Usa platos magnéticos giratorios para almacenar datos. Un brazo mecánico lee y escribe. Son más lentos que los SSD pero ofrecen mayor capacidad a menor costo.', fact: '💡 El primer disco duro de IBM (1956) pesaba 1 tonelada y almacenaba solo 5 MB.' },
+  pendrive: { title: '🔌 Pendrive / USB', body: 'Almacenamiento portátil usando memoria flash. Se conecta por USB y permite llevar datos de un equipo a otro fácilmente. Datos persisten sin necesidad de energía.', fact: '💡 El USB 3.0 puede transferir datos a 5 Gbps – suficiente para copiar una película en segundos.' },
+  monitor: { title: '🖥️ Monitor / Pantalla', body: 'Convierte señales digitales en imagen visible. Los modernos usan tecnología LCD, OLED o QLED. La GPU envía la señal, el monitor la muestra mediante millones de píxeles de color.', fact: '💡 Un monitor Full HD tiene 1920×1080 = ¡más de 2 millones de píxeles que se actualizan 60 veces por segundo!' },
+  impresora: { title: '🖨️ Impresora', body: 'Convierte datos digitales en marcas físicas sobre papel. Las de inyección de tinta usan gotitas microscópicas de tinta. Las láser usan calor y tóner en polvo.', fact: '💡 Una impresora de inyección puede hacer gotitas de tinta de solo 2 picolitros (una billonésima de mililitro).' },
+  parlantes: { title: '🔊 Parlantes / Auriculares', body: 'Convierten señales eléctricas en ondas sonoras. Un conversor digital-analógico (DAC) transforma los datos binarios en señal eléctrica, que mueve un diafragma para crear el sonido.', fact: '💡 El oído humano detecta sonidos de 20 Hz a 20.000 Hz, y puede distinguir más de 300.000 tonos.' },
+  so: { title: '🪟 Sistema Operativo', body: 'Software base que gestiona todos los recursos: CPU, RAM, disco, pantalla. Crea una interfaz amigable y permite que los programas usen el hardware sin saber cómo funciona internamente. Ejemplos: Windows, Linux, macOS, Android.', fact: '💡 El núcleo (kernel) de Linux tiene más de 27 millones de líneas de código y lo usan millones de servidores.' },
+  apps: { title: '📱 Aplicaciones', body: 'Programas diseñados para tareas específicas: editar texto, navegar, jugar, comunicarse. Se ejecutan sobre el sistema operativo y usan sus servicios para acceder al hardware.', fact: '💡 En 2024, las tiendas de apps tienen más de 5 millones de aplicaciones disponibles.' },
+  drivers: { title: '🔧 Drivers / Controladores', body: 'Pequeños programas que permiten al sistema operativo comunicarse con hardware específico. Sin el driver correcto, el SO no sabe cómo usar una impresora, tarjeta gráfica o dispositivo USB.', fact: '💡 Windows incluye más de 10.000 drivers por defecto para reconocer hardware automáticamente.' },
+};
+
+function showDetail(key) {
+  const d = details[key];
+  if (!d) return;
+  const panel = document.getElementById('detail-panel');
+  document.getElementById('detail-title').textContent = d.title;
+  document.getElementById('detail-body').textContent = d.body;
+  document.getElementById('detail-fact').innerHTML = d.fact;
+  panel.classList.add('show');
+  document.querySelectorAll('.comp-item').forEach(el => el.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  addScore(5);
+}
+
+// ============================================================
+// SECTION 1: ENSAMBLADO
+// ============================================================
+let selectedPieceData = null;
+
+function selectPiece(id, name, emoji) {
+  const el = document.getElementById('piece-' + id);
+  if (el.classList.contains('used')) return;
+  selectedPieceData = { id, name, emoji };
+  document.querySelectorAll('.piece').forEach(p => p.style.outline = '');
+  el.style.outline = '2px solid var(--accent)';
+  showToast(`Seleccionado: ${name}. Ahora tocá un espacio.`, 'info');
+}
+
+const slotAnswers = {
+  procesamiento: ['cpu', 'gpu'],
+  ram: ['ram'],
+  almacenamiento: ['ssd'],
+  entrada: ['teclado'],
+  salida: ['monitor', 'impresora'],
+  software: ['so'],
+};
+
+function fillSlot(slotId, correct) {
+  if (!selectedPieceData) { showToast('Primero seleccioná un componente', 'error'); return; }
+  if (filledSlots[slotId]) { showToast('Esta ranura ya está ocupada', 'error'); return; }
+  
+  const isCorrect = correct.includes(selectedPieceData.id);
+  const slot = document.getElementById('slot-' + slotId);
+  
+  if (isCorrect) {
+    filledSlots[slotId] = selectedPieceData;
+    slot.classList.add('filled');
+    document.getElementById('slot-' + slotId + '-icon').textContent = selectedPieceData.emoji;
+    document.getElementById('slot-' + slotId + '-text').textContent = selectedPieceData.name;
+    document.getElementById('piece-' + selectedPieceData.id).classList.add('used');
+    showToast('✅ ¡Correcto! +10 puntos', 'success');
+    addScore(10);
+    updateBuildProgress();
+  } else {
+    slot.classList.add('wrong');
+    setTimeout(() => slot.classList.remove('wrong'), 500);
+    showToast('❌ Ese componente no va aquí', 'error');
+  }
+  
+  document.querySelectorAll('.piece').forEach(p => p.style.outline = '');
+  selectedPieceData = null;
+}
+
+function updateBuildProgress() {
+  const count = Object.keys(filledSlots).length;
+  const pct = Math.round(count/6*100);
+  document.getElementById('build-progress-fill').style.width = pct + '%';
+  document.getElementById('build-progress-text').textContent = count + '/6';
+  if (count === 6) {
+    showToast('🎉 ¡Computadora completa! +50 puntos extra', 'success');
+    addScore(50);
+  }
+}
+
+// ============================================================
+// SECTION 2: RED LOCAL
+// ============================================================
+const nodeTypes = {
+  pc: { emoji: '💻', label: 'PC', class: 'pc' },
+  router: { emoji: '📡', label: 'Router', class: 'router' },
+  switch: { emoji: '🔀', label: 'Switch', class: 'switch' },
+  server: { emoji: '🖥️', label: 'Servidor', class: 'server' },
+  internet: { emoji: '🌐', label: 'Internet', class: 'internet' },
+};
+
+function setTool(tool) {
+  networkTool = tool;
+  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+  const btnId = tool === 'connect' ? 'btn-connect' : 'btn-add-' + tool;
+  const btn = document.getElementById(btnId);
+  if (btn) btn.classList.add('active');
+  if (tool === 'connect') showToast('Tocá dos nodos para conectarlos', 'info');
+}
+
+function canvasClick(e) {
+  if (networkTool === 'connect') return;
+  if (e.target.closest('.net-node')) return;
+  
+  const canvas = document.getElementById('net-canvas');
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  
+  const type = nodeTypes[networkTool];
+  if (!type) return;
+  
+  const id = 'node-' + Date.now();
+  netNodes.push({ id, type: networkTool, x, y });
+  
+  const node = document.createElement('div');
+  node.className = 'net-node ' + type.class;
+  node.id = id;
+  node.style.left = (x - 32) + 'px';
+  node.style.top = (y - 32) + 'px';
+  node.innerHTML = `<div class="net-node-icon">${type.emoji}</div><div class="net-node-label">${type.label}</div>`;
+  node.onclick = (ev) => { ev.stopPropagation(); nodeClick(id); };
+  canvas.appendChild(node);
+  
+  updateNetStats();
+  checkMissions();
+}
+
+function nodeClick(id) {
+  if (networkTool !== 'connect') {
+    showToast('Cambiá a modo Conectar para unir nodos', 'info');
+    return;
+  }
+  
+  if (!selectedNode) {
+    selectedNode = id;
+    document.getElementById(id).classList.add('selected');
+    showToast('Ahora tocá el segundo nodo', 'info');
+  } else if (selectedNode === id) {
+    document.getElementById(id).classList.remove('selected');
+    selectedNode = null;
+  } else {
+    // Connect
+    const a = netNodes.find(n => n.id === selectedNode);
+    const b = netNodes.find(n => n.id === id);
+    if (a && b) {
+      netConnections.push({ from: selectedNode, to: id });
+      drawConnection(a, b);
+      showToast('🔗 Conexión creada +5 pts', 'success');
+      addScore(5);
+    }
+    document.getElementById(selectedNode).classList.remove('selected');
+    selectedNode = null;
+    updateNetStats();
+    checkMissions();
+  }
+}
+
+function drawConnection(a, b) {
+  const svg = document.getElementById('net-svg');
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  line.setAttribute('x1', a.x);
+  line.setAttribute('y1', a.y);
+  line.setAttribute('x2', b.x);
+  line.setAttribute('y2', b.y);
+  line.className.baseVal = 'net-line';
+  svg.appendChild(line);
+}
+
+function sendData() {
+  if (netNodes.length < 2) { showToast('Necesitás al menos 2 nodos', 'error'); return; }
+  if (netConnections.length < 1) { showToast('Conectá los nodos primero', 'error'); return; }
+  
+  const svg = document.getElementById('net-svg');
+  const lines = svg.querySelectorAll('.net-line');
+  lines.forEach(l => l.classList.add('data-flow'));
+  
+  const canvas = document.getElementById('net-canvas');
+  // Animate packet
+  netConnections.forEach((conn, i) => {
+    const a = netNodes.find(n => n.id === conn.from);
+    const b = netNodes.find(n => n.id === conn.to);
+    if (!a || !b) return;
+    
+    setTimeout(() => {
+      const pkt = document.createElement('div');
+      pkt.className = 'data-packet';
+      pkt.style.display = 'block';
+      pkt.style.left = a.x + 'px';
+      pkt.style.top = a.y + 'px';
+      canvas.appendChild(pkt);
+      
+      let t = 0;
+      const anim = setInterval(() => {
+        t += 0.05;
+        if (t >= 1) { clearInterval(anim); pkt.remove(); return; }
+        pkt.style.left = (a.x + (b.x - a.x) * t - 6) + 'px';
+        pkt.style.top = (a.y + (b.y - a.y) * t - 6) + 'px';
+      }, 16);
+    }, i * 300);
+  });
+  
+  setTimeout(() => {
+    lines.forEach(l => l.classList.remove('data-flow'));
+    showToast('📦 ¡Datos enviados exitosamente! +35 pts', 'success');
+    addScore(35);
+    if (!missionsDone.m4) {
+      missionsDone.m4 = true;
+      document.getElementById('mcheck-4').classList.add('done');
+    }
+  }, netConnections.length * 300 + 800);
+}
+
+function clearNetwork() {
+  const canvas = document.getElementById('net-canvas');
+  canvas.querySelectorAll('.net-node').forEach(n => n.remove());
+  canvas.querySelectorAll('.data-packet').forEach(p => p.remove());
+  document.getElementById('net-svg').innerHTML = '';
+  netNodes = [];
+  netConnections = [];
+  selectedNode = null;
+  missionsDone = { m1: false, m2: false, m3: false, m4: false };
+  ['1','2','3','4'].forEach(i => document.getElementById('mcheck-'+i).classList.remove('done'));
+  updateNetStats();
+}
+
+function updateNetStats() {
+  document.getElementById('node-count').textContent = netNodes.length;
+  document.getElementById('conn-count').textContent = netConnections.length;
+}
+
+function checkMissions() {
+  const pcs = netNodes.filter(n => n.type === 'pc').length;
+  const routers = netNodes.filter(n => n.type === 'router' || n.type === 'switch').length;
+  
+  if (pcs >= 2 && !missionsDone.m1) {
+    missionsDone.m1 = true;
+    document.getElementById('mcheck-1').classList.add('done');
+    addScore(20);
+    showToast('✅ Misión: 2 PCs creadas +20 pts', 'success');
+  }
+  if (routers >= 1 && !missionsDone.m2) {
+    missionsDone.m2 = true;
+    document.getElementById('mcheck-2').classList.add('done');
+    addScore(25);
+    showToast('✅ Misión: Router/Switch colocado +25 pts', 'success');
+  }
+  if (netConnections.length >= 1 && !missionsDone.m3) {
+    missionsDone.m3 = true;
+    document.getElementById('mcheck-3').classList.add('done');
+    addScore(20);
+    showToast('✅ Misión: Dispositivos conectados +20 pts', 'success');
+  }
+}
+
+// ============================================================
+// SECTION 3: INTERNET JOURNEY
+// ============================================================
+let journeyRunning = false;
+
+function startJourney() {
+  if (journeyRunning) return;
+  journeyRunning = true;
+  
+  const url = document.getElementById('j-url').value || 'www.escuela.edu.ar';
+  
+  // Reset
+  for (let i = 0; i <= 5; i++) {
+    const icon = document.getElementById('jicon-' + i);
+    icon.classList.remove('active', 'done');
+  }
+  document.querySelectorAll('.proto-card').forEach(c => c.classList.remove('highlight'));
+  
+  const steps = [
+    { delay: 200, proto: 'pc-http' },
+    { delay: 900, proto: 'pc-dns' },
+    { delay: 1600, proto: 'pc-dns' },
+    { delay: 2300, proto: 'pc-ip' },
+    { delay: 3000, proto: 'pc-tcp' },
+    { delay: 3700, proto: 'pc-http' },
+  ];
+  
+  steps.forEach(({ delay, proto }, i) => {
+    setTimeout(() => {
+      if (i > 0) document.getElementById('jicon-' + (i-1)).classList.replace('active', 'done');
+      const icon = document.getElementById('jicon-' + i);
+      icon.classList.add('active');
+      document.querySelectorAll('.proto-card').forEach(c => c.classList.remove('highlight'));
+      document.getElementById(proto).classList.add('highlight');
+    }, delay);
+  });
+  
+  setTimeout(() => {
+    document.getElementById('jicon-5').classList.replace('active', 'done');
+    showToast(`✅ Viaje completo a ${url} +50 pts`, 'success');
+    addScore(50);
+    journeyRunning = false;
+    document.getElementById('quiz-badge').style.display = 'inline';
+  }, 4500);
+}
+
+// ============================================================
+// SECTION 4: QUIZ
+// ============================================================
+const questions = [
+  { cat: 'Hardware vs Software', emoji: '🔩', text: '¿Qué componente es considerado el "cerebro" del sistema?', opts: ['Monitor', 'Teclado', 'CPU / Procesador', 'Impresora'], ans: 2, exp: 'La CPU (Unidad Central de Procesamiento) ejecuta todas las instrucciones y coordina el resto del sistema.' },
+  { cat: 'Dispositivos de Entrada', emoji: '⬇️', text: '¿Cuál de estos es un dispositivo de ENTRADA?', opts: ['Impresora', 'Monitor', 'Parlantes', 'Micrófono'], ans: 3, exp: 'El micrófono captura el sonido del mundo real y lo convierte en datos digitales para el sistema.' },
+  { cat: 'Dispositivos de Salida', emoji: '⬆️', text: '¿Cuál de estos es un dispositivo de SALIDA?', opts: ['Teclado', 'Mouse', 'Monitor', 'Cámara web'], ans: 2, exp: 'El monitor muestra el resultado del procesamiento al usuario. Lleva información desde el sistema hacia afuera.' },
+  { cat: 'Almacenamiento', emoji: '💾', text: '¿Cuál tipo de memoria pierde los datos cuando se apaga el equipo?', opts: ['SSD', 'HDD', 'RAM', 'Pendrive'], ans: 2, exp: 'La RAM es volátil: solo almacena datos mientras hay energía. Al apagar, se borra todo. Por eso guardamos archivos en disco.' },
+  { cat: 'Software', emoji: '🪟', text: '¿Qué software permite que los programas usen el hardware?', opts: ['Navegador web', 'Sistema Operativo', 'Antivirus', 'Word'], ans: 1, exp: 'El Sistema Operativo (Windows, Linux, macOS) gestiona todos los recursos y crea una capa entre el hardware y las aplicaciones.' },
+  { cat: 'Redes', emoji: '🌐', text: '¿Qué dispositivo conecta varias computadoras formando una red local?', opts: ['Impresora', 'Monitor', 'Switch / Hub', 'Teclado'], ans: 2, exp: 'Un switch conecta múltiples dispositivos en una red local (LAN) y dirige el tráfico eficientemente entre ellos.' },
+  { cat: 'Internet', emoji: '🚀', text: '¿Qué protocolo traduce nombres como "google.com" en direcciones IP?', opts: ['HTTP', 'TCP', 'DNS', 'FTP'], ans: 2, exp: 'El DNS (Domain Name System) es como la guía telefónica de Internet. Convierte nombres legibles en direcciones IP numéricas.' },
+  { cat: 'Redes', emoji: '📡', text: '¿Qué es una dirección IP?', opts: ['El nombre de un sitio web', 'Una identificación única de un dispositivo en la red', 'El tipo de cable de red', 'La velocidad de conexión'], ans: 1, exp: 'La IP (Internet Protocol) es como la "dirección postal" de cada dispositivo. Permite que los paquetes lleguen al destino correcto.' },
+  { cat: 'Hardware vs Software', emoji: '🔧', text: '¿Qué diferencia hay entre hardware y software?', opts: ['No hay diferencia', 'Hardware es lo físico, software son los programas', 'Software es más caro', 'Hardware solo incluye la pantalla'], ans: 1, exp: 'Hardware es todo lo que podés tocar (CPU, RAM, disco). Software son los programas e instrucciones que corren sobre él.' },
+  { cat: 'Internet', emoji: '🔒', text: '¿Qué garantiza el protocolo TCP?', opts: ['Velocidad máxima', 'Que todos los paquetes lleguen completos y en orden', 'Conexión inalámbrica', 'Almacenamiento en la nube'], ans: 1, exp: 'TCP (Transmission Control Protocol) verifica que todos los paquetes lleguen correctamente y los reordena si es necesario.' },
+];
+
+let qIndex = 0;
+let qScore = 0;
+let answered = false;
+
+function initQuiz() {
+  qIndex = 0;
+  qScore = 0;
+  answered = false;
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-result').classList.remove('show');
+  showQuestion();
+}
+
+function showQuestion() {
+  if (qIndex >= questions.length) { showResult(); return; }
+  const q = questions[qIndex];
+  answered = false;
+  
+  document.getElementById('q-counter').textContent = `Pregunta ${qIndex+1}/${questions.length}`;
+  document.getElementById('q-prog').style.width = ((qIndex+1)/questions.length*100) + '%';
+  document.getElementById('q-score-display').textContent = qScore + ' pts';
+  document.getElementById('q-category').textContent = q.cat;
+  document.getElementById('q-emoji').textContent = q.emoji;
+  document.getElementById('q-text').textContent = q.text;
+  
+  const letters = ['A','B','C','D'];
+  document.getElementById('options-grid').innerHTML = q.opts.map((opt, i) =>
+    `<div class="option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="option-letter">${letters[i]}</div>
+      ${opt}
+    </div>`
+  ).join('');
+  
+  const fb = document.getElementById('q-feedback');
+  fb.classList.remove('show', 'correct', 'incorrect');
+  document.getElementById('q-next').classList.remove('show');
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  
+  const q = questions[qIndex];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => o.style.pointerEvents = 'none');
+  
+  const fb = document.getElementById('q-feedback');
+  
+  if (idx === q.ans) {
+    opts[idx].classList.add('correct');
+    const pts = 30;
+    qScore += pts;
+    addScore(pts);
+    fb.innerHTML = `<strong>✅ ¡Correcto! +${pts} pts</strong>${q.exp}`;
+    fb.classList.add('show', 'correct');
+    showToast('✅ Correcto! +' + pts + ' pts', 'success');
+  } else {
+    opts[idx].classList.add('wrong');
+    opts[q.ans].classList.add('correct');
+    fb.innerHTML = `<strong>❌ Incorrecto</strong>${q.exp}`;
+    fb.classList.add('show', 'incorrect');
+  }
+  
+  document.getElementById('q-next').classList.add('show');
+}
+
+function nextQuestion() {
+  qIndex++;
+  showQuestion();
+}
+
+function showResult() {
+  document.getElementById('quiz-body').style.display = 'none';
+  const result = document.getElementById('quiz-result');
+  result.classList.add('show');
+  
+  const pct = Math.round(qScore / (questions.length * 30) * 100);
+  let emoji, msg, stars;
+  
+  if (pct >= 90) { emoji = '🏆'; msg = '¡Excelente! Sos un experto en sistemas digitales.'; stars = '⭐⭐⭐'; }
+  else if (pct >= 70) { emoji = '🎉'; msg = '¡Muy bien! Tenés muy buena comprensión del tema.'; stars = '⭐⭐☆'; }
+  else if (pct >= 50) { emoji = '👍'; msg = 'Bien! Repasá algunos conceptos para mejorar.'; stars = '⭐☆☆'; }
+  else { emoji = '📚'; msg = 'Seguí estudiando, ¡podés lograrlo!'; stars = '☆☆☆'; }
+  
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-score').textContent = qScore + ' pts';
+  document.getElementById('result-stars').textContent = stars;
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('q-score-display').textContent = qScore + ' pts';
+  updateStars();
+}
+
+function restartQuiz() { initQuiz(); }
+
+// ============================================================
+// INIT
+// ============================================================
+showSection(0);
+setTool('pc');
+// Show quiz badge after a bit
+setTimeout(() => document.getElementById('quiz-badge').style.display = 'inline', 5000);
+</script>
+</body>
+</html>
