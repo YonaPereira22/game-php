@@ -1,33 +1,34 @@
 <?php
-// Detectar si es localhost o producción
-$is_localhost = (
-    $_SERVER['HTTP_HOST'] === 'localhost' || 
-    $_SERVER['HTTP_HOST'] === 'localhost:80' ||
-    $_SERVER['HTTP_HOST'] === 'localhost:8080' ||
-    strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false ||
-    strpos($_SERVER['SERVER_NAME'], 'localhost') !== false
-);
+declare(strict_types=1);
 
-// Configuración según el entorno
-if ($is_localhost) {
-    // Configuración LOCALHOST
-    $host = 'localhost';
-    $dbname = 'game';
-    $username = 'root';
-    $password = '';
-} else {
-    // Configuración PRODUCCIÓN (Web)
-    $host = 'localhost'; // Generalmente localhost en hosting compartido
-    $dbname = 'u952965051_game';
-    $username = 'u952965051_game';
-    $password = 'main1001_Game';
+// Cargar configuración privada a través de public_html/bootstrap.php
+require_once __DIR__ . '/bootstrap.php';
+
+// Esperar que $config esté definido por bootstrap
+$db = $config['database'] ?? null;
+if (!is_array($db)) {
+    error_log('Configuración de base de datos no encontrada o inválida.');
+    http_response_code(500);
+    exit('Error de configuración del servidor.');
 }
 
+$dsn = sprintf('mysql:host=%s;dbname=%s;charset=%s', $db['host'], $db['name'], $db['charset'] ?? 'utf8');
+
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
+    $pdo = new PDO(
+        $dsn,
+        $db['user'],
+        $db['password'],
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]
+    );
+} catch (PDOException $e) {
+    error_log('Error de base de datos: ' . $e->getMessage());
+    http_response_code(500);
+    exit('No fue posible conectar con la base de datos.');
 }
 
 // Crear tablas si no existen

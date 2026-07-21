@@ -1,11 +1,13 @@
 <?php
-// Variables de entorno: se leen con getenv().
-// Definición recomendada: en el servidor (export APP_VERSION=1.2) o mediante
-// un archivo opcional `config/env.php` que establezca defaults para desarrollo.
-// Variables usadas actualmente:
-// - UPLOAD_TYPES: 'repo' | 'site' | 'both' (controla opciones de subida en upload.php)
-// - APP_VERSION: versión de la aplicación/archivo (ej: '1.2')
-$app_version = getenv('APP_VERSION') ?: '1.00'; // Fase 2 = 1.00 por defecto
+// Cargar configuración privada si no está ya disponible en este scope.
+if (!isset($config)) {
+    $bootstrapPath = dirname(__DIR__) . '/config/bootstrap.php';
+    if (is_readable($bootstrapPath)) {
+        require_once $bootstrapPath;
+    }
+}
+
+$app_version = $config['app']['version'] ?? '1.2';
 ?>
 
 <footer class="site-footer">

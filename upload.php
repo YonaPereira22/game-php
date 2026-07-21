@@ -4,14 +4,35 @@ require_once 'config/database.php';
 require_once 'includes/functions.php';
 require_once 'includes/github_import.php';
 
-// Controlar tipos de subida según variable de entorno UPLOAD_TYPES:
-// valores posibles: 'repo' (solo importar desde repositorio),
-// 'site' (solo formulario/manual), 'ambos' (ambos). Por defecto 'ambos'.
-$upload_types = getenv('UPLOAD_TYPES') ?: 'ambos';
-$upload_types = strtolower(trim($upload_types));
+// Controlar tipos de subida: prioridad a la configuración privada `$config['app']['upload_types']`,
+// si no existe, caer a la variable de entorno `UPLOAD_TYPES`. Valores posibles aceptados:
+// 'repo'|'repositorio' (importar desde repo), 'sitio'|'site' (formulario/manual), 'ambos'|'both'.
+// Por defecto: 'ambos'.
+if (!isset($config)) {
+    $bootstrapPath = __DIR__ . '/config/bootstrap.php';
+    if (is_readable($bootstrapPath)) {
+        require_once $bootstrapPath;
+    }
+}
+
+$upload_types = $config['app']['upload_types'] ?? $config['upload_types'] ?? getenv('UPLOAD_TYPES') ?: 'ambos';
+$upload_types = strtolower(trim((string)$upload_types));
+
+// Normalizar sinónimos
+if (in_array($upload_types, ['both', 'botho'], true)) {
+    $upload_types = 'ambos';
+}
+if (in_array($upload_types, ['site', 'sitio'], true)) {
+    $upload_types = 'sitio';
+}
+if (in_array($upload_types, ['repo', 'repositorio'], true)) {
+    $upload_types = 'repo';
+}
+
 if (!in_array($upload_types, ['repo', 'sitio', 'ambos'], true)) {
     $upload_types = 'ambos';
 }
+
 $allow_repo = $upload_types === 'repo' || $upload_types === 'ambos';
 $allow_site = $upload_types === 'sitio' || $upload_types === 'ambos';
 
