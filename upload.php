@@ -6,7 +6,7 @@ require_once 'includes/github_import.php';
 
 // Controlar tipos de subida según variable de entorno UPLOAD_TYPES:
 // valores posibles: 'repo' (solo importar desde repositorio),
-// 'site' (solo formulario/manual), 'both' (ambos). Por defecto 'both'.
+// 'site' (solo formulario/manual), 'ambos' (ambos). Por defecto 'ambos'.
 $upload_types = getenv('UPLOAD_TYPES') ?: 'ambos';
 $upload_types = strtolower(trim($upload_types));
 if (!in_array($upload_types, ['repo', 'sitio', 'ambos'], true)) {
