@@ -7,13 +7,13 @@ require_once 'includes/github_import.php';
 // Controlar tipos de subida según variable de entorno UPLOAD_TYPES:
 // valores posibles: 'repo' (solo importar desde repositorio),
 // 'site' (solo formulario/manual), 'both' (ambos). Por defecto 'both'.
-$upload_types = getenv('UPLOAD_TYPES') ?: 'both';
+$upload_types = getenv('UPLOAD_TYPES') ?: 'ambos';
 $upload_types = strtolower(trim($upload_types));
-if (!in_array($upload_types, ['repo', 'site', 'both'], true)) {
-    $upload_types = 'both';
+if (!in_array($upload_types, ['repo', 'sitio', 'ambos'], true)) {
+    $upload_types = 'ambos';
 }
-$allow_repo = $upload_types === 'repo' || $upload_types === 'both';
-$allow_site = $upload_types === 'site' || $upload_types === 'both';
+$allow_repo = $upload_types === 'repo' || $upload_types === 'ambos';
+$allow_site = $upload_types === 'sitio' || $upload_types === 'ambos';
 
 if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['creator', 'admin'])) {
     header('Location: login.php?redirect=upload.php');
