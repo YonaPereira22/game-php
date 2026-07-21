@@ -1,7 +1,31 @@
 <?php
 
 // 🔐 Cargar configuración privada
-$privateConfig = require_once __DIR__ . '/../private/config.php';
+$possiblePaths = [
+    __DIR__ . '/../private/config.php',      // config/google_oauth.php
+    dirname(__DIR__, 2) . '/private/config.php', // public_html/config/google_oauth.php
+    dirname(__DIR__, 3) . '/private/config.php', // otro nivel adicional si aplica
+];
+
+$configPath = null;
+foreach ($possiblePaths as $path) {
+    if (is_readable($path)) {
+        $configPath = $path;
+        break;
+    }
+}
+
+if ($configPath === null) {
+    error_log('Google OAuth no pudo cargar private/config.php. Rutas probadas: ' . implode(', ', $possiblePaths));
+    die('Error: Credenciales de Google no configuradas (archivo private/config.php no encontrado).');
+}
+
+$privateConfig = require $configPath;
+
+if (!is_array($privateConfig)) {
+    error_log('Google OAuth cargó private/config.php pero no devolvió un array: ' . $configPath);
+    die('Error: Credenciales de Google no configuradas (private/config.php inválido).');
+}
 
 // Soportar nueva estructura `['google']` y fallback a la estructura antigua.
 $googleConfig = $privateConfig['google'] ?? [];
