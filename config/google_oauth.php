@@ -1,7 +1,7 @@
 <?php
 
 // 🔐 Cargar configuración privada
-$privateConfig = require_once __DIR__ . '/../../private/config.php';
+$privateConfig = require_once __DIR__ . '/../private/config.php';
 
 // Soportar nueva estructura `['google']` y fallback a la estructura antigua.
 $googleConfig = $privateConfig['google'] ?? [];
