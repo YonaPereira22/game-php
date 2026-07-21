@@ -3,12 +3,15 @@
 // 🔐 Cargar configuración privada
 $privateConfig = require_once __DIR__ . '/../../private/config.php';
 
-// Definir constantes usando config privado
-define('GOOGLE_CLIENT_ID', $privateConfig['google_client_id']);
-define('GOOGLE_CLIENT_SECRET', $privateConfig['google_client_secret']);
+// Soportar nueva estructura `['google']` y fallback a la estructura antigua.
+$googleConfig = $privateConfig['google'] ?? [];
 
-// Allow explicit redirect URI from private config when available.
-$configuredRedirectUri = trim((string)($privateConfig['google_redirect_uri'] ?? ''));
+$googleClientId = trim((string)($googleConfig['client_id'] ?? $privateConfig['google_client_id'] ?? ''));
+$googleClientSecret = trim((string)($googleConfig['client_secret'] ?? $privateConfig['google_client_secret'] ?? ''));
+$configuredRedirectUri = trim((string)($googleConfig['redirect_uri'] ?? $privateConfig['google_redirect_uri'] ?? ''));
+
+define('GOOGLE_CLIENT_ID', $googleClientId);
+define('GOOGLE_CLIENT_SECRET', $googleClientSecret);
 
 if ($configuredRedirectUri !== '') {
     define('GOOGLE_REDIRECT_URI', $configuredRedirectUri);
