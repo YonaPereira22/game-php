@@ -2,10 +2,12 @@
 # Fase 2 — Plan y Hitos
 
 **Fecha de comienzo:** 2026-05-01  
-**Fecha de finalización (estimada):** 2026-07-31  
-**Estado:** En progreso  
+**Fecha de finalización:** 2026-07-21  
+**Estado:** Completada  
 
 ## Resumen de la fase
+
+Esta fase concluye el desarrollo de la integración OAuth, la gestión de configuración privada fuera de `public_html`, y la definición de la lógica de subida de juegos con soporte de tipos configurables.
 
 Breve descripción del objetivo general de la fase: implementar las funcionalidades centrales, migrar datos necesarios y preparar la preparación para la integración con OAuth y pruebas de usuario.
 
@@ -87,7 +89,17 @@ Cada hito debe incluir: nombre, fecha objetivo, responsable y breve descripción
 - Todas las migraciones aplicadas sin errores en entorno de staging.  
 - Flujo OAuth probado con cuentas de Google.  
 - Subida de juegos validada y miniaturas generadas correctamente.  
-- Checklist de QA completado y aprobaciones registradas.
+- Checklist de QA completado y aprobaciones registradas.  
+- Configuración privada cargada desde `private/config.php` fuera de `public_html`.
+- Documentación actualizada para la transición a Fase 3.
+
+## Cierre de la fase
+
+- Se finalizó la integración de Google OAuth y se corrigió la carga de credenciales desde `private/config.php`.
+- Se implementó la propiedad `upload_types` y se priorizó la configuración privada con fallback a variables de entorno para `upload.php`.
+- Se creó y documentó `private/config.php.example` para la configuración privada, junto con los ejemplos de rutas y carga de bootstrap.
+- Se dejó documentado el uso de `APP_VERSION` y la carga de configuración en `includes/footer.php`.
+- Se actualizó `CHANGELOG.md` y se cerró el documento de fase.
 
 ---
 
