@@ -1,3 +1,13 @@
+<?php
+// Variables de entorno: se leen con getenv().
+// Definición recomendada: en el servidor (export APP_VERSION=1.2) o mediante
+// un archivo opcional `config/env.php` que establezca defaults para desarrollo.
+// Variables usadas actualmente:
+// - UPLOAD_TYPES: 'repo' | 'site' | 'both' (controla opciones de subida en upload.php)
+// - APP_VERSION: versión de la aplicación/archivo (ej: '1.2')
+$app_version = getenv('APP_VERSION') ?: '1.00'; // Fase 2 = 1.00 por defecto
+?>
+
 <footer class="site-footer">
     <div class="container">
         <div class="footer-inner">
@@ -6,7 +16,7 @@
                 <span class="footer-brand-name">ZELIA</span>
             </div>
             <p class="footer-desc">Zona Educativa Lúdica con Inteligencia Artificial</p>
-            <p class="footer-copy">© 2026 · Taller Integrador II · Profesorado de Informática · CeRP del Suroeste</p>
+            <p class="footer-copy">© 2026 · Taller Integrador II · Profesorado de Informática · CeRP del Suroeste · Versión <?= htmlspecialchars($app_version) ?></p>
         </div>
     </div>
 </footer>
