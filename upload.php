@@ -184,13 +184,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="upload-card-header">
                     <div class="upload-tabs">
                     <?php if ($allow_repo): ?>
-                    <button class="upload-tab <?= $activeTab === 'import' ? 'active' : '' ?>" onclick="switchTab('import')">
+                    <button type="button" class="upload-tab <?= $activeTab === 'import' ? 'active' : '' ?>" data-tab="import" onclick="switchTab('import')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                         Importar Repo
                     </button>
                     <?php endif; ?>
                     <?php if ($allow_site): ?>
-                    <button class="upload-tab <?= $activeTab === 'manual' ? 'active' : '' ?>" onclick="switchTab('manual')">
+                    <button type="button" class="upload-tab <?= $activeTab === 'manual' ? 'active' : '' ?>" data-tab="manual" onclick="switchTab('manual')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         Formulario
                     </button>
@@ -342,8 +342,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <script>
 function switchTab(tab) {
-    document.querySelectorAll('.upload-tab').forEach(function(btn, i) {
-        btn.classList.toggle('active', (i === 0 && tab === 'import') || (i === 1 && tab === 'manual'));
+    document.querySelectorAll('.upload-tab').forEach(function(btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
     });
     document.querySelectorAll('.upload-tab-panel').forEach(function(panel) {
         panel.classList.toggle('active', panel.id === 'panel-' + tab);
