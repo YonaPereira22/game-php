@@ -174,8 +174,8 @@ function importFromGithub(string $repoUrl, PDO $pdo): array
     $approved = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') ? 1 : 0;
 
     $stmt = $pdo->prepare(
-        'INSERT INTO games (title, description, author, folder_name, category, age_group, github_link, approved)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+        'INSERT INTO games (title, description, author, folder_name, category, age_group, github_link, readme, approved)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     $stmt->execute([
         $meta['title'],
@@ -185,6 +185,7 @@ function importFromGithub(string $repoUrl, PDO $pdo): array
         $meta['category'],
         $meta['age_group'],
         $repoUrl,
+        $meta['readme'] ?? '',
         $approved,
     ]);
 
@@ -225,16 +226,17 @@ function ghReadInfoJson(string $dir, string $repo, string $owner): array
         'author'      => $owner,
         'category'    => 'Lógica',
         'age_group'   => '13-16 años',
+        'readme'      => '',
     ];
 
     $jsonPath = $dir . DIRECTORY_SEPARATOR . 'info.json';
     if (!file_exists($jsonPath)) {
-        return $defaults;
+        return ghExtractReadme($dir, $defaults);
     }
 
     $raw = json_decode(file_get_contents($jsonPath), true);
     if (!is_array($raw)) {
-        return $defaults;
+        return ghExtractReadme($dir, $defaults);
     }
 
     // Si no tiene claves de metadatos directamente, tomar el primer valor (estructura anidada)
@@ -255,7 +257,24 @@ function ghReadInfoJson(string $dir, string $repo, string $owner): array
         'author'      => $s($raw['autor']        ?? $raw['author']                        ?? $defaults['author']),
         'category'    => $s($raw['categoria']   ?? $raw['category']                      ?? $defaults['category']),
         'age_group'   => $s($raw['edad']         ?? $raw['age_group'] ?? $raw['ageGroup'] ?? $defaults['age_group']),
+        'readme'      => $s($raw['readme']      ?? $raw['README']    ?? $defaults['readme']),
     ];
+}
+
+/**
+ * Extrae un README del directorio si existe.
+ */
+function ghExtractReadme(string $dir, array $defaults): array
+{
+    $readmeFiles = ['README.md', 'readme.md', 'README', 'readme'];
+    foreach ($readmeFiles as $readmeFile) {
+        $path = $dir . DIRECTORY_SEPARATOR . $readmeFile;
+        if (file_exists($path) && is_file($path)) {
+            $defaults['readme'] = file_get_contents($path);
+            return $defaults;
+        }
+    }
+    return $defaults;
 }
 
 /** Copia recursivamente un directorio. */

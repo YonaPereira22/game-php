@@ -8,6 +8,24 @@ function sanitizeFilename($filename) {
     return strtolower($filename);
 }
 
+function renderMarkdown(string $markdown): string {
+    $text = htmlspecialchars($markdown, ENT_QUOTES, 'UTF-8');
+    $text = preg_replace_callback('/\[(.*?)\]\((.*?)\)/', function ($matches) {
+        $url = filter_var($matches[2], FILTER_SANITIZE_URL);
+        return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $matches[1] . '</a>';
+    }, $text);
+    $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
+    $text = preg_replace('/\*(.+?)\*/', '<em>$1</em>', $text);
+    $text = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $text);
+    $text = preg_replace('/^## (.+)$/m', '<h2>$1</h2>', $text);
+    $text = preg_replace('/^# (.+)$/m', '<h1>$1</h1>', $text);
+    $text = preg_replace('/^- (.+)$/m', '<li>$1</li>', $text);
+    if (strpos($text, '<li>') !== false) {
+        $text = preg_replace('/(<li>.*<\/li>)/s', '<ul>$1</ul>', $text);
+    }
+    return nl2br($text);
+}
+
 function validateGameFolder($folderPath) {
     if (!file_exists($folderPath . '/index.html')) {
         return false;

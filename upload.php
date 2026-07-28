@@ -51,6 +51,7 @@ $author      = '';
 $category    = '';
 $ageGroup    = '';
 $githubLink  = '';
+$readme      = '';
 $repoUrl     = '';
 $importMeta  = null;
 
@@ -86,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $category    = sanitizeInput($_POST['category']    ?? '');
         $ageGroup    = sanitizeInput($_POST['age_group']   ?? '');
         $githubLink  = sanitizeInput($_POST['github_link'] ?? '');
+        $readme      = trim($_POST['readme'] ?? '');
 
         if (empty($title) || empty($description) || empty($author) || empty($category) || empty($ageGroup) || empty($githubLink)) {
             $message     = 'Todos los campos son obligatorios.';
@@ -95,17 +97,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $messageType = 'error';
         } else {
             $folderName = sanitizeFilename($title . '-' . time());
-            $stmt = $pdo->prepare(
-                'INSERT INTO games (title, description, author, folder_name, category, age_group, github_link)
-                 VALUES (?, ?, ?, ?, ?, ?, ?)'
-            );
-            if ($stmt->execute([$title, $description, $author, $folderName, $category, $ageGroup, $githubLink])) {
-                $message     = 'Juego registrado exitosamente. Está pendiente de aprobación.';
-                $messageType = 'success';
-                $title = $description = $author = $category = $ageGroup = $githubLink = '';
-            } else {
-                $message     = 'Error al guardar en la base de datos.';
+            $previewImage = '';
+            $previewFile = $_FILES['preview_image'] ?? null;
+
+            if (!$previewFile || $previewFile['error'] === UPLOAD_ERR_NO_FILE) {
+                $message     = 'Debes subir una imagen de previsualización para el juego.';
                 $messageType = 'error';
+            } elseif ($previewFile['error'] !== UPLOAD_ERR_OK) {
+                $message     = 'Error al subir la imagen de previsualización.';
+                $messageType = 'error';
+            } else {
+                $allowedTypes = [
+                    'image/jpeg' => 'jpg',
+                    'image/png'  => 'png',
+                    'image/webp' => 'webp',
+                ];
+                $maxSize = 2 * 1024 * 1024;
+                if ($previewFile['size'] > $maxSize) {
+                    $message     = 'La imagen supera el tamaño máximo de 2 MB.';
+                    $messageType = 'error';
+                } else {
+                    $imageInfo = getimagesize($previewFile['tmp_name']);
+                    if ($imageInfo === false || !isset($allowedTypes[$imageInfo['mime']])) {
+                        $message     = 'Formato de imagen no admitido. Usa JPG, PNG o WebP.';
+                        $messageType = 'error';
+                    } elseif ($imageInfo[0] < 640 || $imageInfo[1] < 360) {
+                        $message     = 'La imagen debe tener al menos 640x360 píxeles.';
+                        $messageType = 'error';
+                    } else {
+                        $extension    = $allowedTypes[$imageInfo['mime']];
+                        $previewImage = 'preview_' . $folderName . '.' . $extension;
+                        $previewDir   = __DIR__ . '/images/game-thumbnails';
+                        if (!is_dir($previewDir)) {
+                            mkdir($previewDir, 0755, true);
+                        }
+                        $destination = $previewDir . '/' . $previewImage;
+                        if (!move_uploaded_file($previewFile['tmp_name'], $destination)) {
+                            $message     = 'No se pudo guardar la imagen de previsualización.';
+                            $messageType = 'error';
+                        }
+                    }
+                }
+            }
+
+            if (empty($message)) {
+                $stmt = $pdo->prepare(
+                    'INSERT INTO games (title, description, author, folder_name, category, age_group, github_link, readme, preview_image)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                );
+                if ($stmt->execute([$title, $description, $author, $folderName, $category, $ageGroup, $githubLink, $readme, $previewImage])) {
+                    $message     = 'Juego registrado exitosamente. Está pendiente de aprobación.';
+                    $messageType = 'success';
+                    $title = $description = $author = $category = $ageGroup = $githubLink = $readme = '';
+                } else {
+                    $message     = 'Error al guardar en la base de datos.';
+                    $messageType = 'error';
+                }
             }
         }
     }
@@ -209,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Ingresa los datos del juego manualmente. El juego debe estar publicado en GitHub Pages.
                     </div>
 
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="mode" value="manual">
 
                         <div class="form-group">
@@ -224,6 +271,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <textarea id="description" name="description" class="form-textarea"
                                 placeholder="Breve descripción del juego y su objetivo educativo…"
                                 required><?= htmlspecialchars($description) ?></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="readme">README del juego</label>
+                            <textarea id="readme" name="readme" class="form-textarea"
+                                placeholder="Escribe el README del juego en formato Markdown. Explica cómo jugar, de qué trata y los contenidos." rows="6"><?= htmlspecialchars($readme) ?></textarea>
+                            <span class="form-hint">Opcional: se guardará como documentación del juego.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="preview_image">Imagen de previsualización</label>
+                            <input type="file" id="preview_image" name="preview_image" class="form-input" accept="image/png,image/jpeg,image/webp" required>
+                            <span class="form-hint">Formato JPG/PNG/WebP. Mínimo 640x360 px. Máximo 2 MB.</span>
                         </div>
 
                         <div class="form-row">

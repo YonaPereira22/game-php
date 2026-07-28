@@ -80,6 +80,15 @@ if (!empty($game['github_link'])) {
             <div class="game-info-value" style="font-size:14px;color:var(--text-muted)"><?= htmlspecialchars($game['description']) ?></div>
         </div>
 
+        <?php if (!empty($game['readme'])): ?>
+            <div class="game-info-item">
+                <div class="game-info-label">README</div>
+                <div class="game-info-value game-readme-content" style="font-size:14px;color:var(--text-muted);padding:0.5rem 0;">
+                    <?= renderMarkdown($game['readme']) ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <div class="game-info-item">
             <div class="game-info-label">Autor</div>
             <div class="game-info-value"><?= htmlspecialchars($game['author']) ?></div>
@@ -118,7 +127,13 @@ if (!empty($game['github_link'])) {
     </aside>
 
     <!-- Game frame -->
-    <div class="game-frame-container">
+    <div class="game-frame-container" id="gameFrameContainer">
+        <div class="game-frame-toolbar">
+            <button type="button" class="btn btn-primary btn-sm" id="fullscreenToggle">
+                ⛶ Pantalla completa
+            </button>
+        </div>
+
         <?php if ($gameSource): ?>
             <iframe
                 src="<?= htmlspecialchars($gameSource) ?>"
@@ -126,6 +141,7 @@ if (!empty($game['github_link'])) {
                 sandbox="<?= $sandboxAttr ?>"
                 loading="lazy"
                 title="<?= htmlspecialchars($game['title']) ?>"
+                id="gameIframe"
             ></iframe>
         <?php else: ?>
             <div class="game-error">
@@ -138,6 +154,45 @@ if (!empty($game['github_link'])) {
 </div>
 
 <script src="js/main.js"></script>
+<script>
+(function() {
+    var fullscreenBtn = document.getElementById('fullscreenToggle');
+    var container = document.getElementById('gameFrameContainer');
+
+    if (!fullscreenBtn || !container) return;
+
+    fullscreenBtn.addEventListener('click', function() {
+        var isFull = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+        if (isFull) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            }
+            fullscreenBtn.textContent = '⛶ Pantalla completa';
+        } else {
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            } else if (container.mozRequestFullScreen) {
+                container.mozRequestFullScreen();
+            } else if (container.msRequestFullscreen) {
+                container.msRequestFullscreen();
+            }
+            fullscreenBtn.textContent = '⛶ Salir de pantalla completa';
+        }
+    });
+
+    document.addEventListener('fullscreenchange', function() {
+        if (!document.fullscreenElement) {
+            fullscreenBtn.textContent = '⛶ Pantalla completa';
+        }
+    });
+})();
+</script>
 <?php include 'includes/footer.php'; ?>
 </body>
 </html>
