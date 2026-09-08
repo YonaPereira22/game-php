@@ -1,8 +1,8 @@
 # Fase 4 — Reemplazo de imagen de logo por iconos predefinidos
 
 **Fecha de comienzo:** 2026-09-08  
-**Fecha de finalización (estimada):** 2026-09-22  
-**Estado:** En progreso  
+**Fecha de finalización:** 2026-09-08  
+**Estado:** Completada  
 
 ## Resumen de la fase
 
@@ -116,6 +116,14 @@ La intención es simplificar el proceso de publicación, mantener una identidad 
 - La documentación de la fase queda actualizada y la carpeta de iconos queda lista para uso.
 
 ---
+
+## Cierre de la fase
+
+- Se reemplazó el flujo de carga de imagen/logo por un selector de iconos predefinidos en `upload.php`.
+- Se creó la carpeta `images/game-icons/` para alojar los iconos disponibles para los juegos.
+- El catalogo de juegos ahora consume los iconos desde `images/game-icons/` en lugar de `images/game-thumbnails/`.
+- Se incorporó validación para que el usuario solo pueda elegir un icono disponible en la carpeta.
+- El selector visual ahora muestra los iconos como vista previa, en lugar de mostrar únicamente el nombre del archivo.
 
 Nota: Esta fase reemplaza el flujo de “subir una imagen de logo” por un selector de iconos predefinidos. Los iconos reales se cargarán en la carpeta `images/game-icons/` por el equipo responsable.
 
