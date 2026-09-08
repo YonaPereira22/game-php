@@ -45,6 +45,9 @@ $message     = '';
 $messageType = '';
 $activeTab   = $allow_repo ? 'import' : ($allow_site ? 'manual' : 'import');
 
+$availableIcons = getAvailableGameIcons();
+$selectedIcon   = '';
+
 $title       = '';
 $description = '';
 $author      = '';
@@ -88,59 +91,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ageGroup    = sanitizeInput($_POST['age_group']   ?? '');
         $githubLink  = sanitizeInput($_POST['github_link'] ?? '');
         $readme      = trim($_POST['readme'] ?? '');
+        $selectedIcon = sanitizeInput($_POST['selected_icon'] ?? '');
 
         if (empty($title) || empty($description) || empty($author) || empty($category) || empty($ageGroup) || empty($githubLink)) {
             $message     = 'Todos los campos son obligatorios.';
+            $messageType = 'error';
+        } elseif (empty($selectedIcon)) {
+            $message     = 'Debes elegir un icono predefinido para el juego.';
+            $messageType = 'error';
+        } elseif (!in_array($selectedIcon, $availableIcons, true)) {
+            $message     = 'El icono seleccionado no está disponible en la carpeta de iconos.';
             $messageType = 'error';
         } elseif (!preg_match('/^https:\/\/[a-zA-Z0-9\-_]+\.github\.io\/[a-zA-Z0-9\-_\/]*$/', $githubLink)) {
             $message     = 'Por favor ingresa un enlace válido de GitHub Pages (debe contener github.io).';
             $messageType = 'error';
         } else {
-            $folderName = sanitizeFilename($title . '-' . time());
-            $previewImage = '';
-            $previewFile = $_FILES['preview_image'] ?? null;
+            $folderName   = sanitizeFilename($title . '-' . time());
+            $previewImage = $selectedIcon;
 
-            if (!$previewFile || $previewFile['error'] === UPLOAD_ERR_NO_FILE) {
-                $message     = 'Debes subir una imagen de previsualización para el juego.';
-                $messageType = 'error';
-            } elseif ($previewFile['error'] !== UPLOAD_ERR_OK) {
-                $message     = 'Error al subir la imagen de previsualización.';
+            if (empty($availableIcons)) {
+                $message     = 'Aún no hay iconos cargados en la carpeta images/game-icons/. Subí al menos uno antes de publicar.';
                 $messageType = 'error';
             } else {
-                $allowedTypes = [
-                    'image/jpeg' => 'jpg',
-                    'image/png'  => 'png',
-                    'image/webp' => 'webp',
-                ];
-                $maxSize = 2 * 1024 * 1024;
-                if ($previewFile['size'] > $maxSize) {
-                    $message     = 'La imagen supera el tamaño máximo de 2 MB.';
-                    $messageType = 'error';
-                } else {
-                    $imageInfo = getimagesize($previewFile['tmp_name']);
-                    if ($imageInfo === false || !isset($allowedTypes[$imageInfo['mime']])) {
-                        $message     = 'Formato de imagen no admitido. Usa JPG, PNG o WebP.';
-                        $messageType = 'error';
-                    } elseif ($imageInfo[0] < 640 || $imageInfo[1] < 360) {
-                        $message     = 'La imagen debe tener al menos 640x360 píxeles.';
-                        $messageType = 'error';
-                    } else {
-                        $extension    = $allowedTypes[$imageInfo['mime']];
-                        $previewImage = 'preview_' . $folderName . '.' . $extension;
-                        $previewDir   = __DIR__ . '/images/game-thumbnails';
-                        if (!is_dir($previewDir)) {
-                            mkdir($previewDir, 0755, true);
-                        }
-                        $destination = $previewDir . '/' . $previewImage;
-                        if (!move_uploaded_file($previewFile['tmp_name'], $destination)) {
-                            $message     = 'No se pudo guardar la imagen de previsualización.';
-                            $messageType = 'error';
-                        }
-                    }
-                }
-            }
-
-            if (empty($message)) {
                 $stmt = $pdo->prepare(
                     'INSERT INTO games (title, description, author, folder_name, category, age_group, github_link, readme, preview_image)
                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
@@ -148,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($stmt->execute([$title, $description, $author, $folderName, $category, $ageGroup, $githubLink, $readme, $previewImage])) {
                     $message     = 'Juego registrado exitosamente. Está pendiente de aprobación.';
                     $messageType = 'success';
-                    $title = $description = $author = $category = $ageGroup = $githubLink = $readme = '';
+                    $title = $description = $author = $category = $ageGroup = $githubLink = $readme = $selectedIcon = '';
                 } else {
                     $message     = 'Error al guardar en la base de datos.';
                     $messageType = 'error';
@@ -281,9 +253,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="preview_image">Imagen de previsualización</label>
-                            <input type="file" id="preview_image" name="preview_image" class="form-input" accept="image/png,image/jpeg,image/webp" required>
-                            <span class="form-hint">Formato JPG/PNG/WebP. Mínimo 640x360 px. Máximo 2 MB.</span>
+                            <label class="form-label" for="selected_icon">Icono predefinido</label>
+                            <?php if (empty($availableIcons)): ?>
+                                <div class="alert alert-error">Todavía no hay iconos cargados en la carpeta <strong>images/game-icons/</strong>. Subí al menos un icono para poder publicar.</div>
+                            <?php else: ?>
+                                <select id="selected_icon" name="selected_icon" class="form-select" required>
+                                    <option value="">Seleccionar icono…</option>
+                                    <?php foreach ($availableIcons as $icon): ?>
+                                        <option value="<?= htmlspecialchars($icon) ?>" <?= $selectedIcon === $icon ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($icon) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <span class="form-hint">Debes elegir uno de los iconos disponibles en <strong>images/game-icons/</strong>.</span>
+                            <?php endif; ?>
                         </div>
 
                         <div class="form-row">

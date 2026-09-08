@@ -8,6 +8,38 @@ function sanitizeFilename($filename) {
     return strtolower($filename);
 }
 
+function getAvailableGameIcons(string $iconDir = 'images/game-icons'): array {
+    $dir = __DIR__ . '/../' . ltrim($iconDir, '/');
+    if (!is_dir($dir)) {
+        return [];
+    }
+
+    $allowedExtensions = ['png', 'jpg', 'jpeg', 'svg', 'webp'];
+    $icons = [];
+    $entries = scandir($dir);
+
+    if ($entries === false) {
+        return [];
+    }
+
+    foreach ($entries as $entry) {
+        if ($entry === '.' || $entry === '..' || $entry === 'README.md') {
+            continue;
+        }
+
+        $path = $dir . '/' . $entry;
+        if (is_file($path)) {
+            $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            if (in_array($extension, $allowedExtensions, true)) {
+                $icons[] = $entry;
+            }
+        }
+    }
+
+    sort($icons, SORT_STRING);
+    return $icons;
+}
+
 function renderMarkdown(string $markdown): string {
     $text = htmlspecialchars($markdown, ENT_QUOTES, 'UTF-8');
     $text = preg_replace_callback('/\[(.*?)\]\((.*?)\)/', function ($matches) {

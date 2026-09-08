@@ -152,7 +152,7 @@ $totalGames = $totalStmt->fetchColumn();
                     $rating = round($game['average_rating'] ?? 0);
                     $stars  = str_repeat('★', $rating) . str_repeat('☆', 5 - $rating);
                     $previewSrc = !empty($game['preview_image'])
-                        ? 'images/game-thumbnails/' . htmlspecialchars($game['preview_image'])
+                        ? 'images/game-icons/' . htmlspecialchars($game['preview_image'])
                         : 'images/game-thumbnails/' . htmlspecialchars($game['folder_name']) . '.svg';
                 ?>
                 <a href="game.php?id=<?= $game['id'] ?>" class="game-card<?= (!$game['approved']) ? ' game-card--pending' : '' ?>">
