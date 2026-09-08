@@ -138,6 +138,97 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Subir Juego — ZELIA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css?v=2">
+    <style>
+        .icon-picker {
+            position: relative;
+            width: 100%;
+        }
+
+        .icon-picker-trigger {
+            width: 100%;
+            min-height: 70px;
+            padding: 0.9rem 1rem;
+            border-radius: 18px;
+            border: 2px solid rgba(160, 174, 255, 0.7);
+            background: rgba(32, 42, 61, 0.7);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .icon-picker-trigger.selected {
+            border-color: rgba(99, 163, 255, 0.95);
+            box-shadow: 0 0 0 2px rgba(99, 163, 255, 0.18);
+        }
+
+        .icon-picker-trigger img {
+            display: block;
+            max-width: 100%;
+            max-height: 54px;
+            object-fit: contain;
+        }
+
+        .icon-picker-placeholder {
+            color: rgba(203, 214, 234, 0.8);
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .icon-picker-options {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            right: 0;
+            border-radius: 18px;
+            border: 2px solid rgba(160, 174, 255, 0.7);
+            background: rgba(23, 32, 49, 0.98);
+            box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
+            padding: 0.75rem;
+            display: none;
+            z-index: 20;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+
+        .icon-picker-options.open {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 0.65rem;
+        }
+
+        .icon-option {
+            background: rgba(49, 63, 91, 0.8);
+            border: 2px solid transparent;
+            border-radius: 14px;
+            min-height: 90px;
+            padding: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease, transform 0.15s ease, background 0.2s ease;
+        }
+
+        .icon-option:hover {
+            border-color: rgba(160, 174, 255, 0.85);
+            transform: translateY(-1px);
+        }
+
+        .icon-option.selected {
+            border-color: rgba(99, 163, 255, 0.95);
+            background: rgba(41, 110, 178, 0.28);
+        }
+
+        .icon-option img {
+            display: block;
+            max-width: 100%;
+            max-height: 56px;
+            object-fit: contain;
+        }
+    </style>
 </head>
 <body>
 
@@ -257,14 +348,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php if (empty($availableIcons)): ?>
                                 <div class="alert alert-error">Todavía no hay iconos cargados en la carpeta <strong>images/game-icons/</strong>. Subí al menos un icono para poder publicar.</div>
                             <?php else: ?>
-                                <select id="selected_icon" name="selected_icon" class="form-select" required>
-                                    <option value="">Seleccionar icono…</option>
-                                    <?php foreach ($availableIcons as $icon): ?>
-                                        <option value="<?= htmlspecialchars($icon) ?>" <?= $selectedIcon === $icon ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($icon) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <div class="icon-picker" id="iconPicker">
+                                    <input type="hidden" id="selected_icon" name="selected_icon" value="<?= htmlspecialchars($selectedIcon) ?>" required>
+                                    <button
+                                        type="button"
+                                        class="icon-picker-trigger <?= $selectedIcon ? 'selected' : '' ?>"
+                                        id="iconPickerTrigger"
+                                        aria-haspopup="listbox"
+                                        aria-expanded="false"
+                                    >
+                                        <?php if ($selectedIcon): ?>
+                                            <img src="images/game-icons/<?= htmlspecialchars($selectedIcon) ?>" alt="<?= htmlspecialchars($selectedIcon) ?>">
+                                        <?php else: ?>
+                                            <span class="icon-picker-placeholder">Seleccionar icono...</span>
+                                        <?php endif; ?>
+                                    </button>
+
+                                    <div class="icon-picker-options" id="iconPickerOptions" role="listbox" aria-label="Iconos predefinidos">
+                                        <?php foreach ($availableIcons as $icon): ?>
+                                            <button
+                                                type="button"
+                                                class="icon-option <?= $selectedIcon === $icon ? 'selected' : '' ?>"
+                                                data-icon="<?= htmlspecialchars($icon) ?>"
+                                                role="option"
+                                                aria-selected="<?= $selectedIcon === $icon ? 'true' : 'false' ?>"
+                                            >
+                                                <img src="images/game-icons/<?= htmlspecialchars($icon) ?>" alt="<?= htmlspecialchars($icon) ?>">
+                                            </button>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
                                 <span class="form-hint">Debes elegir uno de los iconos disponibles en <strong>images/game-icons/</strong>.</span>
                             <?php endif; ?>
                         </div>
@@ -332,6 +445,73 @@ function switchTab(tab) {
         panel.classList.toggle('active', panel.id === 'panel-' + tab);
     });
 }
+
+(function() {
+    var iconPicker = document.getElementById('iconPicker');
+    if (!iconPicker) {
+        return;
+    }
+
+    var hiddenInput = document.getElementById('selected_icon');
+    var trigger = document.getElementById('iconPickerTrigger');
+    var optionsWrap = document.getElementById('iconPickerOptions');
+    var options = optionsWrap ? optionsWrap.querySelectorAll('.icon-option') : [];
+
+    function updateTrigger(icon) {
+        if (!icon) {
+            trigger.innerHTML = '<span class="icon-picker-placeholder">Seleccionar icono...</span>';
+            trigger.classList.remove('selected');
+            return;
+        }
+
+        trigger.innerHTML = '<img src="images/game-icons/' + icon + '" alt="' + icon + '">';
+        trigger.classList.add('selected');
+    }
+
+    function setSelected(icon) {
+        hiddenInput.value = icon || '';
+        updateTrigger(icon);
+
+        options.forEach(function(option) {
+            var selected = option.dataset.icon === icon;
+            option.classList.toggle('selected', selected);
+            option.setAttribute('aria-selected', selected ? 'true' : 'false');
+        });
+
+        if (optionsWrap) {
+            optionsWrap.classList.remove('open');
+        }
+        if (trigger) {
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+    }
+
+    if (trigger) {
+        trigger.addEventListener('click', function(event) {
+            event.stopPropagation();
+            var isOpen = optionsWrap.classList.contains('open');
+            optionsWrap.classList.toggle('open', !isOpen);
+            trigger.setAttribute('aria-expanded', String(!isOpen));
+        });
+    }
+
+    options.forEach(function(option) {
+        option.addEventListener('click', function() {
+            setSelected(option.dataset.icon || '');
+        });
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!iconPicker.contains(event.target)) {
+            if (optionsWrap) {
+                optionsWrap.classList.remove('open');
+            }
+            if (trigger) {
+                trigger.setAttribute('aria-expanded', 'false');
+            }
+        }
+    });
+})();
 </script>
 </body>
 </html>
