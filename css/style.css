@@ -1126,8 +1126,8 @@ img { max-width: 100%; display: block; }
 /* ─── AI GAME ASSISTANTS ───────────────────── */
 .assistant-dock {
     position: absolute;
-    right: -24px;
-    bottom: -10px;
+    right: -48px;
+    bottom: -28px;
     z-index: 3;
     display: flex;
     flex-direction: column;
@@ -1199,11 +1199,19 @@ img { max-width: 100%; display: block; }
     background-position: 0 0;
     background-repeat: no-repeat;
     background-size: 300% 100%;
-    animation: assistant-character-frames 1.2s steps(3, end) infinite;
+    transform-origin: center bottom;
+    animation:
+        assistant-character-frames 0.9s steps(3, end) infinite,
+        assistant-character-life 1.4s ease-in-out infinite;
 }
 
 @keyframes assistant-character-frames {
     to { background-position: 100% 0; }
+}
+
+@keyframes assistant-character-life {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-7px) scale(1.025); }
 }
 
 .assistant-chat-dialog {
@@ -1355,7 +1363,7 @@ img { max-width: 100%; display: block; }
 }
 
 @media (max-width: 480px) {
-    .assistant-dock { right: -8px; bottom: -6px; }
+    .assistant-dock { right: -16px; bottom: -12px; }
     .assistant-character-button { width: 88px; height: 88px; }
     .assistant-callout { gap: 2px; padding: 6px 8px; }
     .assistant-eyebrow { font-size: 8px; letter-spacing: 1px; }
@@ -1368,6 +1376,6 @@ img { max-width: 100%; display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .assistant-character { animation: none; background-position: 100% 0; }
+    .assistant-character { animation: none; background-position: 50% 0; transform: none; }
     .assistant-character-button { transition: none; }
 }
