@@ -13,6 +13,36 @@ $action     = $_GET['action']      ?? '';
 $gameId     = isset($_GET['id'])       ? (int)$_GET['id']       : 0;
 $userAction = $_GET['user_action'] ?? '';
 $userId     = isset($_GET['user_id'])  ? (int)$_GET['user_id']  : 0;
+$availableIcons = getAvailableGameIcons();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update_icon') {
+    $iconGameId = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+    $selectedIcon = $_POST['preview_image'] ?? '';
+
+    if ($iconGameId < 1 || !in_array($selectedIcon, $availableIcons, true)) {
+        header('Location: admin.php?msg=icon_error');
+        exit;
+    }
+
+    try {
+        $checkGame = $pdo->prepare('SELECT id FROM games WHERE id = ?');
+        $checkGame->execute([$iconGameId]);
+
+        if (!$checkGame->fetchColumn()) {
+            header('Location: admin.php?msg=game_not_found');
+            exit;
+        }
+
+        $updateIcon = $pdo->prepare('UPDATE games SET preview_image = ? WHERE id = ?');
+        $updateIcon->execute([$selectedIcon, $iconGameId]);
+        header('Location: admin.php?msg=icon_updated');
+        exit;
+    } catch (PDOException $e) {
+        error_log('Error al actualizar el icono del juego: ' . $e->getMessage());
+        header('Location: admin.php?msg=icon_error');
+        exit;
+    }
+}
 
 // ── Acciones de juegos ────────────────────────────────────────────────────────
 if ($action === 'approve' && $gameId) {
@@ -116,7 +146,7 @@ $msg = $_GET['msg'] ?? '';
         <?php if ($msg): ?>
             <div class="alert alert-success" style="margin-bottom:20px">
                 <?php
-                $msgs = ['approved'=>'Juego aprobado.','deleted'=>'Juego eliminado.','user_approved'=>'Usuario aprobado.','role_changed'=>'Rol cambiado.','user_created'=>'Usuario creado.'];
+                $msgs = ['approved'=>'Juego aprobado.','deleted'=>'Juego eliminado.','icon_updated'=>'Icono del juego actualizado.','icon_error'=>'No se pudo actualizar el icono. Elige un icono disponible e inténtalo de nuevo.','game_not_found'=>'No se encontró el juego.','user_approved'=>'Usuario aprobado.','role_changed'=>'Rol cambiado.','user_created'=>'Usuario creado.'];
                 echo htmlspecialchars($msgs[$msg] ?? 'Acción realizada.');
                 ?>
             </div>
@@ -162,6 +192,7 @@ $msg = $_GET['msg'] ?? '';
                 <thead>
                     <tr>
                         <th>Juego</th>
+                        <th>Icono</th>
                         <th>Categoría</th>
                         <th>Estado</th>
                         <th>Votos</th>
@@ -174,6 +205,28 @@ $msg = $_GET['msg'] ?? '';
                         <td>
                             <div style="font-weight:600"><?= htmlspecialchars($g['title']) ?></div>
                             <div style="font-size:12px;color:var(--text-dim)"><?= htmlspecialchars($g['author']) ?></div>
+                        </td>
+                        <td>
+                            <form method="POST" action="admin.php?tab=games" style="display:flex;align-items:center;gap:8px;min-width:260px">
+                                <input type="hidden" name="action" value="update_icon">
+                                <input type="hidden" name="id" value="<?= (int)$g['id'] ?>">
+                                <?php $hasAvailableIcon = in_array($g['preview_image'] ?? '', $availableIcons, true); ?>
+                                <img
+                                    class="admin-game-icon-preview"
+                                    <?php if ($hasAvailableIcon): ?>src="images/game-icons/<?= htmlspecialchars($g['preview_image']) ?>"<?php endif; ?>
+                                    alt="Vista previa del icono de <?= htmlspecialchars($g['title']) ?>"
+                                    style="width:44px;height:44px;object-fit:contain;<?= $hasAvailableIcon ? '' : 'display:none' ?>"
+                                >
+                                <select name="preview_image" class="form-select" aria-label="Icono para <?= htmlspecialchars($g['title']) ?>" required>
+                                    <option value="">Elegir icono…</option>
+                                    <?php foreach ($availableIcons as $icon): ?>
+                                        <option value="<?= htmlspecialchars($icon) ?>" <?= ($g['preview_image'] ?? '') === $icon ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars(pathinfo($icon, PATHINFO_FILENAME)) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="table-btn table-btn-view">Guardar</button>
+                            </form>
                         </td>
                         <td><?= htmlspecialchars($g['category']) ?></td>
                         <td>
@@ -280,5 +333,22 @@ $msg = $_GET['msg'] ?? '';
 </main>
 
 <?php include 'includes/footer.php'; ?>
+<script>
+document.querySelectorAll('form input[name="action"][value="update_icon"]').forEach(function(actionInput) {
+    var form = actionInput.form;
+    var select = form.querySelector('select[name="preview_image"]');
+    var preview = form.querySelector('.admin-game-icon-preview');
+
+    select.addEventListener('change', function() {
+        if (!select.value) {
+            preview.style.display = 'none';
+            return;
+        }
+
+        preview.src = 'images/game-icons/' + encodeURIComponent(select.value);
+        preview.style.display = 'block';
+    });
+});
+</script>
 </body>
 </html>
