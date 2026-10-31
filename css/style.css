@@ -1126,8 +1126,8 @@ img { max-width: 100%; display: block; }
 /* ─── AI GAME ASSISTANTS ───────────────────── */
 .assistant-dock {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: -24px;
+    bottom: -10px;
     z-index: 3;
     display: flex;
     flex-direction: column;
@@ -1188,6 +1188,8 @@ img { max-width: 100%; display: block; }
 }
 
 .assistant-character-button:hover { transform: translateY(-4px) scale(1.03); }
+.assistant-callout:focus-visible,
+.assistant-character-button:focus-visible { outline: 2px solid var(--primary-light); outline-offset: 3px; }
 
 .assistant-character {
     display: block;
@@ -1197,7 +1199,7 @@ img { max-width: 100%; display: block; }
     background-position: 0 0;
     background-repeat: no-repeat;
     background-size: 300% 100%;
-    animation: assistant-character-frames 1.8s steps(3, end) infinite;
+    animation: assistant-character-frames 1.2s steps(3, end) infinite;
 }
 
 @keyframes assistant-character-frames {
@@ -1353,7 +1355,7 @@ img { max-width: 100%; display: block; }
 }
 
 @media (max-width: 480px) {
-    .assistant-dock { right: 0; bottom: 0; }
+    .assistant-dock { right: -8px; bottom: -6px; }
     .assistant-character-button { width: 88px; height: 88px; }
     .assistant-callout { gap: 2px; padding: 6px 8px; }
     .assistant-eyebrow { font-size: 8px; letter-spacing: 1px; }
