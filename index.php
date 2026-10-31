@@ -38,7 +38,7 @@ $totalGames = $totalStmt->fetchColumn();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZELIA — Zona Educativa Lúdica con Inteligencia Artificial</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=6">
+    <link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body>
 
@@ -91,7 +91,9 @@ $totalGames = $totalStmt->fetchColumn();
                         <span>¿Buscas un juego?</span>
                     </button>
                     <button type="button" class="assistant-character-button" data-open-assistant-chat aria-haspopup="dialog" aria-controls="assistantChat" aria-label="Hablar con los asistentes">
-                        <span class="assistant-character" role="img" aria-label="Dos asistentes educativos"></span>
+                        <span class="assistant-character" role="img" aria-label="Dos asistentes educativos">
+                            <img class="assistant-character-sprite" src="images/assistants/asistentes-animacion.png" alt="">
+                        </span>
                     </button>
                 </div>
             </div>

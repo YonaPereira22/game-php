@@ -1195,18 +1195,22 @@ img { max-width: 100%; display: block; }
     display: block;
     width: 100%;
     height: 100%;
-    background-image: url("../images/assistants/asistentes-animacion.png");
-    background-position: 0 0;
-    background-repeat: no-repeat;
-    background-size: 300% 100%;
+    overflow: hidden;
     transform-origin: center bottom;
-    animation:
-        assistant-character-frames 0.9s steps(3, end) infinite,
-        assistant-character-life 1.4s ease-in-out infinite;
+    animation: assistant-character-life 1.4s ease-in-out infinite;
+}
+
+.assistant-character-sprite {
+    display: block;
+    width: 300%;
+    max-width: none;
+    height: 100%;
+    object-fit: fill;
+    animation: assistant-character-frames 0.9s steps(3, end) infinite;
 }
 
 @keyframes assistant-character-frames {
-    to { background-position: 100% 0; }
+    to { transform: translateX(-100%); }
 }
 
 @keyframes assistant-character-life {
@@ -1376,6 +1380,7 @@ img { max-width: 100%; display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .assistant-character { animation: none; background-position: 50% 0; transform: none; }
+    .assistant-character { animation: none; transform: none; }
+    .assistant-character-sprite { animation-duration: 1.5s; }
     .assistant-character-button { transition: none; }
 }
