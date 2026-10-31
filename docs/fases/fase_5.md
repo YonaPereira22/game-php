@@ -45,6 +45,9 @@ Los cambios se realizaron en `config/database.php`, `upload.php` y `admin.php`. 
 - Selector, vista previa y acción de guardado por juego en `admin.php`.
 - Galería visual de iconos para la edición, sin nombres de archivo visibles en las opciones.
 - Icono predefinido de deporte agregado en `images/game-icons/Deporte.png`.
+- Icono predefinido de cultura agregado en `images/game-icons/Cultura.png`.
+- Lienzos rasterizados normalizados a `200 × 200` y márgenes transparentes amplios recortados de Cultura y Deporte.
+- Reglas de tamaño y composición documentadas en `images/game-icons/README.md`.
 - Mensajes de confirmación o error para la edición del icono.
 - Esta documentación de cierre de fase.
 
@@ -68,6 +71,7 @@ Los cambios se realizaron en `config/database.php`, `upload.php` y `admin.php`. 
 
 4. Verificar y publicar los cambios.
    - Validar la sintaxis de `admin.php` con PHP.
+   - Normalizar los iconos rasterizados en un lienzo cuadrado común.
    - Revisar el diff y publicar los cambios en `main`.
 
 ### Recursos necesarios
@@ -100,6 +104,8 @@ Los cambios se realizaron en `config/database.php`, `upload.php` y `admin.php`. 
 - Un administrador puede escoger un icono disponible, ver su vista previa y guardarlo para un juego existente.
 - El selector de edición presenta los iconos como imágenes y no como nombres de archivo.
 - El icono de deporte está disponible entre las opciones predefinidas.
+- El icono de cultura está disponible entre las opciones predefinidas.
+- Todos los iconos rasterizados tienen lienzo de `200 × 200` píxeles y los dos nuevos iconos mantienen una escala visual comparable al recortar sus márgenes transparentes.
 - El servidor rechaza iconos que no estén en la carpeta de iconos disponibles.
 - La edición no cambia otros datos del juego.
 - La sintaxis de `admin.php` se valida correctamente y los commits de la fase están en `main`.
@@ -113,6 +119,9 @@ Los cambios se realizaron en `config/database.php`, `upload.php` y `admin.php`. 
 - Se agregó en el panel de administración una herramienta para cambiar el icono predefinido de cada juego ya registrado.
 - El editor muestra el icono actualmente asignado y permite seleccionar otro desde una galería visual.
 - Se incorporó el icono de deporte `images/game-icons/Deporte.png`.
+- Se incorporó el icono de cultura `images/game-icons/Cultura.png`.
+- Los iconos de Cultura, Deporte y Química se normalizaron a lienzos cuadrados de `200 × 200`; Cultura y Deporte se ajustaron recortando su margen transparente, sin deformar la ilustración.
+- Se documentó el estándar de dimensiones y composición de los iconos en `images/game-icons/README.md`.
 - Se validó la sintaxis de `admin.php` y los cambios se publicaron en GitHub en los commits `79a049a` y `762a9e4`.
 - La disponibilidad en el sitio depende de que el hosting despliegue la versión publicada.
 

@@ -454,7 +454,6 @@ if (iconPickerDialog) {
         var form = actionInput.form;
         var trigger = form.querySelector('.admin-icon-picker-trigger');
         var selectedIconInput = form.querySelector('input[name="preview_image"]');
-        var saveButton = form.querySelector('button[type="submit"]');
 
         trigger.addEventListener('click', function() {
             activeIconForm = form;
