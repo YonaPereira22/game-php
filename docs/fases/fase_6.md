@@ -6,14 +6,14 @@
 
 ## Resumen de la fase
 
-Incorporar en la portada una pareja de personajes animados que abre un chat de recomendaciones. La primera versión consulta únicamente los juegos aprobados del catálogo, utiliza el tema y la edad indicados para ordenar sugerencias y no guarda la conversación ni la envía a servicios externos. La interfaz se identifica como asistentes, pero informa que esta versión inicial no usa IA generativa.
+Incorporar en la portada una pareja de personajes animados en la esquina inferior derecha del área gráfica del hero, con un cartel pequeño encima. Tanto el cartel como los personajes abren un chat de recomendaciones. La primera versión consulta únicamente los juegos aprobados del catálogo, utiliza el tema y la edad indicados para ordenar sugerencias y no guarda la conversación ni la envía a servicios externos. La interfaz se identifica como asistentes, pero informa que esta versión inicial no usa IA generativa.
 
 ## Hitos
 
 - **Hito 1 — Personajes e invitación en la portada**
   - Fecha objetivo: 2026-10-31
   - Responsable: Equipo de desarrollo
-  - Descripción: Preparar los recursos transparentes y la animación de tres cuadros; mostrar una invitación compacta después del encabezado principal.
+  - Descripción: Preparar los recursos transparentes y la animación de tres cuadros; integrar un cartel compacto sobre los personajes en el rincón inferior derecho del hero.
 
 - **Hito 2 — Chat y recomendaciones del catálogo**
   - Fecha objetivo: 2026-10-31
@@ -30,7 +30,7 @@ Incorporar en la portada una pareja de personajes animados que abre un chat de r
 ### Objetivos
 
 - Facilitar la exploración del catálogo desde una interfaz conversacional.
-- Mantener los personajes visibles sin superponerlos a las tarjetas de juegos.
+- Mantener los personajes en el rincón inferior derecho del hero, sin superponerlos al texto principal ni al catálogo.
 - Priorizar juegos aprobados y considerar tema, edad y popularidad al recomendar.
 - Evitar recolectar datos personales o compartir conversaciones con servicios externos.
 - Dejar explícita la diferencia entre esta recomendación basada en reglas y una futura IA generativa.
@@ -38,7 +38,8 @@ Incorporar en la portada una pareja de personajes animados que abre un chat de r
 ### Entregables
 
 - Imágenes optimizadas y transparentes de los asistentes en `images/assistants/`.
-- Banner de portada, animación de personajes y diálogo adaptable a dispositivos móviles.
+- Cartel compacto y personajes animados integrados en el área gráfica del hero, ambos interactivos.
+- Diálogo adaptable a dispositivos móviles.
 - Interfaz JavaScript de chat en `js/ai-assistant.js`.
 - Endpoint `recomendaciones.php` para ordenar y devolver juegos aprobados.
 - Estilos del banner y del chat en `css/style.css`.
@@ -51,7 +52,8 @@ Incorporar en la portada una pareja de personajes animados que abre un chat de r
    - Mantener la transparencia y las proporciones.
 
 2. Construir la experiencia en la portada.
-   - Agregar una invitación compacta debajo del encabezado.
+   - Ubicar un cartel compacto sobre los personajes en la esquina inferior derecha del área gráfica del hero.
+   - Permitir abrir el chat desde el cartel o desde los personajes.
    - Abrir un chat con mensajes introductorios y ejemplos de consultas.
    - Respetar la preferencia del navegador por reducir movimiento.
 
@@ -89,7 +91,8 @@ Incorporar en la portada una pareja de personajes animados que abre un chat de r
 
 ### Criterios de aceptación
 
-- La invitación a los asistentes aparece entre el encabezado principal y los filtros, sin tapar juegos.
+- Los personajes aparecen en la esquina inferior derecha del área gráfica del hero y el cartel se ubica encima de ellos.
+- Tanto el cartel como los personajes abren el diálogo de chat.
 - Los personajes se animan con sus cuadros y conservan la transparencia.
 - El diálogo permite escribir consultas o elegir ejemplos y muestra enlaces a juegos aprobados.
 - Las recomendaciones consideran tema y edad cuando el mensaje contiene esos datos.

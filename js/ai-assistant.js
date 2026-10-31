@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     var dialog = document.getElementById('assistantChat');
-    var openButton = document.getElementById('openAssistantChat');
+    var openButtons = document.querySelectorAll('[data-open-assistant-chat], #openAssistantChat');
     var closeButton = document.getElementById('closeAssistantChat');
     var messages = document.getElementById('assistantChatMessages');
     var form = document.getElementById('assistantChatForm');
     var input = document.getElementById('assistantChatInput');
     var suggestions = document.getElementById('assistantChatSuggestions');
 
-    if (!dialog || !openButton || !closeButton || !messages || !form || !input || !suggestions) {
+    if (!dialog || openButtons.length === 0 || !closeButton || !messages || !form || !input || !suggestions) {
         return;
     }
 
@@ -109,9 +109,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     appendMessage('Somos tus asistentes de juegos. Cuéntanos qué materia o tema quieres practicar y, si quieres, para qué edad.', 'assistant');
 
-    openButton.addEventListener('click', function() {
-        dialog.showModal();
-        input.focus();
+    openButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            dialog.showModal();
+            input.focus();
+        });
     });
 
     closeButton.addEventListener('click', function() {

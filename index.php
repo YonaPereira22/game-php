@@ -38,7 +38,7 @@ $totalGames = $totalStmt->fetchColumn();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZELIA — Zona Educativa Lúdica con Inteligencia Artificial</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
 
@@ -85,24 +85,16 @@ $totalGames = $totalStmt->fetchColumn();
                 <div class="floating-card fc1"><span>🧠</span><p>LÓGICA</p></div>
                 <div class="floating-card fc2"><span>📐</span><p>MATEMÁTICAS</p></div>
                 <div class="floating-card fc3"><span>🎯</span><p>ESTRATEGIA</p></div>
+                <div class="assistant-dock">
+                    <button type="button" class="assistant-callout" id="openAssistantChat" aria-haspopup="dialog" aria-controls="assistantChat">
+                        <span class="assistant-eyebrow">ASISTENTES DE IA</span>
+                        <span>¿Buscas un juego?</span>
+                    </button>
+                    <button type="button" class="assistant-character-button" data-open-assistant-chat aria-haspopup="dialog" aria-controls="assistantChat" aria-label="Hablar con los asistentes">
+                        <span class="assistant-character" role="img" aria-label="Dos asistentes educativos"></span>
+                    </button>
+                </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- ASISTENTES -->
-<section class="assistant-promo" aria-labelledby="assistantPromoTitle">
-    <div class="container">
-        <div class="assistant-promo-card">
-            <div class="assistant-character" role="img" aria-label="Dos asistentes educativos"></div>
-            <div class="assistant-promo-copy">
-                <span class="assistant-eyebrow">ASISTENTES DE IA</span>
-                <h2 id="assistantPromoTitle">¿Qué te gustaría aprender hoy?</h2>
-                <p>Cuéntanos qué tema buscas y te ayudamos a encontrar juegos del catálogo.</p>
-            </div>
-            <button type="button" class="btn btn-primary" id="openAssistantChat">
-                Hablar con los asistentes
-            </button>
         </div>
     </div>
 </section>
@@ -242,6 +234,6 @@ $totalGames = $totalStmt->fetchColumn();
 <a href="feedback.php" class="feedback-float">Encuesta</a>
 
 <?php include 'includes/footer.php'; ?>
-<script src="js/ai-assistant.js"></script>
+<script src="js/ai-assistant.js?v=2"></script>
 </body>
 </html>
