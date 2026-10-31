@@ -38,7 +38,7 @@ $totalGames = $totalStmt->fetchColumn();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZELIA — Zona Educativa Lúdica con Inteligencia Artificial</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
 
@@ -89,6 +89,55 @@ $totalGames = $totalStmt->fetchColumn();
         </div>
     </div>
 </section>
+
+<!-- ASISTENTES -->
+<section class="assistant-promo" aria-labelledby="assistantPromoTitle">
+    <div class="container">
+        <div class="assistant-promo-card">
+            <div class="assistant-character" role="img" aria-label="Dos asistentes educativos"></div>
+            <div class="assistant-promo-copy">
+                <span class="assistant-eyebrow">ASISTENTES DE IA</span>
+                <h2 id="assistantPromoTitle">¿Qué te gustaría aprender hoy?</h2>
+                <p>Cuéntanos qué tema buscas y te ayudamos a encontrar juegos del catálogo.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="openAssistantChat">
+                Hablar con los asistentes
+            </button>
+        </div>
+    </div>
+</section>
+
+<dialog class="assistant-chat-dialog" id="assistantChat" aria-labelledby="assistantChatTitle">
+    <div class="assistant-chat-header">
+        <div>
+            <span class="assistant-eyebrow">ASISTENTES DE IA</span>
+            <h2 id="assistantChatTitle">¡Hola! ¿Qué quieres practicar?</h2>
+        </div>
+        <button type="button" class="assistant-chat-close" id="closeAssistantChat" aria-label="Cerrar chat">×</button>
+    </div>
+    <p class="assistant-chat-disclaimer">
+        Recomendaciones basadas en los juegos aprobados del catálogo. Esta primera versión no usa IA generativa ni guarda la conversación.
+    </p>
+    <div class="assistant-chat-messages" id="assistantChatMessages" aria-live="polite" aria-relevant="additions"></div>
+    <div class="assistant-chat-suggestions" id="assistantChatSuggestions">
+        <button type="button">Juegos de matemática para 10 años</button>
+        <button type="button">Quiero practicar programación</button>
+        <button type="button">Algo para todas las edades</button>
+    </div>
+    <form class="assistant-chat-form" id="assistantChatForm">
+        <label class="assistant-sr-only" for="assistantChatInput">Escribe una materia, un tema o una edad</label>
+        <input
+            type="text"
+            id="assistantChatInput"
+            name="message"
+            maxlength="500"
+            placeholder="Ej.: juegos de ciencia para 12 años"
+            autocomplete="off"
+            required
+        >
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</dialog>
 
 <!-- FILTROS -->
 <section class="search-section" id="juegos">
@@ -193,5 +242,6 @@ $totalGames = $totalStmt->fetchColumn();
 <a href="feedback.php" class="feedback-float">Encuesta</a>
 
 <?php include 'includes/footer.php'; ?>
+<script src="js/ai-assistant.js"></script>
 </body>
 </html>
