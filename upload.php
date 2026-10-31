@@ -113,16 +113,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $message     = 'Aún no hay iconos cargados en la carpeta images/game-icons/. Subí al menos uno antes de publicar.';
                 $messageType = 'error';
             } else {
-                $stmt = $pdo->prepare(
-                    'INSERT INTO games (title, description, author, folder_name, category, age_group, github_link, readme, preview_image)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-                );
-                if ($stmt->execute([$title, $description, $author, $folderName, $category, $ageGroup, $githubLink, $readme, $previewImage])) {
+                try {
+                    $stmt = $pdo->prepare(
+                        'INSERT INTO games (title, description, author, folder_name, category, age_group, github_link, readme, preview_image)
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                    );
+                    $stmt->execute([$title, $description, $author, $folderName, $category, $ageGroup, $githubLink, $readme, $previewImage]);
                     $message     = 'Juego registrado exitosamente. Está pendiente de aprobación.';
                     $messageType = 'success';
                     $title = $description = $author = $category = $ageGroup = $githubLink = $readme = $selectedIcon = '';
-                } else {
-                    $message     = 'Error al guardar en la base de datos.';
+                } catch (PDOException $e) {
+                    error_log('Error al registrar un juego: ' . $e->getMessage());
+                    $message     = $e->getCode() === '23000'
+                        ? 'Ya existe un juego con ese enlace o identificador. Verifica si ya fue registrado.'
+                        : 'Error al guardar en la base de datos.';
                     $messageType = 'error';
                 }
             }

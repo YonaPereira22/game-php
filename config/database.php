@@ -41,6 +41,9 @@ CREATE TABLE IF NOT EXISTS games (
     folder_name VARCHAR(100) UNIQUE NOT NULL,
     category VARCHAR(50),
     age_group VARCHAR(20),
+    github_link VARCHAR(500) NULL,
+    readme TEXT NULL,
+    preview_image VARCHAR(255) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     approved BOOLEAN DEFAULT FALSE,
     total_votes INT DEFAULT 0,
@@ -72,6 +75,24 @@ CREATE TABLE IF NOT EXISTS users (
 ";
 
 $pdo->exec($createTables);
+
+// Mantener compatibles las bases de datos creadas antes de agregar estos campos.
+try {
+    $gameColumns = [
+        'github_link' => 'VARCHAR(500) NULL',
+        'readme' => 'TEXT NULL',
+        'preview_image' => 'VARCHAR(255) NULL',
+    ];
+
+    foreach ($gameColumns as $column => $definition) {
+        $checkColumn = $pdo->query("SHOW COLUMNS FROM games LIKE " . $pdo->quote($column));
+        if ($checkColumn->rowCount() === 0) {
+            $pdo->exec("ALTER TABLE games ADD COLUMN `$column` $definition");
+        }
+    }
+} catch (PDOException $e) {
+    error_log('No se pudieron verificar o agregar columnas de games: ' . $e->getMessage());
+}
 
 // Agregar columnas faltantes a la tabla users si no existen
 try {
