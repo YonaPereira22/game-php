@@ -124,6 +124,91 @@ $msg = $_GET['msg'] ?? '';
     <title>Panel Admin — ZELIA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css?v=2">
+    <style>
+        .admin-icon-picker-trigger {
+            width: 52px;
+            height: 52px;
+            padding: 4px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            background: var(--bg-2);
+            cursor: pointer;
+        }
+
+        .admin-icon-picker-trigger img,
+        .admin-icon-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .admin-icon-picker-trigger:focus-visible,
+        .admin-icon-option:focus-visible,
+        .admin-icon-picker-close:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .admin-icon-picker-dialog {
+            width: min(560px, calc(100vw - 32px));
+            max-height: min(80vh, 640px);
+            padding: 20px;
+            overflow-y: auto;
+            color: var(--text);
+            background: var(--bg-2);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+        }
+
+        .admin-icon-picker-dialog::backdrop {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .admin-icon-picker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .admin-icon-picker-header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .admin-icon-picker-close {
+            padding: 6px 10px;
+            color: var(--text);
+            background: var(--bg-3);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .admin-icon-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+            gap: 10px;
+        }
+
+        .admin-icon-option {
+            width: 100%;
+            aspect-ratio: 1;
+            padding: 8px;
+            background: var(--bg-3);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .admin-icon-option:hover,
+        .admin-icon-option[aria-pressed="true"] {
+            border-color: var(--accent);
+        }
+    </style>
 </head>
 <body>
 
@@ -144,7 +229,7 @@ $msg = $_GET['msg'] ?? '';
         </div>
 
         <?php if ($msg): ?>
-            <div class="alert alert-success" style="margin-bottom:20px">
+            <div class="alert <?= in_array($msg, ['icon_error', 'game_not_found'], true) ? 'alert-error' : 'alert-success' ?>" style="margin-bottom:20px">
                 <?php
                 $msgs = ['approved'=>'Juego aprobado.','deleted'=>'Juego eliminado.','icon_updated'=>'Icono del juego actualizado.','icon_error'=>'No se pudo actualizar el icono. Elige un icono disponible e inténtalo de nuevo.','game_not_found'=>'No se encontró el juego.','user_approved'=>'Usuario aprobado.','role_changed'=>'Rol cambiado.','user_created'=>'Usuario creado.'];
                 echo htmlspecialchars($msgs[$msg] ?? 'Acción realizada.');
@@ -207,25 +292,29 @@ $msg = $_GET['msg'] ?? '';
                             <div style="font-size:12px;color:var(--text-dim)"><?= htmlspecialchars($g['author']) ?></div>
                         </td>
                         <td>
-                            <form method="POST" action="admin.php?tab=games" style="display:flex;align-items:center;gap:8px;min-width:260px">
+                            <form method="POST" action="admin.php?tab=games" style="display:flex;align-items:center;gap:8px;min-width:180px">
                                 <input type="hidden" name="action" value="update_icon">
                                 <input type="hidden" name="id" value="<?= (int)$g['id'] ?>">
                                 <?php $hasAvailableIcon = in_array($g['preview_image'] ?? '', $availableIcons, true); ?>
-                                <img
-                                    class="admin-game-icon-preview"
-                                    <?php if ($hasAvailableIcon): ?>src="images/game-icons/<?= htmlspecialchars($g['preview_image']) ?>"<?php endif; ?>
-                                    alt="Vista previa del icono de <?= htmlspecialchars($g['title']) ?>"
-                                    style="width:44px;height:44px;object-fit:contain;<?= $hasAvailableIcon ? '' : 'display:none' ?>"
+                                <input
+                                    type="hidden"
+                                    name="preview_image"
+                                    value="<?= $hasAvailableIcon ? htmlspecialchars($g['preview_image']) : '' ?>"
+                                    required
                                 >
-                                <select name="preview_image" class="form-select" aria-label="Icono para <?= htmlspecialchars($g['title']) ?>" required>
-                                    <option value="">Elegir icono…</option>
-                                    <?php foreach ($availableIcons as $icon): ?>
-                                        <option value="<?= htmlspecialchars($icon) ?>" <?= ($g['preview_image'] ?? '') === $icon ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars(pathinfo($icon, PATHINFO_FILENAME)) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <button type="submit" class="table-btn table-btn-view">Guardar</button>
+                                <button
+                                    type="button"
+                                    class="admin-icon-picker-trigger"
+                                    aria-label="Cambiar icono de <?= htmlspecialchars($g['title']) ?>"
+                                    <?= empty($availableIcons) ? 'disabled' : '' ?>
+                                >
+                                    <?php if ($hasAvailableIcon): ?>
+                                        <img src="images/game-icons/<?= htmlspecialchars($g['preview_image']) ?>" alt="">
+                                    <?php else: ?>
+                                        <span aria-hidden="true">+</span>
+                                    <?php endif; ?>
+                                </button>
+                                <button type="submit" class="table-btn table-btn-view" <?= !$hasAvailableIcon ? 'disabled' : '' ?>>Guardar</button>
                             </form>
                         </td>
                         <td><?= htmlspecialchars($g['category']) ?></td>
@@ -329,26 +418,81 @@ $msg = $_GET['msg'] ?? '';
         </div>
         <?php endif; ?>
 
+        <?php if ($tab === 'games' && !empty($availableIcons)): ?>
+        <dialog class="admin-icon-picker-dialog" aria-labelledby="adminIconPickerTitle">
+            <div class="admin-icon-picker-header">
+                <h2 id="adminIconPickerTitle">Seleccionar icono</h2>
+                <button type="button" class="admin-icon-picker-close">Cerrar</button>
+            </div>
+            <div class="admin-icon-picker-grid">
+                <?php foreach ($availableIcons as $icon): ?>
+                    <button
+                        type="button"
+                        class="admin-icon-option"
+                        data-icon="<?= htmlspecialchars($icon) ?>"
+                        aria-label="Seleccionar icono <?= htmlspecialchars(pathinfo($icon, PATHINFO_FILENAME)) ?>"
+                        aria-pressed="false"
+                    >
+                        <img src="images/game-icons/<?= htmlspecialchars($icon) ?>" alt="">
+                    </button>
+                <?php endforeach; ?>
+            </div>
+        </dialog>
+        <?php endif; ?>
+
     </div>
 </main>
 
 <?php include 'includes/footer.php'; ?>
 <script>
-document.querySelectorAll('form input[name="action"][value="update_icon"]').forEach(function(actionInput) {
-    var form = actionInput.form;
-    var select = form.querySelector('select[name="preview_image"]');
-    var preview = form.querySelector('.admin-game-icon-preview');
+var iconPickerDialog = document.querySelector('.admin-icon-picker-dialog');
+if (iconPickerDialog) {
+    var activeIconForm = null;
+    var iconOptions = iconPickerDialog.querySelectorAll('.admin-icon-option');
 
-    select.addEventListener('change', function() {
-        if (!select.value) {
-            preview.style.display = 'none';
-            return;
-        }
+    document.querySelectorAll('form input[name="action"][value="update_icon"]').forEach(function(actionInput) {
+        var form = actionInput.form;
+        var trigger = form.querySelector('.admin-icon-picker-trigger');
+        var selectedIconInput = form.querySelector('input[name="preview_image"]');
+        var saveButton = form.querySelector('button[type="submit"]');
 
-        preview.src = 'images/game-icons/' + encodeURIComponent(select.value);
-        preview.style.display = 'block';
+        trigger.addEventListener('click', function() {
+            activeIconForm = form;
+            iconOptions.forEach(function(option) {
+                option.setAttribute('aria-pressed', option.dataset.icon === selectedIconInput.value ? 'true' : 'false');
+            });
+            iconPickerDialog.showModal();
+        });
     });
-});
+
+    iconOptions.forEach(function(option) {
+        option.addEventListener('click', function() {
+            if (!activeIconForm) {
+                return;
+            }
+
+            var activeInput = activeIconForm.querySelector('input[name="preview_image"]');
+            var activeTrigger = activeIconForm.querySelector('.admin-icon-picker-trigger');
+            var activeSaveButton = activeIconForm.querySelector('button[type="submit"]');
+            var icon = option.dataset.icon;
+            var preview = document.createElement('img');
+
+            activeInput.value = icon;
+            preview.src = 'images/game-icons/' + encodeURIComponent(icon);
+            preview.alt = '';
+            activeTrigger.replaceChildren(preview);
+            activeSaveButton.disabled = false;
+            iconOptions.forEach(function(iconOption) {
+                iconOption.setAttribute('aria-pressed', iconOption === option ? 'true' : 'false');
+            });
+            iconPickerDialog.close();
+        });
+    });
+
+    iconPickerDialog.querySelector('.admin-icon-picker-close').addEventListener('click', function() {
+        iconPickerDialog.close();
+    });
+}
 </script>
 </body>
 </html>

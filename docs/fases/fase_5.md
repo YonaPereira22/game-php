@@ -43,6 +43,8 @@ Los cambios se realizaron en `config/database.php`, `upload.php` y `admin.php`. 
 - Comprobación de columnas existentes y alta de las que falten.
 - Manejo de errores al registrar juegos desde `upload.php`, con detalle técnico en el log del servidor.
 - Selector, vista previa y acción de guardado por juego en `admin.php`.
+- Galería visual de iconos para la edición, sin nombres de archivo visibles en las opciones.
+- Icono predefinido de deporte agregado en `images/game-icons/Deporte.png`.
 - Mensajes de confirmación o error para la edición del icono.
 - Esta documentación de cierre de fase.
 
@@ -58,7 +60,8 @@ Los cambios se realizaron en `config/database.php`, `upload.php` y `admin.php`. 
    - Informar cuando el error corresponde a un conflicto de unicidad.
 
 3. Añadir la edición de iconos al panel de administración.
-   - Mostrar los iconos disponibles para cada juego.
+   - Mostrar el icono actual de cada juego.
+   - Elegir entre los iconos disponibles desde una galería visual.
    - Mostrar una vista previa del icono seleccionado.
    - Validar en el servidor que el juego y el icono existan.
    - Actualizar únicamente `preview_image`.
@@ -95,6 +98,8 @@ Los cambios se realizaron en `config/database.php`, `upload.php` y `admin.php`. 
 - Al inicializarse, la aplicación comprueba las columnas correspondientes en instalaciones existentes.
 - Los errores al guardar un juego no se ocultan del log del servidor y el usuario recibe una respuesta controlada.
 - Un administrador puede escoger un icono disponible, ver su vista previa y guardarlo para un juego existente.
+- El selector de edición presenta los iconos como imágenes y no como nombres de archivo.
+- El icono de deporte está disponible entre las opciones predefinidas.
 - El servidor rechaza iconos que no estén en la carpeta de iconos disponibles.
 - La edición no cambia otros datos del juego.
 - La sintaxis de `admin.php` se valida correctamente y los commits de la fase están en `main`.
@@ -106,6 +111,8 @@ Los cambios se realizaron en `config/database.php`, `upload.php` y `admin.php`. 
 - Se añadieron y verificaron las columnas usadas por el registro de juegos en `config/database.php`.
 - Se incorporó manejo explícito de errores de base de datos al guardar un juego en `upload.php`.
 - Se agregó en el panel de administración una herramienta para cambiar el icono predefinido de cada juego ya registrado.
+- El editor muestra el icono actualmente asignado y permite seleccionar otro desde una galería visual.
+- Se incorporó el icono de deporte `images/game-icons/Deporte.png`.
 - Se validó la sintaxis de `admin.php` y los cambios se publicaron en GitHub en los commits `79a049a` y `762a9e4`.
 - La disponibilidad en el sitio depende de que el hosting despliegue la versión publicada.
 
