@@ -39,10 +39,4 @@ El proyecto incluye un juego básico llamado **Adivina el Número** en la carpet
 
 Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
-## Parte didáctica
 
-Esta web se diseñó como apoyo a las asignaturas de programación del profesorado de Informática del CFE, CERP del Suroeste. Los juegos fueron desarrollados en 2025 por estudiantes en los cursos coordinados por el docente Domingo Pérez. El objetivo es brindar un espacio donde compartir prácticas y ejemplos de código junto a materiales lúdicos creados en clase.
-
-Para enriquecer la experiencia se utilizaron distintas herramientas de inteligencia artificial. Entre ellas se experimentó con motores de razonamiento como **Minimax**, asistentes de texto como **Claude** y **OpenAI**, y generadores de imágenes como **Leonardo AI**, **DALL·E** y otras soluciones libres. Estas tecnologías ayudaron tanto a ilustrar los juegos como a analizar estrategias en actividades de programación.
-
-La plataforma sigue abierta a mejoras y a nuevas contribuciones que promuevan la enseñanza de la informática mediante el juego y la experimentación.
